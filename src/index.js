@@ -1,17 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-// import App from './App';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
-// import Counter from './components/counter';
-import Movie from './components/movies';
 
 
 ReactDOM.render(
   <React.StrictMode>
-    <Movie />
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
