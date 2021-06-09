@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './components/navbar';
 import Counters from './components/counters';
+import Movies from './components/movies';
 
 import './App.css';
 
@@ -74,6 +75,7 @@ console.log('App-Renderd');
       onDecrement={this.handleDecrement}
        />
     </main>
+    <Movies />
     </>
   )};
 }
