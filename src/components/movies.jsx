@@ -9,7 +9,7 @@ import { getGenres } from "../services/fakeGenreService";
 class Movies extends Component {
   state = {
     movies: [],
-    pageSize: 2,
+    pageSize: 4,
     currentPage: 1,
     genres: [],
   };
@@ -36,16 +36,25 @@ class Movies extends Component {
   };
 
   handleGenreSelect = (genre) => {
-    console.log(genre);
+    this.setState({ selectedGenre: genre });
   };
 
   render() {
     const { length: count } = this.state.movies;
-    const { pageSize, currentPage, movies: allMovies, genres } = this.state;
+    const {
+      pageSize,
+      currentPage,
+      movies: allMovies,
+      selectedGenre,
+    } = this.state;
+
+    const filtered = selectedGenre
+      ? allMovies.filter((m) => m.genre._id === selectedGenre._id)
+      : allMovies;
 
     if (count === 0) return <p>No movies in the database.</p>;
 
-    const movies = paginate(allMovies, currentPage, pageSize);
+    const movies = paginate(filtered, currentPage, pageSize);
 
     return (
       <>
@@ -53,12 +62,13 @@ class Movies extends Component {
           <div className='row'>
             <div className='col-2'>
               <ListGroup
-                items={genres}
+                items={this.state.genres}
+                selectedItem={this.state.selectedGenre}
                 onItemSelect={this.handleGenreSelect}
               ></ListGroup>
             </div>
             <div className='col-8'>
-              <p>Showing {this.state.movies.length} movies in the database</p>
+              <p>Showing {filtered.length} movies in the database</p>
               <table className='table'>
                 <thead>
                   <tr>
@@ -98,7 +108,7 @@ class Movies extends Component {
               </table>
 
               <Pagination
-                itemsCount={count}
+                itemsCount={filtered.length}
                 currentPage={currentPage}
                 pageSize={pageSize}
                 onPageChange={this.handlePageChange}
