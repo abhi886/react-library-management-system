@@ -82,7 +82,7 @@ class Movies extends Component {
               <MoviesTable
                 movies={movies}
                 sortColumn={sortColumn}
-                onLine={this.handleLike}
+                onLike={this.handleLike}
                 onDelete={this.handleDelete}
                 onSort={this.handleSort}
               />
