@@ -1,50 +1,33 @@
 import React, { Component } from "react";
+import Genres from "./genres";
+import Table from "./table";
+import { getMovies } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
+import NoMovies from "./common/noMovies";
 
 class Movies extends Component {
-  state = {};
+  state = {
+    movies: getMovies(),
+    genres: getGenres(),
+  };
+
+  handleMovieDelete = (movie) => {
+    const movies = this.state.movies.filter((m) => m._id !== movie._id);
+    this.setState({ movies: movies });
+  };
+
   render() {
+    const { genres, movies } = this.state;
     return (
       <>
-        <div className='row'>
-          <div className='col-2'>
-            <ul>
-              <li>All Genres</li>
-            </ul>
-          </div>
-          <div className='col-8'>
-            <table className='table'>
-              <thead>
-                <tr>
-                  <th scope='col'>Title</th>
-                  <th scope='col'>Genre</th>
-                  <th scope='col'>No of Stock</th>
-                  <th scope='col'>Rental rate</th>
-                  <th scope='col'></th>
-                  <th scope='col'></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope='row'>1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>
-                    <i className='fa fa-heart-o' aria-hidden='true'></i>{" "}
-                  </td>
-                  <td>Delete Button</td>
-                </tr>
-              </tbody>
-            </table>
-            <nav aria-label='Page navigation example'>
-              <ul className='pagination'>
-                <li className='page-item'>
-                  <a className='page-link' href='/#'>
-                    1
-                  </a>
-                </li>
-              </ul>
-            </nav>
+        <div className='container'>
+          <div className='row'>
+            <Genres genres={genres} />
+            {movies.length !== 0 ? (
+              <Table movies={movies} onDelete={this.handleMovieDelete} />
+            ) : (
+              <NoMovies />
+            )}
           </div>
         </div>
       </>
