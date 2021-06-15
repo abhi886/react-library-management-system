@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { paginate } from "./utils/paginate";
 import Genres from "./genres";
 import Table from "./table";
 import { getMovies } from "../services/fakeMovieService";
@@ -9,6 +10,8 @@ class Movies extends Component {
   state = {
     movies: getMovies(),
     genres: getGenres(),
+    currentPage: 1,
+    pageSize: 2,
   };
 
   handleMovieDelete = (movie) => {
@@ -23,18 +26,27 @@ class Movies extends Component {
     movies[index].like = !movies[index].liked;
     this.setState({ movies });
   };
+
+  handlePageChange = (page) => {
+    this.setState({ currentPage: page });
+  };
   render() {
-    const { genres, movies } = this.state;
+    const { genres, movies: allMovies, pageSize, currentPage } = this.state;
+    const movies = paginate(allMovies, currentPage, pageSize);
     return (
       <>
         <div className='container'>
           <div className='row'>
             <Genres genres={genres} />
-            {movies.length !== 0 ? (
+            {allMovies.length !== 0 ? (
               <Table
                 movies={movies}
                 onDelete={this.handleMovieDelete}
                 onLike={this.handleLike}
+                onPageChange={this.handlePageChange}
+                pageSize={pageSize}
+                itemsCount={this.state.movies.length}
+                currentPage={currentPage}
               />
             ) : (
               <NoMovies />

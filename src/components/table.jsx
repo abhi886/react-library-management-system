@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TableHead from "./tableHead";
 import TableBody from "./tableBody";
-import Pagination from "./pagination";
+import Pagination from "./common/pagination";
 
 class Table extends Component {
   state = {};
@@ -9,7 +9,15 @@ class Table extends Component {
     console.log(movie);
   };
   render() {
-    const { movies, onDelete, onLike } = this.props;
+    const {
+      movies,
+      onDelete,
+      onLike,
+      onPageChange,
+      itemsCount,
+      pageSize,
+      currentPage,
+    } = this.props;
     // console.log(this.props);
     return (
       <div className='col-8'>
@@ -18,7 +26,12 @@ class Table extends Component {
           <TableHead />
           <TableBody movies={movies} onDelete={onDelete} onLike={onLike} />
         </table>
-        <Pagination />
+        <Pagination
+          onPageChange={onPageChange}
+          itemsCount={itemsCount}
+          pageSize={pageSize}
+          currentPage={currentPage}
+        />
       </div>
     );
   }
