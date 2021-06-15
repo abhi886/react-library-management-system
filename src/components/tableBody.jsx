@@ -1,6 +1,21 @@
 import React, { Component } from "react";
+import Like from "./common/like";
+
 class TableBody extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = this.props.movies;
+  }
+
+  handleLike = (movie) => {
+    // console.log("Like Clicked", movie);
+    const movies = [...this.props.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movies[index] };
+    movies[index].liked = !movies[index].liked;
+    this.setState({ movies });
+  };
+
   render() {
     const { movies } = this.props;
     return (
@@ -12,7 +27,7 @@ class TableBody extends Component {
             <td>{movie.numberInStock}</td>
             <td> {movie.dailyRentalRate} </td>
             <td>
-              <i className='fa fa-thumbs-up' aria-hidden='true'></i>
+              <Like liked={movie.like} onClick={() => this.handleLike(movie)} />
             </td>
             <td>
               <button
