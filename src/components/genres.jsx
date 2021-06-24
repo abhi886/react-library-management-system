@@ -8,6 +8,7 @@ class Genres extends Component {
         <ul className='list-group'>
           {genres.map((genre) => (
             <li
+              style={{ cursor: "pointer" }}
               key={genre._id}
               className='list-group-item'
               aria-current='true'

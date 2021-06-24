@@ -57,31 +57,29 @@ class Movies extends Component {
     const movies = paginate(filtered, currentPage, pageSize);
     return (
       <>
-        <div className='container'>
-          <div className='row m-2'>
-            <div className='col-2'>
-              {/* <Genres genres={genres} onGenreClick={this.handleGenreClick} /> */}
-              <ListGroup
-                selectedItem={this.state.selectedGenre}
-                items={genres}
-                onItemClick={this.handleGenreClick}
-              />
-            </div>
-            {allMovies.length !== 0 ? (
-              <Table
-                movies={movies}
-                onDelete={this.handleMovieDelete}
-                onLike={this.handleLike}
-                onPageChange={this.handlePageChange}
-                pageSize={pageSize}
-                itemsCount={filtered.length}
-                currentPage={currentPage}
-                allMovies={allMovies}
-              />
-            ) : (
-              <NoMovies />
-            )}
+        <div className='row m-2'>
+          <div className='col-2'>
+            {/* <Genres genres={genres} onGenreClick={this.handleGenreClick} /> */}
+            <ListGroup
+              selectedItem={this.state.selectedGenre}
+              items={genres}
+              onItemClick={this.handleGenreClick}
+            />
           </div>
+          {allMovies.length !== 0 ? (
+            <Table
+              movies={movies}
+              onDelete={this.handleMovieDelete}
+              onLike={this.handleLike}
+              onPageChange={this.handlePageChange}
+              pageSize={pageSize}
+              itemsCount={filtered.length}
+              currentPage={currentPage}
+              allMovies={allMovies}
+            />
+          ) : (
+            <NoMovies />
+          )}
         </div>
       </>
     );

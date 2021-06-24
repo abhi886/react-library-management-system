@@ -8,6 +8,7 @@ const ListGroup = (props) => {
     <ul className='list-group'>
       {items.map((item) => (
         <li
+          style={{ cursor: "pointer" }}
           key={item[valueProperty]}
           className={
             item._id === selectedItem._id
