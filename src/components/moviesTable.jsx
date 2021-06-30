@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import Like from "./common/like";
 import Table from "./common/table";
 
@@ -7,6 +8,9 @@ class MoviesTable extends Component {
     {
       path: "title",
       label: "Title",
+      content: (movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title} </Link>
+      ),
     },
     {
       path: "genre.name",
