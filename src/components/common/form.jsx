@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import Input from "./input";
+import Dropdown from "./dropdown";
+
 import Joi from "joi-browser";
 
 class Form extends Component {
@@ -13,6 +15,7 @@ class Form extends Component {
     const { error } = Joi.validate(this.state.data, this.schema, options);
     if (!error) return null;
     const errors = {};
+    console.log(errors);
     for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
   };
@@ -34,6 +37,8 @@ class Form extends Component {
   };
 
   handleChange = ({ currentTarget: input }) => {
+    console.log(input);
+    // exit();
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
     if (errorMessage) errors[input.name] = errorMessage;
@@ -60,6 +65,20 @@ class Form extends Component {
         name={name}
         value={data[name]}
         label={label}
+        onChange={this.handleChange}
+        error={errors[name]}
+      />
+    );
+  }
+
+  renderDropdown(name, label, options) {
+    const { data, errors } = this.state;
+    return (
+      <Dropdown
+        options={options}
+        label={label}
+        name={name}
+        value={data[name]}
         onChange={this.handleChange}
         error={errors[name]}
       />

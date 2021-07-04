@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import MoviesTable from "./moviesTable";
 import { getMovies } from "../services/fakeMovieService";
 import Pagination from "./common/pagination";
@@ -9,7 +10,7 @@ import _ from "lodash";
 class Movies extends Component {
   state = {
     movies: [],
-    pageSize: 4,
+    pageSize: 11,
     currentPage: 1,
     genres: [],
     sortColumn: { path: "title", order: "asc" },
@@ -86,6 +87,17 @@ class Movies extends Component {
               ></ListGroup>
             </div>
             <div className='col-8'>
+              <div className='row'>
+                <div className='col-md-12'>
+                  <Link
+                    to='/movies/new'
+                    className='btn btn-primary'
+                    style={{ marginBottom: 20 }}
+                  >
+                    New Movie
+                  </Link>
+                </div>
+              </div>
               <p>Showing {totalCount} movies in the database</p>
               <MoviesTable
                 movies={movies}

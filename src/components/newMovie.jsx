@@ -2,9 +2,9 @@ import React from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { getGenres } from "../services/fakeGenreService";
-import { getMovie, saveMovie } from "../services/fakeMovieService";
+// import { getMovies, saveMovie } from "../services/fakeMovieService";
 
-class MovieForm extends Form {
+class NewMovie extends Form {
   state = {
     data: {
       title: "",
@@ -17,21 +17,19 @@ class MovieForm extends Form {
   };
 
   componentDidMount() {
-    const genres = getGenres();
-    this.setState({ genres });
+    // const genres = getGenres();
+    this.setState({ genres: getGenres() });
+    // const movieId = this.props.match.params.id;
+    // console.log(movieId);
+    // const movie = getMovies(movieId);
+    // if (!movie) return this.props.history.replace("/not-found");
 
-    const movieId = this.props.match.params.id;
-    if (movieId === "new") return;
-
-    const movie = getMovie(movieId);
-    if (!movie) return this.props.history.replace("/not-found");
-
-    this.setState({ data: this.mapToViewMode(movie) });
+    // this.setState({ data: this.mapToViewMode(movie) });
   }
 
   schema = {
     _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
+    title: Joi.string().alphanum().min(3).max(30).required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.string().required().label("No of Stock"),
     dailyRentalRate: Joi.string().required().label("Rate"),
@@ -65,7 +63,7 @@ class MovieForm extends Form {
   };
 
   doSubmit = () => {
-    saveMovie(this.state.data);
+    // saveMovie(this.state.data);
     this.props.history.push("/movies");
   };
 
@@ -75,7 +73,7 @@ class MovieForm extends Form {
         <h1>New Movie</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("title", "Title")}
-          {this.renderDropdown("genreId", "Genre", this.state.genres)}
+          {this.renderDropdown("genre", "Genre", this.state.genres)}
           {this.renderInput("numberInStock", "Number In Stock")}
           {this.renderInput("dailyRentalRate", "Rate")}
           {this.renderButton("Register")}
@@ -85,4 +83,4 @@ class MovieForm extends Form {
   }
 }
 
-export default MovieForm;
+export default NewMovie;
