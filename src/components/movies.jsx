@@ -7,7 +7,7 @@ import { paginate } from "../utils/paginate";
 import ListGroup from "./common/listGroup";
 import { getGenres } from "../services/fakeGenreService";
 import SearchBox from "./searchBox";
-
+// import
 import _ from "lodash";
 class Movies extends Component {
   state = {
