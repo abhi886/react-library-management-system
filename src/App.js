@@ -2,6 +2,7 @@ import React, { Component } from "react";
 // import NavBar from "./components/navbar";
 // import Counters from "./components/counters";
 import { Route, Redirect, Switch } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Movies from "./components/movies";
 import Rentals from "./components/rentals";
 import Customers from "./components/customers";
@@ -11,6 +12,7 @@ import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import AddMoviesForm from "./components/newMovie";
+import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 
@@ -69,10 +71,12 @@ class App extends Component {
     const counters = this.state.counters.filter((c) => c.id !== counterId);
     this.setState({ counters });
   };
+
   render() {
     console.log("App-Renderd");
     return (
       <>
+        <ToastContainer />
         {/* <NavBar totalCounters={this.state.counters.filter(c => c.value > 0).length} />
     <main className="container">
       <Counters 
