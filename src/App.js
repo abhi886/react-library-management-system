@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // import Counters from "./components/counters";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import jwtDecode from "jwt-decode";
 import Movies from "./components/movies";
 import Rentals from "./components/rentals";
 import Customers from "./components/customers";
@@ -13,20 +14,21 @@ import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import DynamicForm from "./components/dynamicForm";
 
-import AddMoviesForm from "./components/newMovie";
+// import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
-
 import "./App.css";
 
 class App extends Component {
-  state = {
-    counters: [
-      { id: 1, value: 4 },
-      { id: 2, value: 0 },
-      { id: 3, value: 0 },
-      { id: 4, value: 0 },
-    ],
-  };
+  // state = {
+  //   counters: [
+  //     { id: 1, value: 4 },
+  //     { id: 2, value: 0 },
+  //     { id: 3, value: 0 },
+  //     { id: 4, value: 0 },
+  //   ],
+  // };
+
+  state = {};
 
   constructor() {
     super();
@@ -34,7 +36,12 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log("App = Mounted");
+    try {
+      console.log("App = Mounted");
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      this.setState({ user });
+    } catch (ex) {}
   }
 
   handleReset = () => {
@@ -90,7 +97,7 @@ class App extends Component {
       onDecrement={this.handleDecrement}
        />
     </main> */}
-        <NavBar />
+        <NavBar user={this.state.user} />
         <Switch>
           {/* <Route path='/movies/new' component={AddMoviesForm} /> */}
           <Route path='/dynamicForm' component={DynamicForm} />
