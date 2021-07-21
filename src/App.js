@@ -11,6 +11,8 @@ import NavBar from "./components/navBar";
 import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
+import DynamicForm from "./components/dynamicForm";
+
 import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -91,6 +93,8 @@ class App extends Component {
         <NavBar />
         <Switch>
           {/* <Route path='/movies/new' component={AddMoviesForm} /> */}
+          <Route path='/dynamicForm' component={DynamicForm} />
+
           <Route path='/register' component={RegisterForm} />
           <Route path='/login' component={LoginForm} />
           <Route path='/movies/:id' component={MovieForm} />
