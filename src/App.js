@@ -3,7 +3,6 @@ import React, { Component } from "react";
 // import Counters from "./components/counters";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import jwtDecode from "jwt-decode";
 import Movies from "./components/movies";
 import Rentals from "./components/rentals";
 import Customers from "./components/customers";
@@ -14,6 +13,7 @@ import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import DynamicForm from "./components/dynamicForm";
 import Logout from "./components/logout";
+import auth from "./services/authService";
 
 // import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
@@ -37,12 +37,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    try {
-      console.log("App = Mounted");
-      const jwt = localStorage.getItem("token");
-      const user = jwtDecode(jwt);
-      this.setState({ user });
-    } catch (ex) {}
+    console.log("App = Mounted");
+    const user = auth.getCurrentUser();
+    this.setState({ user });
   }
 
   handleReset = () => {
