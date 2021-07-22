@@ -13,6 +13,7 @@ import MovieForm from "./components/movieForm";
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 import DynamicForm from "./components/dynamicForm";
+import Logout from "./components/logout";
 
 // import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
@@ -104,6 +105,8 @@ class App extends Component {
 
           <Route path='/register' component={RegisterForm} />
           <Route path='/login' component={LoginForm} />
+          <Route path='/logout' component={Logout} />
+
           <Route path='/movies/:id' component={MovieForm} />
           <Route path='/movies' component={Movies}></Route>
           <Route path='/customers' component={Customers}></Route>
