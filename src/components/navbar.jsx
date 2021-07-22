@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const NavBar = () => {
+const NavBar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
       <Link className='navbar-brand' to='#'>
@@ -28,12 +28,26 @@ const NavBar = () => {
           <Link className='nav-item nav-link' to='/rentals'>
             Rentals
           </Link>
-          <Link className='nav-item nav-link' to='/login'>
-            Login
-          </Link>
-          <Link className='nav-item nav-link' to='/register'>
-            Register
-          </Link>
+          {!user && (
+            <React.Fragment>
+              <Link className='nav-item nav-link' to='/login'>
+                Login
+              </Link>
+              <Link className='nav-item nav-link' to='/register'>
+                Register
+              </Link>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <Link className='nav-item nav-link' to='/profile'>
+                {user.name}
+              </Link>
+              <Link className='nav-item nav-link' to='/logOut'>
+                LogOut
+              </Link>
+            </React.Fragment>
+          )}
           <Link className='nav-item nav-link' to='/dynamicForm'>
             Dynamic Form
           </Link>
