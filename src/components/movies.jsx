@@ -92,6 +92,7 @@ class Movies extends Component {
   };
 
   render() {
+    const { user } = this.props;
     const { length: count } = this.state.movies;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
 
@@ -113,13 +114,15 @@ class Movies extends Component {
             <div className='col-8'>
               <div className='row'>
                 <div className='col-md-12'>
-                  <Link
-                    to='/movies/new'
-                    className='btn btn-primary'
-                    style={{ marginBottom: 20 }}
-                  >
-                    New Movie
-                  </Link>
+                  {user && (
+                    <Link
+                      to='/movies/new'
+                      className='btn btn-primary'
+                      style={{ marginBottom: 20 }}
+                    >
+                      New Movie
+                    </Link>
+                  )}
                 </div>
               </div>
               <p>Showing {totalCount} movies in the database</p>
