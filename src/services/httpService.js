@@ -1,5 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
 import axios from "axios";
+import auth from "./authService";
+
+axios.defaults.headers.common["x-auth-token"] = auth.getJwt();
 
 axios.interceptors.response.use(null, (error) => {
   const expectedError =
