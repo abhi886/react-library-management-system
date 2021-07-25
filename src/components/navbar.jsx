@@ -1,12 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <Link className='navbar-brand' to='#'>
-        Vidly
-      </Link>
-      <button
+      <NavLink className='navbar-brand' to='#'>
+        Movies Rental
+      </NavLink>
+      {/* <button
         className='navbar-toggler'
         type='button'
         data-toggle='collapse'
@@ -16,41 +16,42 @@ const NavBar = ({ user }) => {
         aria-label='Toggle navigation'
       >
         <span className='navbar-toggler-icon'></span>
-      </button>
+      </button> */}
       <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
         <div className='navbar-nav'>
-          <Link className='nav-item nav-link active' to='/'>
+          <NavLink className='nav-item nav-link ' to='/'>
             Movies
-          </Link>
-          <Link className='nav-item nav-link' to='/customers'>
+          </NavLink>
+          <NavLink className='nav-item nav-link' to='/customers'>
             Customers
-          </Link>
-          <Link className='nav-item nav-link' to='/rentals'>
+          </NavLink>
+
+          <NavLink className='nav-item nav-link' to='/rentals'>
             Rentals
-          </Link>
+          </NavLink>
           {!user && (
             <React.Fragment>
-              <Link className='nav-item nav-link' to='/login'>
+              <NavLink className='nav-item nav-link' to='/login'>
                 Login
-              </Link>
-              <Link className='nav-item nav-link' to='/register'>
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/register'>
                 Register
-              </Link>
+              </NavLink>
             </React.Fragment>
           )}
           {user && (
             <React.Fragment>
-              <Link className='nav-item nav-link' to='/profile'>
+              <NavLink className='nav-item nav-link' to='/profile'>
                 {user.name}
-              </Link>
-              <Link className='nav-item nav-link' to='/logout'>
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/logout'>
                 LogOut
-              </Link>
+              </NavLink>
             </React.Fragment>
           )}
-          <Link className='nav-item nav-link' to='/dynamicForm'>
+          <NavLink className='nav-item nav-link' to='/dynamicForm'>
             Dynamic Form
-          </Link>
+          </NavLink>
         </div>
       </div>
     </nav>
