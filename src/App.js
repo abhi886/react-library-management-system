@@ -38,6 +38,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_API_URL);
     console.log("App = Mounted");
     const user = auth.getCurrentUser();
     this.setState({ user });
