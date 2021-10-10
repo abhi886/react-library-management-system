@@ -2,21 +2,21 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-light'>
-      <NavLink className='navbar-brand' to='#'>
-        Movies Rental
+    <nav className='navbar navbar-expand-lg navbar-light navContainer'>
+      <NavLink className='navbar-brand navHeading' to='#'>
+        Library Management System
       </NavLink>
       <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
         <div className='navbar-nav'>
           <NavLink className='nav-item nav-link ' to='/'>
-            Movies
+            Books
           </NavLink>
-          <NavLink className='nav-item nav-link' to='/customers'>
-            Customers
+          <NavLink className='nav-item nav-link' to='/students'>
+            Students
           </NavLink>
 
           <NavLink className='nav-item nav-link' to='/rentals'>
-            Rentals
+            Rental History
           </NavLink>
           {!user && (
             <React.Fragment>
@@ -38,9 +38,9 @@ const NavBar = ({ user }) => {
               </NavLink>
             </React.Fragment>
           )}
-          <NavLink className='nav-item nav-link' to='/dynamicForm'>
+          {/* <NavLink className='nav-item nav-link' to='/dynamicForm'>
             Dynamic Form
-          </NavLink>
+          </NavLink> */}
         </div>
       </div>
     </nav>

@@ -5,13 +5,15 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Movies from "./components/movies";
 import Rentals from "./components/rentals";
-import Customers from "./components/customers";
+import Students from "./components/students";
 import NotFound from "./components/notFound";
 import NavBar from "./components/navbar";
 import MovieForm from "./components/movieForm";
+import StudentForm from "./components/studentForm";
+
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
-import DynamicForm from "./components/dynamicForm";
+// import DynamicForm from "./components/dynamicForm";
 import Logout from "./components/logout";
 import auth from "./services/authService";
 import ProtectedRoute from "./components/common/protectedRoute";
@@ -101,7 +103,7 @@ class App extends Component {
         <NavBar user={this.state.user} />
         <Switch>
           {/* <Route path='/movies/new' component={AddMoviesForm} /> */}
-          <Route path='/dynamicForm' component={DynamicForm} />
+          {/* <Route path='/dynamicForm' component={DynamicForm} /> */}
 
           <Route path='/register' component={RegisterForm} />
           <Route path='/login' component={LoginForm} />
@@ -111,7 +113,12 @@ class App extends Component {
             path='/movies'
             render={(props) => <Movies {...props} user={this.state.user} />}
           ></Route>
-          <Route path='/customers' component={Customers}></Route>
+          <ProtectedRoute path='/students/:id' component={StudentForm} />
+          <Route
+            path='/students'
+            render={(props) => <Students {...props} user={this.state.user} />}
+          ></Route>
+
           <Route path='/rentals' component={Rentals}></Route>
           <Route path='/not-found' component={NotFound}></Route>
           <Redirect from='/' exact to='/movies' />

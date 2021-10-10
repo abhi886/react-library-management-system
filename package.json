@@ -12,6 +12,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^5.0.1",
     "font-awesome": "^4.7.0",
+    "formik": "^2.2.9",
     "joi-browser": "^13.4.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
@@ -22,7 +23,8 @@
     "react-scripts": "4.0.3",
     "react-toastify": "^7.0.4",
     "toastify": "^2.0.1",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.9"
   },
   "scripts": {
     "start": "react-scripts start",

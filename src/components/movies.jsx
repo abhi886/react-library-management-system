@@ -105,14 +105,14 @@ class Movies extends Component {
       <>
         <div className='container'>
           <div className='row mt-4'>
-            <div className='col-2'>
+            <div className=' col-md-2 col-sm-8'>
               <ListGroup
                 items={this.state.genres}
                 selectedItem={this.state.selectedGenre}
                 onItemSelect={this.handleGenreSelect}
               ></ListGroup>
             </div>
-            <div className='col-8'>
+            <div className='col-md-10 col-sm-8'>
               <div className='row'>
                 <div className='col-md-12'>
                   {user && (

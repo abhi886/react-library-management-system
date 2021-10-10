@@ -2,23 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchBox from "./searchBox";
 
-function customers() {
+function students() {
   return (
-    <div className=''>
+    <div className='studentButton'>
       <div className='row'>
         <div className='col-md-12'>
           <Link
-            to='/movies/new'
+            to='/students/new'
             className='btn btn-primary'
             style={{ marginBottom: 20 }}
           >
-            New Movie
+            Add New Student
           </Link>
         </div>
       </div>
-      <div>
-        <button className='btn btn-primary studentButton'> Add Student</button>
-      </div>
+
       <div className='searchStudentContainer'>
         <SearchBox value={"Search Student"} />
       </div>
@@ -26,4 +24,4 @@ function customers() {
   );
 }
 
-export default customers;
+export default students;
