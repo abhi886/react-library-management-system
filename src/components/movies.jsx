@@ -17,7 +17,7 @@ class Movies extends Component {
     currentPage: 1,
     genres: [],
     searchQuery: "",
-    selectedGenre: null,
+    selectedGenre: { _id: "", name: "All Genres" },
     sortColumn: { path: "title", order: "asc" },
   };
 
@@ -99,6 +99,7 @@ class Movies extends Component {
     if (count === 0) return <p>No movies in the database.</p>;
 
     const { totalCount, data: movies } = this.getPagedData();
+    console.log(this.state.selectedGenre);
 
     return (
       <>
