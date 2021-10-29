@@ -1,21 +1,42 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { saveGenre } from "../services/genreService";
+import { saveGenre, getGenre, deleteGenre } from "../services/genreService";
 import { useHistory } from "react-router-dom";
 
 import * as Yup from "yup";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
-const GenreForm = () => {
+
+const GenreForm = (props) => {
   const [error, setError] = useState();
+  const [genre, setGenre] = useState();
   const history = useHistory();
+
+  useEffect(() => {
+    async function populateGenre() {
+      try {
+        const genreId = props.match.params.id;
+        if (genreId === "new") return;
+        const { data: gen } = await getGenre(genreId);
+        setGenre(gen);
+      } catch (ex) {
+        if (ex.response && ex.response.status === 404)
+          // this.props.history.replace("/not-found");
+          console.log("error");
+      }
+    }
+    populateGenre();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      genreName: "",
+      genreName: genre ? genre.name : "",
+      id: genre ? genre._id : "",
+      // enableReinitialize: true,
     },
+    enableReinitialize: true,
     validationSchema: Yup.object({
       genreName: Yup.string()
         .max(15, "Must be 15 characters or less")
@@ -41,7 +62,7 @@ const GenreForm = () => {
   return (
     <div className='container'>
       <div>
-        <p>New Genre Form</p>
+        <p>{genre ? "Edit" : "Add"} Genre</p>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className='studentForm'>
@@ -55,7 +76,7 @@ const GenreForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.genreName}
               className='form-control'
-              placeholder='Enter Genre Name'
+              placeholder='Enter Genre'
             />
             {formik.touched.genreName && formik.errors.genreName ? (
               <div>{formik.errors.genreName}</div>
@@ -68,10 +89,30 @@ const GenreForm = () => {
               style={{ marginRight: 4 }}
               type='submit'
             >
-              Submit
+              {genre ? "Edit" : "Add"}
             </button>
+            {genre && (
+              <button
+                className='btn btn-danger btn-sm'
+                style={{ marginRight: 4 }}
+                onClick={async () => {
+                  try {
+                    await deleteGenre(genre._id);
+                    history.push("/movies");
+                  } catch (ex) {
+                    // toast.error("This movie has already been deleted");
+                    if (ex.response && ex.response.status === 404) {
+                      // this.setState({ movies: originalMovies });
+                    }
+                  }
+                }}
+              >
+                Delete
+              </button>
+            )}
             <button
-              className='btn btn-danger btn-sm'
+              className='btn btn-light btn-sm'
+              style={{ marginRight: 4 }}
               onClick={() => {
                 history.push("/movies");
               }}

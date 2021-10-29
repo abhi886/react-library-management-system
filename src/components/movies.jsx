@@ -110,16 +110,8 @@ class Movies extends Component {
                 items={this.state.genres}
                 selectedItem={this.state.selectedGenre}
                 onItemSelect={this.handleGenreSelect}
+                user={user}
               ></ListGroup>
-              {user && (
-                <Link
-                  to='/genres/new'
-                  className='btn btn-primary'
-                  style={{ marginTop: 20 }}
-                >
-                  New Genre
-                </Link>
-              )}
             </div>
             <div className='col-md-10 col-sm-8'>
               <div className='row'>

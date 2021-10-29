@@ -104,9 +104,6 @@ class App extends Component {
     </main> */}
         <NavBar user={this.state.user} />
         <Switch>
-          {/* <Route path='/movies/new' component={AddMoviesForm} /> */}
-          {/* <Route path='/dynamicForm' component={DynamicForm} /> */}
-
           <Route path='/register' component={RegisterForm} />
           <Route path='/login' component={LoginForm} />
           <Route path='/logout' component={Logout} />
