@@ -15,6 +15,7 @@ const ListGroup = (props) => {
               ? "list-group-item active"
               : "list-group-item"
           }
+          style={{ cursor: "pointer" }}
         >
           {item[textProperty]}
         </li>

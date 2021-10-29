@@ -11,6 +11,8 @@ import NavBar from "./components/navbar";
 import MovieForm from "./components/movieForm";
 import StudentForm from "./components/studentForm";
 
+import GenresForm from "./components/genreForm";
+
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
 // import DynamicForm from "./components/dynamicForm";
@@ -118,6 +120,8 @@ class App extends Component {
             path='/students'
             render={(props) => <Students {...props} user={this.state.user} />}
           ></Route>
+
+          <ProtectedRoute path='/genres/:id' component={GenresForm} />
 
           <Route path='/rentals' component={Rentals}></Route>
           <Route path='/not-found' component={NotFound}></Route>
