@@ -13,7 +13,7 @@ import _ from "lodash";
 class Movies extends Component {
   state = {
     movies: [],
-    pageSize: 11,
+    pageSize: 70,
     currentPage: 1,
     genres: [],
     searchQuery: "",
@@ -63,7 +63,11 @@ class Movies extends Component {
   };
 
   handleSearch = (query) => {
-    this.setState({ searchQuery: query, selectedGenre: null, currentPage: 1 });
+    this.setState({
+      searchQuery: query,
+      selectedGenre: { _id: "", name: "All Genres" },
+      currentPage: 1,
+    });
   };
 
   getPagedData = () => {

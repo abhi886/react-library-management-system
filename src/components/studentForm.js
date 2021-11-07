@@ -1,17 +1,26 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { saveStudent } from "../services/studentService";
+import { useHistory } from "react-router-dom";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
 const StudentForm = () => {
+  const history = useHistory();
+
   const formik = useFormik({
     initialValues: {
+      studentId: "",
       firstName: "",
       lastName: "",
       email: "",
+      faculty: "",
     },
     validationSchema: Yup.object({
+      studentId: Yup.string()
+        .min(4, "Cannot be less than 4 characters")
+        .required("Required"),
       firstName: Yup.string()
         .max(15, "Must be 15 characters or less")
         .required("Required"),
@@ -19,15 +28,48 @@ const StudentForm = () => {
         .max(20, "Must be 20 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
+      faculty: Yup.string().required("Required"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+
+    // alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+      try {
+        await saveStudent(values);
+        history.push("/students");
+      } catch (ex) {
+        if (ex.response && ex.response.status === 400) {
+          // setFieldError(
+          //   "genre",
+          //   "Genre already exist. Please Select an unique genre."
+          // );
+          // setError(ex.response.data);
+          console.log(ex.response);
+        }
+      } finally {
+        setSubmitting(false);
+      }
     },
   });
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className='studentForm'>
-        <div class='form-group'>
+        <div className='form-group'>
+          <label htmlFor='studentId'>Student Id</label>
+          <input
+            id='studentId'
+            name='studentId'
+            type='text'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.studentId}
+            className='form-control'
+            placeholder='Enter Student Id'
+          />
+          {formik.touched.studentId && formik.errors.studentId ? (
+            <div>{formik.errors.studentId}</div>
+          ) : null}
+        </div>
+        <div className='form-group'>
           <label htmlFor='firstName'>First Name</label>
           <input
             id='firstName'
@@ -44,7 +86,7 @@ const StudentForm = () => {
           ) : null}
         </div>
 
-        <div class='form-group'>
+        <div className='form-group'>
           <label htmlFor='lastName'>Last Name</label>
           <input
             id='lastName'
@@ -60,7 +102,7 @@ const StudentForm = () => {
             <div>{formik.errors.lastName}</div>
           ) : null}
         </div>
-        <div class='form-group'>
+        <div className='form-group'>
           <label htmlFor='email'>Email Address</label>
           <input
             className='form-control'
@@ -76,7 +118,28 @@ const StudentForm = () => {
             <div>{formik.errors.email}</div>
           ) : null}
         </div>
-        <div className='form-control'>
+        <div className='form-group'>
+          <label htmlFor='faculty'>Faculty</label>
+          <select
+            className='form-control'
+            id='faculty'
+            name='faculty'
+            type='faculty'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.faculty}
+            placeholder='Choose Faculty'
+          >
+            <option value='' label='Select a Faculty' />
+            <option value='Plus2' label='Plus2' />
+            <option value='Bachelors' label='Bachelors' />
+            <option value='Masters' label='Masters' />
+          </select>
+          {formik.touched.faculty && formik.errors.faculty ? (
+            <div>{formik.errors.faculty}</div>
+          ) : null}
+        </div>
+        <div>
           <button className='btn btn-primary' type='submit'>
             Submit
           </button>

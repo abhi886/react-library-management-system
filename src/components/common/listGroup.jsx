@@ -13,6 +13,7 @@ const ListGroup = (props) => {
     selectedItem,
     onItemSelect,
   } = props;
+
   const handleClick = (selectedItem) => {
     history.push({
       pathname: `/genres/${selectedItem._id}`,
@@ -54,7 +55,7 @@ const ListGroup = (props) => {
               onClick={() => onItemSelect(item)}
               key={item[valueProperty]}
               className={
-                item.name === selectedItem.name
+                item.name && item.name === selectedItem.name
                   ? "list-group-item active"
                   : "list-group-item"
               }

@@ -10,25 +10,30 @@ import * as Yup from "yup";
 // which keys are symmetrical to our values/initialValues
 
 const GenreForm = (props) => {
+  const [genre, setGenre] = useState({});
+  useEffect(() => {
+    populateGenre();
+    return () => {
+      console.log("Clean Up - run");
+    };
+  }, []);
+
   const [error, setError] = useState();
-  const [genre, setGenre] = useState();
   const history = useHistory();
 
-  useEffect(() => {
-    async function populateGenre() {
-      try {
-        const genreId = props.match.params.id;
-        if (genreId === "new") return;
-        const { data: gen } = await getGenre(genreId);
-        setGenre(gen);
-      } catch (ex) {
-        if (ex.response && ex.response.status === 404)
-          // this.props.history.replace("/not-found");
-          console.log("error");
-      }
+  async function populateGenre() {
+    try {
+      const genreId = props.match.params.id;
+      if (genreId === "new") return;
+
+      const { data: gen } = await getGenre(genreId);
+      setGenre(gen);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        // this.props.history.replace("/not-found");
+        console.log("error");
     }
-    populateGenre();
-  }, []);
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -62,6 +67,7 @@ const GenreForm = (props) => {
   return (
     <div className='container'>
       <div>
+        {console.log(genre)}
         <p>{genre ? "Edit" : "Add"} Genre</p>
       </div>
       <form onSubmit={formik.handleSubmit}>
