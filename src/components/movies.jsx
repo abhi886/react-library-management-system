@@ -10,10 +10,13 @@ import { getGenres } from "../services/genreService";
 import SearchBox from "./searchBox";
 // import
 import _ from "lodash";
+import AddButton from "./common/addButton";
+import EditButton from "./common/editButton";
+
 class Movies extends Component {
   state = {
     movies: [],
-    pageSize: 70,
+    pageSize: 5,
     currentPage: 1,
     genres: [],
     searchQuery: "",
@@ -103,13 +106,29 @@ class Movies extends Component {
     if (count === 0) return <p>No movies in the database.</p>;
 
     const { totalCount, data: movies } = this.getPagedData();
-    console.log(this.state.selectedGenre);
 
     return (
       <>
         <div className='container'>
           <div className='row mt-4'>
             <div className=' col-md-2 col-sm-8'>
+              <div className='row'>
+                <div className='col-md-6'>
+                  <AddButton
+                    linkTo='/genres/new'
+                    name=' Genre'
+                    user={user}
+                  ></AddButton>
+                </div>
+                <div className='col-md-6'>
+                  <EditButton
+                    selectedItem={this.state.selectedGenre}
+                    name='Genre'
+                    linkTo='genres'
+                    user={user}
+                  ></EditButton>
+                </div>
+              </div>
               <ListGroup
                 items={this.state.genres}
                 selectedItem={this.state.selectedGenre}
@@ -121,13 +140,11 @@ class Movies extends Component {
               <div className='row'>
                 <div className='col-md-12'>
                   {user && (
-                    <Link
-                      to='/movies/new'
-                      className='btn btn-primary'
-                      style={{ marginBottom: 20 }}
-                    >
-                      New Movie
-                    </Link>
+                    <AddButton
+                      linkTo='/movies/new'
+                      name=' Movie'
+                      user={user}
+                    ></AddButton>
                   )}
                 </div>
               </div>

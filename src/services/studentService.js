@@ -25,6 +25,6 @@ export function saveStudent(student) {
   return http.post(apiEndpoint, student);
 }
 
-export function deleteStudent(movieId) {
-  return http.delete(studentUrl(movieId));
+export function deleteStudent(studentId) {
+  return http.delete(studentUrl(studentId));
 }

@@ -11,7 +11,7 @@ class TableBody extends Component {
     return item._id + (column.path || column.key);
   };
   render() {
-    const { data, columns } = this.props;
+    const { data, columns, onDelete } = this.props;
     console.log(data);
     return (
       <tbody>
