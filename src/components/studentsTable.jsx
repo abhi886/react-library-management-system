@@ -1,10 +1,14 @@
 import Table from "./common/table";
+import { Link } from "react-router-dom";
 
 function StudentsTable({ students, sortColumn, onSort, onDelete }) {
   const columns = [
     {
       path: "firstName",
       label: "First Name",
+      content: (student) => (
+        <Link to={`/students/${student._id}`}>{student.firstName} </Link>
+      ),
     },
     {
       path: "lastName",

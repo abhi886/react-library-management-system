@@ -9,17 +9,18 @@ export function getStudents() {
   return http.get(apiEndpoint);
 }
 
-export function getStudent(movieId) {
-  return http.get(studentUrl(movieId));
+export function getStudent(studentId) {
+  return http.get(studentUrl(studentId));
 }
 
 export function saveStudent(student) {
-  // Updaating a movie
-  //   if (student._id) {
-  //     const body = { ...student };
-  //     delete body._id;
-  //     return http.put(studentUrl(student._id), body);
-  //   }
+  console.log("res", student);
+  // Updaating a student
+  if (student.id) {
+    const body = { ...student };
+    delete body.id;
+    return http.put(studentUrl(student.id), body);
+  }
 
   // Saving a new movie
   return http.post(apiEndpoint, student);

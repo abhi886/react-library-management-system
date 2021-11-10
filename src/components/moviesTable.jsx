@@ -31,6 +31,19 @@ class MoviesTable extends Component {
         <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
       ),
     },
+    {
+      key: "hire",
+      content: (movie) => (
+        <button
+          onClick={() => {
+            alert(movie);
+          }}
+          className='btn btn-success btn-sm'
+        >
+          Hire Book
+        </button>
+      ),
+    },
   ];
 
   deleteColumn = {
@@ -52,7 +65,6 @@ class MoviesTable extends Component {
   }
   render() {
     const { movies, sortColumn, onSort } = this.props;
-    console.log(this.columns);
     return (
       <Table
         columns={this.columns}

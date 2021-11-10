@@ -29,9 +29,7 @@ const GenreForm = (props) => {
       const { data: gen } = await getGenre(genreId);
       setGenre(gen);
     } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        // this.props.history.replace("/not-found");
-        console.log("error");
+      if (ex.response && ex.response.status === 404) console.log("error");
     }
   }
 

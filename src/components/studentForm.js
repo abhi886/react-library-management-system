@@ -1,22 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { saveStudent } from "../services/studentService";
 import { useHistory } from "react-router-dom";
+import { getStudent } from "../services/studentService";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
-const StudentForm = () => {
+const StudentForm = (props) => {
   const history = useHistory();
+  // const [stu, SetStu] = useState({});
+  const [studentId, SetStudentId] = useState("");
+  const [studentFName, SetStudentFName] = useState("");
+  const [studentLName, SetStudentLName] = useState("");
+  const [studentEmail, SetStudentEmail] = useState("");
+  const [studentFaculty, SetStudentFaculty] = useState("");
+  const [id, SetId] = useState("");
+
+  async function populateStudent() {
+    try {
+      const studentId = props.match.params.id;
+      if (studentId === "new") return;
+
+      const { data: student } = await getStudent(studentId);
+      SetStudentId(student.studentId);
+      SetStudentFName(student.firstName);
+      SetStudentLName(student.lastName);
+      SetStudentEmail(student.email);
+      SetStudentFaculty(student.faculty);
+      SetId(student._id);
+
+      // SetStu(student);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) console.log("error");
+    }
+  }
+
+  useEffect(() => {
+    populateStudent();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
-      studentId: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      faculty: "",
+      studentId: studentId,
+      firstName: studentFName,
+      lastName: studentLName,
+      email: studentEmail,
+      faculty: studentFaculty,
+      id: id,
     },
+    enableReinitialize: true,
+
     validationSchema: Yup.object({
       studentId: Yup.string()
         .min(4, "Cannot be less than 4 characters")
@@ -118,6 +152,15 @@ const StudentForm = () => {
             <div>{formik.errors.email}</div>
           ) : null}
         </div>
+        {/* <div className='form-group'>
+          <input
+            className='form-control'
+            id='_id'
+            name='_id'
+            type='hidden'
+            value={formik.values._id}
+          />
+        </div> */}
         <div className='form-group'>
           <label htmlFor='faculty'>Faculty</label>
           <select
