@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.mt-4 {
+  margin-top: 4px;
+}
+.mt-2 {
+  margin-top: 4px;
+}
+/* .genreList {
+  @media (min-width: 576px) {
+    flex-direction: column;
+  }
+} */
+
+.navContainer {
+  margin-left: 23px;
+}
+.navHeading {
+  font-weight: 500;
+}
+
+.searchStudentContainer {
+  position: absolute;
+  left: 30%;
+}
+.studentButton {
+  margin-left: 20px;
+}
+.studentForm {
+  margin: 30px;
+}
+
+.bookInfo {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.studentInfo {
+  padding-left: 20px;
+  padding-right: 20px;
+}
