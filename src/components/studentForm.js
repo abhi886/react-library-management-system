@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { saveStudent } from "../services/studentService";
 import { useHistory } from "react-router-dom";
 import { getStudent } from "../services/studentService";
+import { getFaculties } from "../services/facultyService";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
@@ -16,6 +17,7 @@ const StudentForm = (props) => {
   const [studentEmail, SetStudentEmail] = useState("");
   const [studentFaculty, SetStudentFaculty] = useState("");
   const [id, SetId] = useState("");
+  const [faculty, SetFaculty] = useState("");
 
   async function populateStudent() {
     try {
@@ -36,8 +38,18 @@ const StudentForm = (props) => {
     }
   }
 
+  async function populateFaculties() {
+    try {
+      const { data: fac } = await getFaculties();
+      SetFaculty(fac);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) console.log("error");
+      return;
+    }
+  }
   useEffect(() => {
     populateStudent();
+    populateFaculties();
   }, []);
 
   const formik = useFormik({
@@ -174,9 +186,13 @@ const StudentForm = (props) => {
             placeholder='Choose Faculty'
           >
             <option value='' label='Select a Faculty' />
-            <option value='Plus2' label='Plus2' />
+
+            {faculty &&
+              faculty.map((f) => <option value={f.name} label={f.name} />)}
+
+            {/* <option value='Plus2' label='Plus2' />
             <option value='Bachelors' label='Bachelors' />
-            <option value='Masters' label='Masters' />
+            <option value='Masters' label='Masters' /> */}
           </select>
           {formik.touched.faculty && formik.errors.faculty ? (
             <div>{formik.errors.faculty}</div>

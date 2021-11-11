@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import SearchBox from "./searchBox";
 import StudentsTable from "./studentsTable";
 import { getStudents, deleteStudent } from "../services/studentService";
+import { getFaculties } from "../services/facultyService";
+
 import ListGroup from "./common/listGroup";
 import AddButton from "./common/addButton";
 import EditButton from "./common/editButton";
@@ -12,17 +14,7 @@ import { toast } from "react-toastify";
 import Pagination from "./common/pagination";
 
 function Students({ user }) {
-  const facultyList = [
-    { _id: "", name: "All Faculty" },
-    { _id: "60ec0f43ea6ef30513cea96f", name: "Plus2" },
-    { _id: "60ec0f43ea6ef30513cea961", name: "BScCSIT" },
-    { _id: "60ec0f43ea6ef30513cea962", name: "BSM" },
-    { _id: "60ec0f43ea6ef30513cea963", name: "BSW" },
-    { _id: "60ec0f43ea6ef30513cea964", name: "MScCSIT" },
-    { _id: "60ec0f43ea6ef30513cea965", name: "MA" },
-    { _id: "60ec0f43ea6ef30513cea966", name: "PhD" },
-    { _id: "60ec0f43ea6ef30513cea967", name: "Bachelors" },
-  ];
+  const [faculty, SetFaculty] = useState([]);
   const [pageSize] = useState(10);
   const [currentPage, SetCurrentPage] = useState(1);
   const [count, SetCount] = useState(0);
@@ -96,8 +88,20 @@ function Students({ user }) {
       return;
     }
   }
+
+  async function populateFaculties() {
+    try {
+      const { data: fac } = await getFaculties();
+      console.log(fac);
+      SetFaculty([{ _id: "", name: "All Faculty" }, ...fac]);
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404) console.log("error");
+      return;
+    }
+  }
   useEffect(() => {
     populateStudents();
+    populateFaculties();
   }, []);
 
   useEffect(() => {
@@ -112,7 +116,7 @@ function Students({ user }) {
             <div className='row'>
               <div className='col-md-6'>
                 <AddButton
-                  linkTo='/faculty/new'
+                  linkTo='/faculties/new'
                   name='Faculty'
                   user={user}
                 ></AddButton>
@@ -121,13 +125,13 @@ function Students({ user }) {
                 <EditButton
                   selectedItem={selectedFaculty}
                   name='Faculty'
-                  linkTo='students'
+                  linkTo='faculties'
                   user={user}
                 ></EditButton>
               </div>
             </div>
             <ListGroup
-              items={facultyList}
+              items={faculty}
               selectedItem={selectedFaculty}
               onItemSelect={handleFacultySelect}
               user={user}

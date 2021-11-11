@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Like from "./common/like";
 import Table from "./common/table";
 import auth from "../services/authService";
+import AddButton from "./common/addButton";
 
 class MoviesTable extends Component {
   columns = [
@@ -33,16 +34,8 @@ class MoviesTable extends Component {
     },
     {
       key: "hire",
-      content: (movie) => (
-        <button
-          onClick={() => {
-            alert(movie);
-          }}
-          className='btn btn-success btn-sm'
-        >
-          Hire Book
-        </button>
-      ),
+      label: "Hire",
+      content: (movie) => <Link to={`/rentals/${movie._id}`}>Hire Book</Link>,
     },
   ];
 

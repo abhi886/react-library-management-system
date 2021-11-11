@@ -12,6 +12,7 @@ import MovieForm from "./components/movieForm";
 import StudentForm from "./components/studentForm";
 
 import GenresForm from "./components/genreForm";
+import FacultyForm from "./components/facultyForm";
 
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
@@ -119,8 +120,9 @@ class App extends Component {
           ></Route>
 
           <ProtectedRoute path='/genres/:id' component={GenresForm} />
+          <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
 
-          <Route path='/rentals' component={Rentals}></Route>
+          <Route path='/rentals/:id' component={Rentals}></Route>
           <Route path='/not-found' component={NotFound}></Route>
           <Redirect from='/' exact to='/movies' />
         </Switch>
