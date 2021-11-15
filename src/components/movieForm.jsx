@@ -11,6 +11,10 @@ class MovieForm extends Form {
       genreId: "",
       numberInStock: "",
       dailyRentalRate: "",
+      bookCode: "",
+      author: "",
+      tag: [1, 2],
+      tempTag: "",
     },
     genres: [],
     errors: {},
@@ -44,8 +48,18 @@ class MovieForm extends Form {
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.string().required().label("No of Stock"),
     dailyRentalRate: Joi.string().required().label("Rate"),
+    bookCode: Joi.string().min(3).max(30).required().label("BookCode"),
+    author: Joi.string().min(3).max(30).required().label("Author"),
+    tempTag: Joi.string()
+      .min(3)
+      .max(30)
+      .required()
+      .label("tempTag")
+      .label("Book Code"),
   };
-
+  tagSchema = {
+    tag: Joi.string().min(3).max(30).required().label("Tag"),
+  };
   mapToViewMode(movie) {
     return {
       _id: movie._id,
@@ -53,6 +67,8 @@ class MovieForm extends Form {
       genreId: movie.genre._id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
+      bookCode: movie.bookCode,
+      author: movie.author,
     };
   }
 
@@ -87,6 +103,9 @@ class MovieForm extends Form {
           {this.renderDropdown("genreId", "Genre", this.state.genres)}
           {this.renderInput("numberInStock", "Number In Stock")}
           {this.renderInput("dailyRentalRate", "Rate")}
+          {this.renderInput("bookCode", "Book Code")}
+          {this.renderInput("author", "Author")}
+          {this.renderTagInput("tempTag", "Book Codes", this.state.data.tag)}
           {this.renderButton("Register")}
         </form>
       </div>

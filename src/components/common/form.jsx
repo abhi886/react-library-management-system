@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Input from "./input";
+import TagInput from "./tagInput";
 import Dropdown from "./dropdown";
 
 import Joi from "joi-browser";
@@ -8,6 +9,30 @@ class Form extends Component {
   state = {
     data: {},
     errors: {},
+  };
+
+  handleRemoveItem = (index) => {
+    console.log(index);
+    const data = { ...this.state.data };
+    const tags = [...this.state.data.tag];
+    data["tag"] = tags.filter((item, i) => i !== index);
+    this.setState({ data });
+  };
+
+  onAddItem = ({ currentTarget: input }) => {
+    console.log(input);
+    const data = { ...this.state.data };
+    const tempTag = data.tempTag;
+    data["tempTag"] = "";
+    data["tag"] = [...this.state.data.tag, tempTag];
+    this.setState({ data });
+  };
+
+  onClearArray = () => {
+    console.log("reached here");
+    const data = { ...this.state.data };
+    data["tag"] = [];
+    this.setState({ data });
   };
 
   validate = () => {
@@ -36,9 +61,11 @@ class Form extends Component {
     this.doSubmit();
   };
 
+  handleTagChange = ({ currentTarget: input }) => {
+    console.log(input);
+  };
+
   handleChange = ({ currentTarget: input }) => {
-    // console.log(input);
-    // exit();
     const errors = { ...this.state.errors };
     const errorMessage = this.validateProperty(input);
     if (errorMessage) errors[input.name] = errorMessage;
@@ -70,7 +97,24 @@ class Form extends Component {
       />
     );
   }
-
+  renderTagInput(name, label, options) {
+    const { data, errors } = this.state;
+    return (
+      <TagInput
+        // type={type}
+        name={name}
+        value={data[name]}
+        label={label}
+        onChange={this.handleTagChange}
+        error={errors[name]}
+        options={options}
+        onClearArray={this.onClearArray}
+        onAddItem={this.onAddItem}
+        handleRemoveItem={this.handleRemoveItem}
+        validate={this.state.errors}
+      />
+    );
+  }
   renderDropdown(name, label, options) {
     const { data, errors } = this.state;
     return (

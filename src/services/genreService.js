@@ -15,7 +15,6 @@ export function getGenre(genreId) {
 
 export function saveGenre(g) {
   // Updaating a genre
-  console.log(g);
   if (g.id) {
     let genre = {
       name: g.genreName,

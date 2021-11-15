@@ -14,6 +14,11 @@ class MoviesTable extends Component {
         <Link to={`/movies/${movie._id}`}>{movie.title} </Link>
       ),
     },
+
+    {
+      path: "author",
+      label: "Author",
+    },
     {
       path: "genre.name",
       label: "Genre",
