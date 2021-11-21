@@ -11,36 +11,28 @@ class Form extends Component {
     errors: {},
   };
 
-  handleRemoveItem = (index) => {
-    console.log(index);
-    const data = { ...this.state.data };
-    const tags = [...this.state.data.tag];
-    data["tag"] = tags.filter((item, i) => i !== index);
-    this.setState({ data });
-  };
+  // onAddItem = ({ currentTarget: input }) => {
+  //   console.log(input);
+  //   const data = { ...this.state.data };
+  //   const tempTag = data.tempTag;
+  //   data["tempTag"] = "";
+  //   data["tag"] = [...this.state.data.tag, tempTag];
+  //   this.setState({ data });
+  // };
 
-  onAddItem = ({ currentTarget: input }) => {
-    console.log(input);
-    const data = { ...this.state.data };
-    const tempTag = data.tempTag;
-    data["tempTag"] = "";
-    data["tag"] = [...this.state.data.tag, tempTag];
-    this.setState({ data });
-  };
-
-  onClearArray = () => {
-    console.log("reached here");
-    const data = { ...this.state.data };
-    data["tag"] = [];
-    this.setState({ data });
-  };
+  // onClearArray = () => {
+  //   console.log("reached here");
+  //   const data = { ...this.state.data };
+  //   data["tag"] = [];
+  //   this.setState({ data });
+  // };
 
   validate = () => {
     const options = { abortEarly: false };
     const { error } = Joi.validate(this.state.data, this.schema, options);
     if (!error) return null;
+
     const errors = {};
-    console.log(errors);
     for (let item of error.details) errors[item.path[0]] = item.message;
     return errors;
   };
@@ -56,13 +48,10 @@ class Form extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const errors = this.validate();
+    console.log(errors);
     this.setState({ errors: errors || {} });
     if (errors) return;
     this.doSubmit();
-  };
-
-  handleTagChange = ({ currentTarget: input }) => {
-    console.log(input);
   };
 
   handleChange = ({ currentTarget: input }) => {
@@ -77,11 +66,7 @@ class Form extends Component {
   };
 
   renderButton(label) {
-    return (
-      <button disabled={this.validate()} className='btn btn-primary mt-2'>
-        {label}
-      </button>
-    );
+    return <button className='btn btn-primary mt-2'>{label}</button>;
   }
 
   renderInput(name, label, type = "text") {
