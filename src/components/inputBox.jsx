@@ -16,7 +16,7 @@ function InputBox({ bookImage, addImageToPost, removeImage }) {
           hidden
         />
       </div>
-      {bookImage && (
+      {/* {typeof bookImage !== "string" && (
         <div>
           <img
             height={150}
@@ -26,7 +26,27 @@ function InputBox({ bookImage, addImageToPost, removeImage }) {
           />
           <p onClick={() => removeImage()}>Remove</p>
         </div>
+      )} */}
+
+      {bookImage && (
+        <div onClick={() => filepickerRef.current.click()}>
+          <img
+            height={150}
+            width={150}
+            src={
+              typeof bookImage === "string"
+                ? `http://localhost:3900/${bookImage}`
+                : typeof (bookImage === "object")
+                ? URL.createObjectURL(bookImage)
+                : ""
+            }
+            alt=''
+          />
+          <p onClick={() => removeImage()}>Remove</p>
+        </div>
       )}
+      {/* src={URL.createObjectURL(bookImage)} */}
+
       {!bookImage && (
         <div onClick={() => filepickerRef.current.click()}>
           <img

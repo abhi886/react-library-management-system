@@ -142,17 +142,17 @@ class Movies extends Component {
                   {user && (
                     <AddButton
                       linkTo='/movies/new'
-                      name=' Movie'
+                      name='Book'
                       user={user}
                     ></AddButton>
                   )}
                 </div>
               </div>
-              <p>Showing {totalCount} movies in the database</p>
               <SearchBox
                 value={searchQuery}
                 onChange={this.handleSearch}
               ></SearchBox>
+              <p>Showing {totalCount} movies in the database</p>
               <MoviesTable
                 movies={movies}
                 sortColumn={sortColumn}

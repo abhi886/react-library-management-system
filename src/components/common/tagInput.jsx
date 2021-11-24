@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
 
-function TagInput({ value, addItem, removeItem }) {
+function TagInput({ value, addItem, removeItem, errorParent }) {
   const [label] = useState("Book Code");
   const [tagValue, SetTagValue] = useState("");
   const [errors, SetErrors] = useState("");
@@ -65,6 +65,7 @@ function TagInput({ value, addItem, removeItem }) {
         </button>
       </div>
       {errors && <div className='alert alert-danger'>{errors}</div>}
+      {errorParent && <div className='alert alert-danger'>{errorParent}</div>}
     </div>
   );
 }

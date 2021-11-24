@@ -7,6 +7,7 @@ import BookCode from "./common/tagInput";
 import CancelButton from "./common/cancelButton";
 import InputBox from "./inputBox";
 import { toast } from "react-toastify";
+import { min } from "lodash";
 
 class MovieForm extends Form {
   state = {
@@ -17,7 +18,7 @@ class MovieForm extends Form {
       dailyRentalRate: "",
       author: "",
       tag: [],
-      bookImage: null,
+      bookImage: "",
     },
     genres: [],
     errors: {},
@@ -49,10 +50,10 @@ class MovieForm extends Form {
     _id: Joi.string(),
     title: Joi.string().required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
-    numberInStock: Joi.string().required().label("No of Stock"),
-    dailyRentalRate: Joi.string().required().label("Rate"),
+    numberInStock: Joi.number().required().label("No of Stock"),
+    dailyRentalRate: Joi.number().required().label("Rate"),
     author: Joi.string().min(3).max(30).required().label("Author"),
-    tag: Joi.required().label("Book Code"),
+    tag: Joi.array().min(1).label("Book Code"),
     bookImage: Joi.label("Book Image"),
   };
 
@@ -65,32 +66,35 @@ class MovieForm extends Form {
       dailyRentalRate: movie.dailyRentalRate,
       author: movie.author,
       tag: movie.tag,
+      bookImage: movie.bookImage,
     };
   }
 
   doSubmit = async (e) => {
     const formData = new FormData();
+    if (this.state.data._id) {
+      formData.append("_id", this.state.data._id);
+    }
     formData.append("title", this.state.data.title);
     formData.append("genreId", this.state.data.genreId);
     formData.append("numberInStock", this.state.data.numberInStock);
     formData.append("dailyRentalRate", this.state.data.dailyRentalRate);
     formData.append("author", this.state.data.author);
-    // var arr = this.state.data.tag;
-    // for (var i = 0; i < arr.count; i++) {
-    //   formData.append("tag[]", arr[i]);
-    // }
-    formData.append("tag[]", this.state.data.tag);
-    if (this.state.data.bookImage) {
+    formData.append("tag", JSON.stringify(this.state.data.tag));
+    if (typeof this.state.data.bookImage !== "string") {
       formData.append("file", this.state.data.bookImage);
     }
 
+    // for (var value of formData.values()) {
+    //   console.log(value);
+    // }
     try {
       await saveMovie(formData);
       // Send a toast notification
-      toast.success("Book Has Been Added - Success");
+      toast.success("Success");
       this.props.history.push("/movies");
     } catch (error) {
-      toast.error(error);
+      console.log(error);
     }
     // INITIAL
     // await saveMovie(this.state.data);
@@ -135,6 +139,7 @@ class MovieForm extends Form {
             value={this.state.data.tag}
             addItem={this.handleAddItem}
             removeItem={this.handleRemoveItem}
+            errorParent={this.state.errors.tag}
           />
           {this.renderInput("author", "Author")}
           <InputBox

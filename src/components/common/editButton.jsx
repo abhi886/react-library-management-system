@@ -14,7 +14,7 @@ function EditGenre({ selectedItem, name, linkTo, user }) {
       {" "}
       {user && (
         <button
-          className='btn btn-warning btn-sm'
+          className='btn btn-warning btn-md'
           onClick={() => {
             handleClick(selectedItem, linkTo);
           }}
