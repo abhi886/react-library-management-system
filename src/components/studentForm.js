@@ -5,6 +5,7 @@ import { saveStudent } from "../services/studentService";
 import { useHistory } from "react-router-dom";
 import { getStudent } from "../services/studentService";
 import { getFaculties } from "../services/facultyService";
+import CancelButton from "./common/cancelButton";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
@@ -189,19 +190,16 @@ const StudentForm = (props) => {
 
             {faculty &&
               faculty.map((f) => <option value={f.name} label={f.name} />)}
-
-            {/* <option value='Plus2' label='Plus2' />
-            <option value='Bachelors' label='Bachelors' />
-            <option value='Masters' label='Masters' /> */}
           </select>
           {formik.touched.faculty && formik.errors.faculty ? (
             <div>{formik.errors.faculty}</div>
           ) : null}
         </div>
         <div>
-          <button className='btn btn-primary' type='submit'>
+          <button className='btn btn-primary mt-2' type='submit'>
             Submit
           </button>
+          <CancelButton linkTo={"/students"} />
         </div>
       </div>
     </form>
