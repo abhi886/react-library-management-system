@@ -14,15 +14,18 @@ export function getStudent(studentId) {
 }
 
 export function saveStudent(student) {
-  console.log("res", student);
-  // Updaating a student
-  if (student.id) {
-    const body = { ...student };
-    delete body.id;
-    return http.put(studentUrl(student.id), body);
-  }
+  // Updaating a movie
+  // for (var value of student.values()) {
+  //   console.log(value);
+  // }
+  // console.log(student);
+  if (student.get("_id")) {
+    const data = student.get("_id");
 
-  // Saving a new movie
+    student.delete("_id");
+    return http.put(studentUrl(data), student);
+  }
+  // // Saving a new student
   return http.post(apiEndpoint, student);
 }
 

@@ -5,13 +5,15 @@ import { saveStudent } from "../services/studentService";
 import { useHistory } from "react-router-dom";
 import { getStudent } from "../services/studentService";
 import { getFaculties } from "../services/facultyService";
+import { toast } from "react-toastify";
+
 import CancelButton from "./common/cancelButton";
+import InputBox from "./inputBox";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
 const StudentForm = (props) => {
   const history = useHistory();
-  // const [stu, SetStu] = useState({});
   const [studentId, SetStudentId] = useState("");
   const [studentFName, SetStudentFName] = useState("");
   const [studentLName, SetStudentLName] = useState("");
@@ -19,6 +21,7 @@ const StudentForm = (props) => {
   const [studentFaculty, SetStudentFaculty] = useState("");
   const [id, SetId] = useState("");
   const [faculty, SetFaculty] = useState("");
+  const [studentImage, SetStudentImage] = useState("");
 
   async function populateStudent() {
     try {
@@ -32,7 +35,7 @@ const StudentForm = (props) => {
       SetStudentEmail(student.email);
       SetStudentFaculty(student.faculty);
       SetId(student._id);
-
+      SetStudentImage(student.studentImage);
       // SetStu(student);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
@@ -81,15 +84,24 @@ const StudentForm = (props) => {
     // alert(JSON.stringify(values, null, 2));
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        await saveStudent(values);
+        const formData = new FormData();
+        if (values.id) {
+          formData.append("_id", values.id);
+        }
+        formData.append("studentId", values.studentId);
+        formData.append("firstName", values.firstName);
+        formData.append("lastName", values.lastName);
+        formData.append("email", values.email);
+        formData.append("faculty", values.faculty);
+        if (typeof studentImage !== "string") {
+          formData.append("file", studentImage);
+        }
+        await saveStudent(formData);
+        toast.success("Success");
         history.push("/students");
       } catch (ex) {
         if (ex.response && ex.response.status === 400) {
-          // setFieldError(
-          //   "genre",
-          //   "Genre already exist. Please Select an unique genre."
-          // );
-          // setError(ex.response.data);
+          toast.success("Failure.");
           console.log(ex.response);
         }
       } finally {
@@ -97,6 +109,14 @@ const StudentForm = (props) => {
       }
     },
   });
+
+  const handleAddImage = (e) => {
+    SetStudentImage(e.target.files[0]);
+  };
+
+  const handleRemoveImage = () => {
+    SetStudentImage("");
+  };
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className='studentForm'>
@@ -189,12 +209,20 @@ const StudentForm = (props) => {
             <option value='' label='Select a Faculty' />
 
             {faculty &&
-              faculty.map((f) => <option value={f.name} label={f.name} />)}
+              faculty.map((f, i) => (
+                <option key={i} value={f.name} label={f.name} />
+              ))}
           </select>
           {formik.touched.faculty && formik.errors.faculty ? (
             <div>{formik.errors.faculty}</div>
           ) : null}
         </div>
+
+        <InputBox
+          Image={studentImage}
+          addImageToPost={handleAddImage}
+          removeImage={handleRemoveImage}
+        />
         <div>
           <button className='btn btn-primary mt-2' type='submit'>
             Submit

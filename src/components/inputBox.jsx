@@ -1,9 +1,7 @@
 import React, { useRef } from "react";
 
-function InputBox({ bookImage, addImageToPost, removeImage }) {
-  //   const [imageToPost, setImageToPost] = useState(null);
+function InputBox({ Image, addImageToPost, removeImage }) {
   const filepickerRef = useRef(null);
-
   return (
     <div>
       <div onClick={() => filepickerRef.current.click()}>
@@ -16,38 +14,28 @@ function InputBox({ bookImage, addImageToPost, removeImage }) {
           hidden
         />
       </div>
-      {/* {typeof bookImage !== "string" && (
-        <div>
-          <img
-            height={150}
-            width={150}
-            src={URL.createObjectURL(bookImage)}
-            alt=''
-          />
+      {Image && (
+        <>
+          <div onClick={() => filepickerRef.current.click()}>
+            <img
+              height={150}
+              width={150}
+              src={
+                typeof Image === "string"
+                  ? `http://localhost:3900/${Image}`
+                  : typeof (Image === "object")
+                  ? URL.createObjectURL(Image)
+                  : ""
+              }
+              alt='Imag'
+            />
+          </div>
           <p onClick={() => removeImage()}>Remove</p>
-        </div>
-      )} */}
-
-      {bookImage && (
-        <div onClick={() => filepickerRef.current.click()}>
-          <img
-            height={150}
-            width={150}
-            src={
-              typeof bookImage === "string"
-                ? `http://localhost:3900/${bookImage}`
-                : typeof (bookImage === "object")
-                ? URL.createObjectURL(bookImage)
-                : ""
-            }
-            alt=''
-          />
-          <p onClick={() => removeImage()}>Remove</p>
-        </div>
+        </>
       )}
       {/* src={URL.createObjectURL(bookImage)} */}
 
-      {!bookImage && (
+      {!Image && (
         <div onClick={() => filepickerRef.current.click()}>
           <img
             height={150}

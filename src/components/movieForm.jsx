@@ -84,10 +84,6 @@ class MovieForm extends Form {
     if (typeof this.state.data.bookImage !== "string") {
       formData.append("file", this.state.data.bookImage);
     }
-
-    // for (var value of formData.values()) {
-    //   console.log(value);
-    // }
     try {
       await saveMovie(formData);
       // Send a toast notification
@@ -143,7 +139,7 @@ class MovieForm extends Form {
           />
           {this.renderInput("author", "Author")}
           <InputBox
-            bookImage={this.state.data.bookImage}
+            Image={this.state.data.bookImage}
             addImageToPost={this.handleAddImage}
             removeImage={this.handleRemoveImage}
           />
