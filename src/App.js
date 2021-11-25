@@ -24,6 +24,7 @@ import ProtectedRoute from "./components/common/protectedRoute";
 // import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Hires from "./components/hires";
 
 class App extends Component {
   // state = {
@@ -123,6 +124,8 @@ class App extends Component {
           <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
 
           <Route path='/rentals/:id' component={Rentals}></Route>
+          <Route path='/hires/:id' component={Hires}></Route>
+
           <Route path='/not-found' component={NotFound}></Route>
           <Redirect from='/' exact to='/movies' />
         </Switch>

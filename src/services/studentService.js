@@ -12,13 +12,15 @@ export function getStudents() {
 export function getStudent(studentId) {
   return http.get(studentUrl(studentId));
 }
-
-export function saveStudent(student) {
-  // Updaating a movie
-  // for (var value of student.values()) {
+export function getStudentFromId(student) {
+  // for (var value of studentId.values()) {
   //   console.log(value);
   // }
-  // console.log(student);
+  return http.post(studentUrl(`getInfo/${student.get("studentId")}`));
+}
+
+export function saveStudent(student) {
+  // Updating a Movie
   if (student.get("_id")) {
     const data = student.get("_id");
 

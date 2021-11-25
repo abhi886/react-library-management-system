@@ -40,7 +40,7 @@ class MoviesTable extends Component {
     {
       key: "hire",
       label: "Hire",
-      content: (movie) => <Link to={`/rentals/${movie._id}`}>Hire Book</Link>,
+      content: (movie) => <Link to={`/hires/${movie._id}`}>Hire Book</Link>,
     },
   ];
 
