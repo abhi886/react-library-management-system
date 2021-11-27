@@ -122,8 +122,9 @@ class App extends Component {
 
           <ProtectedRoute path='/genres/:id' component={GenresForm} />
           <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
+          <Route path='/rentals' component={Rentals}></Route>
 
-          <Route path='/rentals/:id' component={Rentals}></Route>
+          {/* <Route path='/rentals/:id' component={Rentals}></Route> */}
           <Route path='/hires/:id' component={Hires}></Route>
 
           <Route path='/not-found' component={NotFound}></Route>

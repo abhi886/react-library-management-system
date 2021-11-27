@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { toast } from "react-toastify";
-
-import { useHistory } from "react-router-dom";
 import { getMovie } from "../services/movieService";
 import { getStudentFromId } from "../services/studentService";
+import { hireBook } from "../services/rentalService";
+
 import CancelButton from "./common/cancelButton";
 
 function Hires(props) {
@@ -26,6 +26,7 @@ function Hires(props) {
   const [sid, SetSid] = useState("");
   const [faculty, SetFaculty] = useState("");
   const [studentImage, SetStudentImage] = useState("");
+  const [hireBookCode, SetHireBookCode] = useState("");
 
   async function populateMovie() {
     try {
@@ -82,47 +83,79 @@ function Hires(props) {
       }
     },
   });
-  const handleHire = (sid, mId) => {
-    console.log("Result", sid, mId);
+  const handleHire = async (sid, mId) => {
+    try {
+      if (hireBookCode === "") {
+        toast.error("Select a Book Code");
+        return;
+      }
+      await hireBook(sid, mId);
+      toast.success("Success.");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBookCodeChange = (e) => {
+    SetHireBookCode(e.target.value);
   };
 
   return (
-    <div>
-      <div className='container'>
-        <div className='row'>
-          <div className='col-md-4'>
-            {bookImage && (
-              <img
-                src={`http://localhost:3900/${bookImage}`}
-                height={150}
-                width={150}
-                alt=''
-              />
-            )}
-          </div>
-          <div className='col-md-6'>
-            <p>Title: {title}</p>
-            <p>Genre: {genre.name}</p>
-            <p>No. of Stock: {numberOfStock}</p>
-            <p>Author: {author}</p>
-
-            <ul>
-              {" "}
-              Book Codes
-              {tags && tags.map((t, i) => <li key={i}>{t}</li>)}
-            </ul>
-
-            <p></p>
-          </div>
-          <div className='col-md-2'>
-            {" "}
-            <CancelButton linkTo='/movies' />
-          </div>
-        </div>
-        <div className=''>
-          <h2>Student Information</h2>
+    <div className='container'>
+      <div className='row'>
+        <h4>Book Information</h4>
+        <div className='col-md-6'>
           <div className='row'>
             <div className='col-md-4'>
+              {" "}
+              {bookImage && (
+                <img
+                  src={`http://localhost:3900/${bookImage}`}
+                  height={150}
+                  width={150}
+                  alt=''
+                />
+              )}
+              {!bookImage && (
+                <img
+                  src='https://i.picsum.photos/id/1032/150/150.jpg?hmac=DIbf0xC_HJchjLmN2loyEXyeaXfce8QqT9nqc4vF4PU'
+                  height={150}
+                  width={150}
+                  alt=''
+                />
+              )}
+            </div>
+            <div className='col-md-8'>
+              {" "}
+              <p>Title: {title}</p>
+              <p>Genre: {genre.name}</p>
+              <p>No. of Stock: {numberOfStock}</p>
+              <p>Author: {author}</p>
+              <form action=''>
+                <div className='form-group'>
+                  <label> Book Codes</label>
+                  <select
+                    className='form-control'
+                    onChange={(e) => handleBookCodeChange(e)}
+                  >
+                    <option value=''>Choose a Book Code</option>
+                    {tags &&
+                      tags.map((t, i) => (
+                        <option value={t} key={i}>
+                          {t}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </form>{" "}
+            </div>
+          </div>
+        </div>
+        <div className='col-md-6'>
+          <h4>Student Information</h4>
+          <div className='row'>
+            <div className='col-md-6'>
+              {" "}
               <form onSubmit={formik.handleSubmit}>
                 <div className='form-group'>
                   <label htmlFor='studentId'>Student Id</label>
@@ -142,42 +175,52 @@ function Hires(props) {
                 </div>
                 <div>
                   <button className='btn btn-primary mt-2' type='submit'>
-                    Submit
+                    Search
                   </button>
                 </div>
               </form>
             </div>
-            <div className='col-md-8'>
+            <div className='col-md-6'>
+              {" "}
               {studentFName && (
                 <>
                   <div className='row'>
-                    <div className='col-md-4'>
+                    <div className='col-md-12'>
                       {studentImage && (
                         <img
                           src={`http://localhost:3900/${studentImage}`}
-                          height={200}
-                          width={200}
+                          height={150}
+                          width={150}
                           alt=''
                         />
                       )}
                     </div>
-                    <div className='col-md-6'>
-                      <p>FirstName: {studentFName}</p>
-                      <p>last Name: {studentLName}</p>
-                      <p>Email: {studentEmail}</p>
-                      <p>Faculty: {studentFaculty}</p>
-                    </div>
-                    <div className='col-md-2'>
-                      <button onClick={() => handleHire(sid, mId)}>
-                        Hire Book
-                      </button>
-                    </div>
+                    <p>FirstName: {studentFName}</p>
+                    <p>last Name: {studentLName}</p>
+                    <p>Email: {studentEmail}</p>
+                    <p>Faculty: {studentFaculty}</p>
                   </div>
                 </>
               )}
             </div>
           </div>
         </div>
+      </div>
+
+      <div className='row'>
+        <div className='col-md-12'>
+          {" "}
+          <CancelButton linkTo='/movies' />
+          {studentFName && (
+            <button
+              className='btn btn-primary mt-2'
+              onClick={() => handleHire(sid, mId)}
+            >
+              Hire Book
+            </button>
+          )}
+        </div>
+        <div className='col-md-8'></div>
       </div>
     </div>
   );
