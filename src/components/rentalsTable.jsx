@@ -33,7 +33,13 @@ function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
       path: "status",
       label: "Delete",
       content: (rental) =>
-        rental && rental.status === true ? <p>On Hire</p> : <p>Over Due</p>,
+        rental && rental.status === 0 ? (
+          <p>On Hire</p>
+        ) : rental.status === 1 ? (
+          <p>Over Due</p>
+        ) : (
+          <p>Send to History</p>
+        ),
     },
     {
       key: "delete",
@@ -42,7 +48,9 @@ function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
           onClick={() => {
             history.push(`/rentals/return/${rental._id}`);
           }}
-          className='btn btn-primary btn-sm'
+          className={`btn btn-primary btn-sm ${
+            rental.status === 2 && "disabled"
+          }`}
         >
           Return Book
         </button>
