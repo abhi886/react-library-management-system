@@ -5,6 +5,8 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Movies from "./components/movies";
 import Rentals from "./components/rentals";
+import ReturnRentals from "./components/returnRentals";
+
 import Students from "./components/students";
 import NotFound from "./components/notFound";
 import NavBar from "./components/navbar";
@@ -27,15 +29,6 @@ import "./App.css";
 import Hires from "./components/hires";
 
 class App extends Component {
-  // state = {
-  //   counters: [
-  //     { id: 1, value: 4 },
-  //     { id: 2, value: 0 },
-  //     { id: 3, value: 0 },
-  //     { id: 4, value: 0 },
-  //   ],
-  // };
-
   state = {};
 
   constructor() {
@@ -93,17 +86,6 @@ class App extends Component {
     return (
       <>
         <ToastContainer />
-        {/* <NavBar totalCounters={this.state.counters.filter(c => c.value > 0).length} />
-    <main className="container">
-      <Counters 
-      counters={this.state.counters}
-      onReset={this.handleReset} 
-      onIncrement={this.handleIncrement}
-      onSet1={this.handleSet1}
-      onDelete={this.handleDelete}
-      onDecrement={this.handleDecrement}
-       />
-    </main> */}
         <NavBar user={this.state.user} />
         <Switch>
           <Route path='/register' component={RegisterForm} />
@@ -119,18 +101,15 @@ class App extends Component {
             path='/students'
             render={(props) => <Students {...props} user={this.state.user} />}
           ></Route>
-
           <ProtectedRoute path='/genres/:id' component={GenresForm} />
           <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
-          <Route path='/rentals' component={Rentals}></Route>
-
+          <Route path='/rentals' exact component={Rentals}></Route>
+          <Route path='/rentals/return/:id' component={ReturnRentals} />
           {/* <Route path='/rentals/:id' component={Rentals}></Route> */}
           <Route path='/hires/:id' component={Hires}></Route>
-
           <Route path='/not-found' component={NotFound}></Route>
           <Redirect from='/' exact to='/movies' />
         </Switch>
-        {/* <Movies /> */}
       </>
     );
   }

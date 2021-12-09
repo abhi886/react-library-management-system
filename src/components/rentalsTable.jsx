@@ -1,6 +1,9 @@
 import Table from "./common/table";
+import { useHistory } from "react-router-dom";
 
 function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
+  const history = useHistory();
+
   const columns = [
     {
       path: "bookTitle",
@@ -28,7 +31,7 @@ function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
     },
     {
       path: "status",
-      label: "Status",
+      label: "Delete",
       content: (rental) =>
         rental && rental.status === true ? <p>On Hire</p> : <p>Over Due</p>,
     },
@@ -37,7 +40,7 @@ function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
       content: (rental) => (
         <button
           onClick={() => {
-            console.log(rental);
+            history.push(`/rentals/return/${rental._id}`);
           }}
           className='btn btn-primary btn-sm'
         >

@@ -40,6 +40,9 @@ export function hireBook(studentId, movieId, bookCode) {
   return http.post(apiEndpoint, formData);
 }
 
+export function returnRentals(rentalId) {
+  return http.post(rentalUrl(`return/${rentalId}`));
+}
 // export function saveRental(movie) {
 //   // Updaating a movie
 //   if (movie.get("_id")) {
