@@ -34,6 +34,7 @@ class MovieForm extends Form {
       const movieId = this.props.match.params.id;
       if (movieId === "new") return;
       const { data: movie } = await getMovie(movieId);
+      console.log(movie);
       this.setState({ data: this.mapToViewMode(movie) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
@@ -58,6 +59,11 @@ class MovieForm extends Form {
   };
 
   mapToViewMode(movie) {
+    console.log(movie);
+
+    let tempTag = movie.tag;
+    const movieTags = tempTag.map((t) => t.bookCode);
+
     return {
       _id: movie._id,
       title: movie.title,
@@ -65,7 +71,7 @@ class MovieForm extends Form {
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
       author: movie.author,
-      tag: movie.tag,
+      tag: movieTags,
       bookImage: movie.bookImage,
     };
   }

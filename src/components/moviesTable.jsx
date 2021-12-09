@@ -24,8 +24,11 @@ class MoviesTable extends Component {
       label: "Genre",
     },
     {
-      path: "numberInStock",
+      // path: "tag.length",
       label: "Stock",
+      content: (movie) => (
+        <p>{movie.tag.filter((t) => t.status === "0").length}</p>
+      ),
     },
     {
       path: "dailyRentalRate",

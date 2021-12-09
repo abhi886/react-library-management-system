@@ -1,53 +1,62 @@
 import Table from "./common/table";
-import { Link } from "react-router-dom";
 
-function RentalssTable({ students, sortColumn, onSort, onDelete }) {
-  const data = ["abhishekh", "maharjan"];
+function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
   const columns = [
     {
-      path: "firstName",
-      label: "First Name",
-      //   content: (student) => (
-      // <Link to={`/students/${student._id}`}>{student.firstName} </Link>
-      //   ),
+      path: "bookTitle",
+      label: "Book Title",
     },
     {
-      path: "lastName",
-      label: "Last Name",
+      path: "bookCode",
+      label: "Book Code",
     },
-    // {
-    //   path: "email",
-    //   label: "Email Address",
-    // },
-    // {
-    //   path: "faculty",
-    //   label: "Faculty",
-    // },
-    // {
-    //   key: "delete",
-    //   content: (student) => (
-    //     <button
-    //       onClick={() => {
-    //         onDelete(student);
-    //       }}
-    //       className='btn btn-danger btn-sm'
-    //     >
-    //       Delete
-    //     </button>
-    //   ),
-    // },
+    {
+      path: "author",
+      label: "Book Author",
+    },
+    {
+      path: "studentName",
+      label: "Student Name",
+    },
+    {
+      path: "studentId",
+      label: "Student Id",
+    },
+    {
+      path: "studentFaculty",
+      label: "Student Faculty",
+    },
+    {
+      path: "status",
+      label: "Status",
+      content: (rental) =>
+        rental && rental.status === true ? <p>On Hire</p> : <p>Over Due</p>,
+    },
+    {
+      key: "delete",
+      content: (rental) => (
+        <button
+          onClick={() => {
+            console.log(rental);
+          }}
+          className='btn btn-primary btn-sm'
+        >
+          Return Book
+        </button>
+      ),
+    },
   ];
 
   return (
     <div>
       <Table
         columns={columns}
-        data={data}
+        data={rentals}
         sortColumn={sortColumn}
-        // onSort={onSort}
+        onSort={onSort}
       />
     </div>
   );
 }
 
-export default RentalssTable;
+export default RentalsTable;

@@ -5,20 +5,39 @@ const apiEndpoint = "/rentals";
 function rentalUrl(id) {
   return `${apiEndpoint}/${id}`;
 }
-// export function getRentals() {
-//   return http.get(apiEndpoint);
-// }
+export function getRentals() {
+  return http.get(apiEndpoint);
+}
 
-// export function getRental(movieId) {
-//   return http.get(rentalUrl(movieId));
-// }
+export async function getReformattedRentals() {
+  try {
+    const { data: info } = await http.get(apiEndpoint);
+    let reformattedArray = info.map((obj) => {
+      let rObj = {};
+      rObj._id = obj._id;
+      rObj.bookTitle = obj.movie.title;
+      rObj.bookCode = obj.movie.bookCode;
+      rObj.author = obj.movie.author;
+      rObj.studentName = obj.student.firstName + " " + obj.student.lastName;
+      rObj.studentId = obj.student.stuId;
+      rObj.studentFaculty = obj.student.faculty;
+      rObj.status = obj.status;
+      return rObj;
+    });
+    return reformattedArray;
+  } catch (ex) {}
+}
 
-export function hireBook(studentId, movieId) {
+export function getRental(movieId) {
+  return http.get(rentalUrl(movieId));
+}
+
+export function hireBook(studentId, movieId, bookCode) {
   const formData = new FormData();
   formData.append("studentId", studentId);
   formData.append("movieId", movieId);
+  formData.append("bookCode", bookCode);
   return http.post(apiEndpoint, formData);
-  // console.log("reached Here");
 }
 
 // export function saveRental(movie) {
