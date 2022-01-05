@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 import RentalsTable from "./rentalsTable";
 import SearchBox from "./searchBox";
 import { paginate } from "../utils/paginate";
@@ -17,17 +19,29 @@ const Rentals = (props) => {
 
   const [rental, SetRental] = useState([]);
   const [searchQuery, SetSearchQuery] = useState("");
-  const [pageSize] = useState(10);
+  const [pageSize] = useState(5);
   const [currentPage, SetCurrentPage] = useState(1);
   const [itemsCount, SetItemsCount] = useState(0);
+  const [viewHistory, SetViewHistory] = useState(false);
 
   useEffect(() => {
     getPageData();
-  }, [searchQuery, sortColumn, pageSize, currentPage]);
+  }, [searchQuery, sortColumn, pageSize, currentPage, viewHistory]);
 
   const getPageData = async () => {
     const allRentals = await getReformattedRentals();
-    let filtered = allRentals;
+    // if (viewHistory === false) {
+    //   var filtered = allRentals.filter((r) => r.status !== 2);
+    // } else(viewHistory === false) {
+    //   filtered = allRentals;
+    // }
+    let filtered =
+      viewHistory === false
+        ? allRentals.filter((r) => r.status !== 2)
+        : viewHistory === false
+        ? allRentals
+        : allRentals;
+    console.log(filtered);
     if (searchQuery)
       filtered = allRentals.filter((m) =>
         m.bookTitle.toLowerCase().startsWith(searchQuery.toLowerCase())
@@ -49,6 +63,11 @@ const Rentals = (props) => {
   const handlePageChange = (page) => {
     SetCurrentPage(page);
   };
+
+  const handleViewHistory = () => {
+    SetViewHistory(!viewHistory);
+    console.log(viewHistory);
+  };
   return (
     <div className='container'>
       <p>Showing {itemsCount} results in the database</p>
@@ -58,6 +77,8 @@ const Rentals = (props) => {
         sortColumn={sortColumn}
         rentals={rental}
         onSort={handleSort}
+        viewHistory={viewHistory}
+        onhandleViewHistory={handleViewHistory}
       />
       <Pagination
         itemsCount={itemsCount}

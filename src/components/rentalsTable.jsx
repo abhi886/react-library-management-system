@@ -1,7 +1,14 @@
 import Table from "./common/table";
 import { useHistory } from "react-router-dom";
 
-function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
+function RentalsTable({
+  rentals,
+  sortColumn,
+  onSort,
+  onDelete,
+  viewHistory,
+  onhandleViewHistory,
+}) {
   const history = useHistory();
 
   const columns = [
@@ -66,6 +73,14 @@ function RentalsTable({ rentals, sortColumn, onSort, onDelete }) {
         sortColumn={sortColumn}
         onSort={onSort}
       />
+
+      <button
+        style={{ float: "right" }}
+        onClick={() => onhandleViewHistory()}
+        className='btn'
+      >
+        {viewHistory ? "Hide History" : "View History"}
+      </button>
     </div>
   );
 }
