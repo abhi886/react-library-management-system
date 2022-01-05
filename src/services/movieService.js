@@ -15,13 +15,13 @@ export function getMovie(movieId) {
 
 export function saveMovie(movie) {
   // Updaating a movie
-  if (movie._id) {
-    const body = { ...movie };
-    delete body._id;
-    return http.put(movieUrl(movie._id), body);
-  }
+  if (movie.get("_id")) {
+    const data = movie.get("_id");
 
-  // Saving a new movie
+    movie.delete("_id");
+    return http.put(movieUrl(data), movie);
+  }
+  // // Saving a new movie
   return http.post(apiEndpoint, movie);
 }
 

@@ -102,7 +102,6 @@ class Movies extends Component {
     const { user } = this.props;
     const { length: count } = this.state.movies;
     const { pageSize, currentPage, sortColumn, searchQuery } = this.state;
-
     if (count === 0) return <p>No movies in the database.</p>;
 
     const { totalCount, data: movies } = this.getPagedData();
@@ -111,7 +110,7 @@ class Movies extends Component {
       <>
         <div className='container'>
           <div className='row mt-4'>
-            <div className=' col-md-2 col-sm-8'>
+            <div className=' col-md-2 col-sm-12'>
               <div className='row'>
                 <div className='col-md-6'>
                   <AddButton
@@ -136,23 +135,23 @@ class Movies extends Component {
                 user={user}
               ></ListGroup>
             </div>
-            <div className='col-md-10 col-sm-8'>
+            <div className='col-md-10 col-sm-12'>
               <div className='row'>
                 <div className='col-md-12'>
                   {user && (
                     <AddButton
                       linkTo='/movies/new'
-                      name=' Movie'
+                      name='Book'
                       user={user}
                     ></AddButton>
                   )}
                 </div>
               </div>
-              <p>Showing {totalCount} movies in the database</p>
               <SearchBox
                 value={searchQuery}
                 onChange={this.handleSearch}
               ></SearchBox>
+              <p>Showing {totalCount} movies in the database</p>
               <MoviesTable
                 movies={movies}
                 sortColumn={sortColumn}

@@ -6,7 +6,7 @@ function AddButton({ linkTo, name, user }) {
     <>
       {" "}
       {user && (
-        <Link to={linkTo} className='btn btn-primary btn-sm'>
+        <Link to={linkTo} className='btn btn-primary btn-md'>
           Add {name}
         </Link>
       )}

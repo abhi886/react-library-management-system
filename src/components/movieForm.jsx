@@ -3,6 +3,11 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import { getGenres } from "../services/genreService";
 import { getMovie, saveMovie } from "../services/movieService";
+import BookCode from "./common/tagInput";
+import CancelButton from "./common/cancelButton";
+import InputBox from "./inputBox";
+import { toast } from "react-toastify";
+import { min } from "lodash";
 
 class MovieForm extends Form {
   state = {
@@ -11,6 +16,9 @@ class MovieForm extends Form {
       genreId: "",
       numberInStock: "",
       dailyRentalRate: "",
+      author: "",
+      tag: [],
+      bookImage: "",
     },
     genres: [],
     errors: {},
@@ -26,6 +34,7 @@ class MovieForm extends Form {
       const movieId = this.props.match.params.id;
       if (movieId === "new") return;
       const { data: movie } = await getMovie(movieId);
+      console.log(movie);
       this.setState({ data: this.mapToViewMode(movie) });
     } catch (ex) {
       if (ex.response && ex.response.status === 404)
@@ -42,52 +51,107 @@ class MovieForm extends Form {
     _id: Joi.string(),
     title: Joi.string().required().label("Title"),
     genreId: Joi.string().required().label("Genre"),
-    numberInStock: Joi.string().required().label("No of Stock"),
-    dailyRentalRate: Joi.string().required().label("Rate"),
+    numberInStock: Joi.number().required().label("No of Stock"),
+    dailyRentalRate: Joi.number().required().label("Rate"),
+    author: Joi.string().min(3).max(30).required().label("Author"),
+    tag: Joi.array().min(1).label("Book Code"),
+    bookImage: Joi.label("Book Image"),
   };
 
   mapToViewMode(movie) {
+    console.log(movie);
+
+    let tempTag = movie.tag;
+    const movieTags = tempTag.map((t) => t.bookCode);
+
     return {
       _id: movie._id,
       title: movie.title,
       genreId: movie.genre._id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
+      author: movie.author,
+      tag: movieTags,
+      bookImage: movie.bookImage,
     };
   }
 
-  validate = () => {
-    const options = { abortEarly: false };
-    const { error } = Joi.validate(this.state.data, this.schema, options);
-    if (!error) return null;
-    const errors = {};
-    for (let item of error.details) errors[item.path[0]] = item.message;
-    return errors;
+  doSubmit = async (e) => {
+    const formData = new FormData();
+    if (this.state.data._id) {
+      formData.append("_id", this.state.data._id);
+    }
+    formData.append("title", this.state.data.title);
+    formData.append("genreId", this.state.data.genreId);
+    formData.append("numberInStock", this.state.data.numberInStock);
+    formData.append("dailyRentalRate", this.state.data.dailyRentalRate);
+    formData.append("author", this.state.data.author);
+    formData.append("tag", JSON.stringify(this.state.data.tag));
+    if (typeof this.state.data.bookImage !== "string") {
+      formData.append("file", this.state.data.bookImage);
+    }
+    try {
+      await saveMovie(formData);
+      // Send a toast notification
+      toast.success("Success");
+      this.props.history.push("/movies");
+    } catch (error) {
+      console.log(error);
+    }
+    // INITIAL
+    // await saveMovie(this.state.data);
+    // this.props.history.push("/movies");
   };
 
-  validateProperty = ({ name, value }) => {
-    const obj = { [name]: value };
-    const schema = { [name]: this.schema[name] };
-    Joi.validate(obj, schema);
-    const { error } = Joi.validate(obj, schema);
-    return error ? error.details[0].message : null;
+  handleAddItem = (tagValue) => {
+    const data = { ...this.state.data };
+    data["tag"] = [...this.state.data.tag, tagValue];
+    console.log(data);
+    this.setState({ data });
   };
 
-  doSubmit = async () => {
-    await saveMovie(this.state.data);
-    this.props.history.push("/movies");
+  handleRemoveItem = (index) => {
+    const data = { ...this.state.data };
+    const tags = [...this.state.data.tag];
+    data["tag"] = tags.filter((item, i) => i !== index);
+    this.setState({ data });
+  };
+
+  handleAddImage = (e) => {
+    const data = { ...this.state.data };
+    data["bookImage"] = e.target.files[0];
+    this.setState({ data });
+  };
+  handleRemoveImage = () => {
+    const data = { ...this.state.data };
+    data["bookImage"] = null;
+    this.setState({ data });
   };
 
   render() {
     return (
       <div className='container'>
         <h1>New Movie</h1>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit} encType='multipart/form-data'>
           {this.renderInput("title", "Title")}
           {this.renderDropdown("genreId", "Genre", this.state.genres)}
           {this.renderInput("numberInStock", "Number In Stock")}
           {this.renderInput("dailyRentalRate", "Rate")}
+          <BookCode
+            value={this.state.data.tag}
+            addItem={this.handleAddItem}
+            removeItem={this.handleRemoveItem}
+            errorParent={this.state.errors.tag}
+          />
+          {this.renderInput("author", "Author")}
+          <InputBox
+            Image={this.state.data.bookImage}
+            addImageToPost={this.handleAddImage}
+            removeImage={this.handleRemoveImage}
+          />
+
           {this.renderButton("Register")}
+          <CancelButton linkTo={"/movies"} />
         </form>
       </div>
     );

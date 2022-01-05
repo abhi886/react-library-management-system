@@ -14,13 +14,21 @@ class MoviesTable extends Component {
         <Link to={`/movies/${movie._id}`}>{movie.title} </Link>
       ),
     },
+
+    {
+      path: "author",
+      label: "Author",
+    },
     {
       path: "genre.name",
       label: "Genre",
     },
     {
-      path: "numberInStock",
+      // path: "tag.length",
       label: "Stock",
+      content: (movie) => (
+        <p>{movie.tag.filter((t) => t.status === "0").length}</p>
+      ),
     },
     {
       path: "dailyRentalRate",
@@ -35,7 +43,7 @@ class MoviesTable extends Component {
     {
       key: "hire",
       label: "Hire",
-      content: (movie) => <Link to={`/rentals/${movie._id}`}>Hire Book</Link>,
+      content: (movie) => <Link to={`/hires/${movie._id}`}>Hire Book</Link>,
     },
   ];
 

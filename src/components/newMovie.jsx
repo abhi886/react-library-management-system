@@ -11,6 +11,8 @@ class NewMovie extends Form {
       genreId: "",
       numberInStock: "",
       dailyRentalRate: "",
+      bookCode: "",
+      author: "",
     },
     genres: [],
     errors: {},
@@ -33,6 +35,13 @@ class NewMovie extends Form {
     genreId: Joi.string().required().label("Genre"),
     numberInStock: Joi.string().required().label("No of Stock"),
     dailyRentalRate: Joi.string().required().label("Rate"),
+    bookCode: Joi.string()
+      .alphanum()
+      .min(3)
+      .max(30)
+      .required()
+      .label("BookCode"),
+    author: Joi.string().alphanum().min(3).max(30).required().label("Author"),
   };
 
   mapToViewMode(movie) {
@@ -42,6 +51,8 @@ class NewMovie extends Form {
       genreId: movie.genre._id,
       numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
+      bookCode: movie.bookCode,
+      author: movie.author,
     };
   }
 
@@ -76,6 +87,8 @@ class NewMovie extends Form {
           {this.renderDropdown("genre", "Genre", this.state.genres)}
           {this.renderInput("numberInStock", "Number In Stock")}
           {this.renderInput("dailyRentalRate", "Rate")}
+          {this.renderInput("bookCode", "Book Code")}
+          {this.renderInput("author", "Author")}
           {this.renderButton("Register")}
         </form>
       </div>

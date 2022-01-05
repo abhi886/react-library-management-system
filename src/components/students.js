@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
 import SearchBox from "./searchBox";
 import StudentsTable from "./studentsTable";
 import { getStudents, deleteStudent } from "../services/studentService";

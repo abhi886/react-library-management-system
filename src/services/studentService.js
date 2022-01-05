@@ -12,17 +12,22 @@ export function getStudents() {
 export function getStudent(studentId) {
   return http.get(studentUrl(studentId));
 }
+export function getStudentFromId(student) {
+  // for (var value of studentId.values()) {
+  //   console.log(value);
+  // }
+  return http.post(studentUrl(`getInfo/${student.get("studentId")}`));
+}
 
 export function saveStudent(student) {
-  console.log("res", student);
-  // Updaating a student
-  if (student.id) {
-    const body = { ...student };
-    delete body.id;
-    return http.put(studentUrl(student.id), body);
-  }
+  // Updating a Movie
+  if (student.get("_id")) {
+    const data = student.get("_id");
 
-  // Saving a new movie
+    student.delete("_id");
+    return http.put(studentUrl(data), student);
+  }
+  // // Saving a new student
   return http.post(apiEndpoint, student);
 }
 
