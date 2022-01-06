@@ -50,8 +50,16 @@ const GenreForm = (props) => {
     }),
     onSubmit: async (values, { setSubmitting, setFieldError }) => {
       try {
-        await saveGenre(values);
-        history.push("/movies");
+        if (
+          window.confirm(
+            "Editing genre will change the genres of all related books. Are you sure ?"
+          )
+        ) {
+          await saveGenre(values);
+          history.push("/movies");
+        } else {
+          return;
+        }
       } catch (ex) {
         if (ex.response && ex.response.status === 400) {
           setFieldError(
