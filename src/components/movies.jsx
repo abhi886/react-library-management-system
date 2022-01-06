@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import MoviesTable from "./moviesTable";
 import { getMovies, deleteMovie } from "../services/movieService";
@@ -21,7 +20,7 @@ class Movies extends Component {
     genres: [],
     searchQuery: "",
     selectedGenre: { _id: "", name: "All Genres" },
-    sortColumn: { path: "title", order: "asc" },
+    sortColumn: { path: "", order: "" },
   };
 
   async componentDidMount() {
