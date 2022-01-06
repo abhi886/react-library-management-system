@@ -66,7 +66,7 @@ const GenreForm = (props) => {
     <div className='container'>
       <div>
         {console.log(genre)}
-        <p>{genre ? "Edit" : "Add"} Genre</p>
+        <p>{genre._id ? "Edit" : "Add"} Genre</p>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className='studentForm'>
@@ -93,9 +93,9 @@ const GenreForm = (props) => {
               style={{ marginRight: 4 }}
               type='submit'
             >
-              {genre ? "Edit" : "Add"}
+              {genre._id ? "Edit" : "Add"}
             </button>
-            {genre && (
+            {genre._id && (
               <button
                 className='btn btn-danger btn-sm'
                 style={{ marginRight: 4 }}
