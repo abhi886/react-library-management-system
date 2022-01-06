@@ -10,16 +10,18 @@ import * as Yup from "yup";
 // which keys are symmetrical to our values/initialValues
 
 const GenreForm = (props) => {
-  const [genre, setGenre] = useState({});
   useEffect(() => {
     populateGenre();
     return () => {
-      console.log("Clean Up - run");
+      setGenreName("");
+      setGenreId("");
     };
   }, []);
 
   const [error, setError] = useState();
   const history = useHistory();
+  const [genreName, setGenreName] = useState("");
+  const [genreId, setGenreId] = useState("");
 
   async function populateGenre() {
     try {
@@ -27,7 +29,8 @@ const GenreForm = (props) => {
       if (genreId === "new") return;
 
       const { data: gen } = await getGenre(genreId);
-      setGenre(gen);
+      setGenreName(gen.name);
+      setGenreId(gen._id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
     }
@@ -35,8 +38,8 @@ const GenreForm = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      genreName: genre ? genre.name : "",
-      id: genre ? genre._id : "",
+      genreName: genreName,
+      id: genreId,
       // enableReinitialize: true,
     },
     enableReinitialize: true,
@@ -65,8 +68,7 @@ const GenreForm = (props) => {
   return (
     <div className='container'>
       <div>
-        {console.log(genre)}
-        <p>{genre._id ? "Edit" : "Add"} Genre</p>
+        <p>{genreId ? "Edit" : "Add"} Genre</p>
       </div>
       <form onSubmit={formik.handleSubmit}>
         <div className='studentForm'>
@@ -93,15 +95,15 @@ const GenreForm = (props) => {
               style={{ marginRight: 4 }}
               type='submit'
             >
-              {genre._id ? "Edit" : "Add"}
+              {genreId ? "Edit" : "Add"}
             </button>
-            {genre._id && (
+            {genreId && (
               <button
                 className='btn btn-danger btn-sm'
                 style={{ marginRight: 4 }}
                 onClick={async () => {
                   try {
-                    await deleteGenre(genre._id);
+                    await deleteGenre(genreId);
                     history.push("/movies");
                   } catch (ex) {
                     // toast.error("This movie has already been deleted");
