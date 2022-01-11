@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg navbar-light navContainer'>
-      <NavLink className='navbar-brand navHeading' to='#'>
+      <NavLink className='navbar-brand navHeading' to='/'>
         Library Management System
       </NavLink>
       <div className='' id='navbarNavAltMarkup'>
