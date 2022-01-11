@@ -27,6 +27,7 @@ import ProtectedRoute from "./components/common/protectedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Hires from "./components/hires";
+import RenameBookGenre from "./components/renameBookGenre";
 
 class App extends Component {
   state = {};
@@ -101,7 +102,12 @@ class App extends Component {
             path='/students'
             render={(props) => <Students {...props} user={this.state.user} />}
           ></Route>
-          <ProtectedRoute path='/genres/:id' component={GenresForm} />
+          <ProtectedRoute exact path='/genres/:id' component={GenresForm} />
+          <ProtectedRoute
+            path='/genres/renameGenre/:id'
+            component={RenameBookGenre}
+          />
+
           <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
           <Route path='/rentals' exact component={Rentals}></Route>
           <Route path='/rentals/return/:id' component={ReturnRentals} />

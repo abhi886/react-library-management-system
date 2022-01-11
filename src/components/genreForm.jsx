@@ -5,6 +5,7 @@ import { saveGenre, getGenre, deleteGenre } from "../services/genreService";
 import { useHistory } from "react-router-dom";
 
 import * as Yup from "yup";
+import Modal from "./common/modal";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
@@ -22,6 +23,7 @@ const GenreForm = (props) => {
   const history = useHistory();
   const [genreName, setGenreName] = useState("");
   const [genreId, setGenreId] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   async function populateGenre() {
     try {
@@ -107,18 +109,20 @@ const GenreForm = (props) => {
             </button>
             {genreId && (
               <button
-                className='btn btn-danger btn-sm'
+                className='btn btn-danger btn-sm openModalBtn'
                 style={{ marginRight: 4 }}
+                type='button'
                 onClick={async () => {
-                  try {
-                    await deleteGenre(genreId);
-                    history.push("/movies");
-                  } catch (ex) {
-                    // toast.error("This movie has already been deleted");
-                    if (ex.response && ex.response.status === 404) {
-                      // this.setState({ movies: originalMovies });
-                    }
-                  }
+                  setOpenModal(true);
+                  // try {
+                  //   await deleteGenre(genreId);
+                  //   history.push("/movies");
+                  // } catch (ex) {
+                  //   // toast.error("This movie has already been deleted");
+                  //   if (ex.response && ex.response.status === 404) {
+                  //     // this.setState({ movies: originalMovies });
+                  //   }
+                  // }
                 }}
               >
                 Delete
@@ -136,6 +140,44 @@ const GenreForm = (props) => {
           </div>
         </div>
       </form>
+      {openModal && (
+        <Modal closeModal={setOpenModal}>
+          {" "}
+          <div className='title'>
+            <p>
+              Do You Want To Delete all the Books OR Rename the books to
+              different Genres??
+            </p>
+          </div>
+          <div className='body'>
+            <button
+              className='btn btn-danger btn-sm '
+              onClick={async () => {
+                try {
+                  await deleteGenre(genreId);
+                  history.push("/movies");
+                } catch (ex) {
+                  // toast.error("This movie has already been deleted");
+                  if (ex.response && ex.response.status === 404) {
+                    // this.setState({ movies: originalMovies });
+                  }
+                }
+              }}
+            >
+              Delete
+            </button>
+            <button
+              onClick={() => {
+                history.push(`/genres/renameGenre/${genreId}`);
+              }}
+              style={{ marginLeft: 8 }}
+              className='btn btn-primary btn-sm'
+            >
+              Rename Genre
+            </button>
+          </div>{" "}
+        </Modal>
+      )}
     </div>
   );
 };
