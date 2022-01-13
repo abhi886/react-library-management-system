@@ -10,7 +10,6 @@ function GenreRenameOption({
 }) {
   const [genId, SetGenId] = useState(genreId);
   const [genName, SetGenName] = useState("");
-  const [freeze, SetFreeze] = useState(false);
 
   const handleChange = (event) => {
     SetGenId(event.target.value);
@@ -21,7 +20,6 @@ function GenreRenameOption({
     try {
       const genre = { id: genId, name: genName };
       await renameMovieToRenameGenre(bookId, genre);
-      SetFreeze(true);
       reloadComponent();
     } catch (e) {
       console.log(e);
@@ -38,7 +36,6 @@ function GenreRenameOption({
         ))}
       </select>
       <button
-        disabled={freeze && true}
         onClick={() => handleEdit()}
         type='button'
         className='btn btn-primary'
