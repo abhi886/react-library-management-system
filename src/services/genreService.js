@@ -13,6 +13,10 @@ export function getGenre(genreId) {
   return http.get(genreUrl(genreId));
 }
 
+export function getGenreName(genreId) {
+  return http.get(genreUrl(genreId));
+}
+
 export function saveGenre(g) {
   // Updaating a genre
   if (g.id) {
