@@ -9,6 +9,12 @@ export function getMovies() {
   return http.get(apiEndpoint);
 }
 
+export function getMovieToRenameGenre(genreId) {
+  return http.get(`${apiEndpoint}/getMoviesToRename/${genreId}`);
+}
+export function renameMovieToRenameGenre(movieId, genre) {
+  return http.put(`${apiEndpoint}/editMoviesToRename/${movieId}`, genre);
+}
 export function getMovie(movieId) {
   return http.get(movieUrl(movieId));
 }

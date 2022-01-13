@@ -37,7 +37,7 @@ const Rentals = (props) => {
     // }
     let filtered =
       viewHistory === false
-        ? allRentals.filter((r) => r.status !== 2)
+        ? allRentals && allRentals.filter((r) => r.status !== 2)
         : viewHistory === false
         ? allRentals
         : allRentals;
