@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import { renameMovieToRenameGenre } from "../../services/movieService";
 
-function GenreRenameOption({ bookId, genres, genreId, onGenreChange }) {
+function GenreRenameOption({
+  bookId,
+  genres,
+  genreId,
+  onGenreChange,
+  reloadComponent,
+}) {
   const [genId, SetGenId] = useState(genreId);
   const [genName, SetGenName] = useState("");
   const [freeze, SetFreeze] = useState(false);
@@ -14,8 +20,9 @@ function GenreRenameOption({ bookId, genres, genreId, onGenreChange }) {
   const handleEdit = async () => {
     try {
       const genre = { id: genId, name: genName };
-      const result = await renameMovieToRenameGenre(bookId, genre);
+      await renameMovieToRenameGenre(bookId, genre);
       SetFreeze(true);
+      reloadComponent();
     } catch (e) {
       console.log(e);
     }
