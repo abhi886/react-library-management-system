@@ -1,4 +1,4 @@
-import React, { setState } from "react";
+import React from "react";
 import GenreRenameOption from "./genreRenameOption";
 
 function RenameGenreTable({
