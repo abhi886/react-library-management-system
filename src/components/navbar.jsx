@@ -1,13 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
+  const [collapse, SetCollapse] = useState(false);
+  const handleCollapse = () => {
+    SetCollapse(!collapse);
+  };
   return (
     <nav className='navbar navbar-expand-lg navbar-light navContainer'>
       <NavLink className='navbar-brand navHeading' to='/'>
         Library Management System
       </NavLink>
-      <div className='' id='navbarNavAltMarkup'>
-        <div className='navbar-nav'>
+      <button
+        className='navbar-toggler'
+        type='button'
+        data-toggle='collapse'
+        data-target='#navbarSupportedContent'
+        aria-controls='navbarSupportedContent'
+        aria-expanded='false'
+        aria-label='Toggle navigation'
+      >
+        <span
+          onClick={() => handleCollapse()}
+          class='navbar-toggler-icon'
+        ></span>
+      </button>
+
+      <div
+        className={
+          collapse == true ? "collapse navbar-collapse" : "navbar-collapse"
+        }
+        id='navbarSupportedContent'
+      >
+        <div className='navbar-nav mr-auto'>
           <NavLink className='nav-item nav-link ' to='/'>
             Books
           </NavLink>

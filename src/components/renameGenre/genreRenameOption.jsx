@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { renameMovieToRenameGenre } from "../../services/movieService";
 
-function GenreRenameOption({ bookId, genres, genreId, onGenreChange }) {
+function GenreRenameOption({
+  bookId,
+  genres,
+  genreId,
+  onGenreChange,
+  reloadComponent,
+}) {
   const [genId, SetGenId] = useState(genreId);
   const [genName, SetGenName] = useState("");
-  const [freeze, SetFreeze] = useState(false);
 
   const handleChange = (event) => {
     SetGenId(event.target.value);
@@ -14,8 +19,8 @@ function GenreRenameOption({ bookId, genres, genreId, onGenreChange }) {
   const handleEdit = async () => {
     try {
       const genre = { id: genId, name: genName };
-      const result = await renameMovieToRenameGenre(bookId, genre);
-      SetFreeze(true);
+      await renameMovieToRenameGenre(bookId, genre);
+      reloadComponent();
     } catch (e) {
       console.log(e);
     }
@@ -31,7 +36,6 @@ function GenreRenameOption({ bookId, genres, genreId, onGenreChange }) {
         ))}
       </select>
       <button
-        disabled={freeze && true}
         onClick={() => handleEdit()}
         type='button'
         className='btn btn-primary'

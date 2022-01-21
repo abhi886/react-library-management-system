@@ -1,7 +1,13 @@
-import React, { setState } from "react";
+import React from "react";
 import GenreRenameOption from "./genreRenameOption";
 
-function RenameGenreTable({ books, genres, genreId, genreName }) {
+function RenameGenreTable({
+  books,
+  genres,
+  genreId,
+  genreName,
+  reloadComponent,
+}) {
   return (
     <div>
       <table className='table'>
@@ -24,6 +30,7 @@ function RenameGenreTable({ books, genres, genreId, genreName }) {
                   bookId={book._id}
                   genres={genres}
                   genreId={genreId}
+                  reloadComponent={reloadComponent}
                 >
                   {" "}
                 </GenreRenameOption>

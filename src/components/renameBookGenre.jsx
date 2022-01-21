@@ -9,11 +9,12 @@ function RenameBookGenre(props) {
 
   const [genres, SetGenres] = useState([]);
   const [movies, SetMovies] = useState([]);
+  const [reload, SetReload] = useState(true);
 
   useEffect(() => {
     SetGenresToRename();
     SetMoviesToRename();
-  }, []);
+  }, [reload]);
 
   const SetGenresToRename = async () => {
     const { data } = await getGenres();
@@ -25,10 +26,19 @@ function RenameBookGenre(props) {
     SetMovies(data);
   };
 
+  const handleReload = () => {
+    SetReload(!reload);
+  };
+
   return (
     <div className='container'>
       <h5>Rename Genre</h5>
-      <RenameGenreTable books={movies} genres={genres} genreId={genreId} />
+      <RenameGenreTable
+        books={movies}
+        genres={genres}
+        genreId={genreId}
+        reloadComponent={handleReload}
+      />
       <div>
         <CancelButton linkTo={`/genres/${genreId}`} />
       </div>
