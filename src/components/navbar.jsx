@@ -27,7 +27,7 @@ const NavBar = ({ user }) => {
 
       <div
         className={
-          collapse == true ? "collapse navbar-collapse" : "navbar-collapse"
+          collapse === true ? "collapse navbar-collapse" : "navbar-collapse"
         }
         id='navbarSupportedContent'
       >
