@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 const NavBar = ({ user }) => {
-  const [collapse, SetCollapse] = useState(false);
+  const [collapse, SetCollapse] = useState(true);
   const handleCollapse = () => {
     SetCollapse(!collapse);
   };
