@@ -40,12 +40,13 @@ class MoviesTable extends Component {
         <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
       ),
     },
-    {
-      key: "hire",
-      label: "Hire",
-      content: (movie) => <Link to={`/hires/${movie._id}`}>Hire Book</Link>,
-    },
   ];
+
+  hireColumn = {
+    key: "hire",
+    label: "Hire",
+    content: (movie) => <Link to={`/hires/${movie._id}`}>Hire Book</Link>,
+  };
 
   deleteColumn = {
     key: "delete",
@@ -63,6 +64,7 @@ class MoviesTable extends Component {
     super();
     const user = auth.getCurrentUser();
     if (user && user.isAdmin) this.columns.push(this.deleteColumn);
+    if (user && user.isAdmin) this.columns.push(this.hireColumn);
   }
   render() {
     const { movies, sortColumn, onSort } = this.props;
