@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
+
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+
 const NavBar = ({ user }) => {
-  const [collapse, SetCollapse] = useState(false);
+  const [collapse, SetCollapse] = useState(true);
   const handleCollapse = () => {
     SetCollapse(!collapse);
   };
@@ -20,14 +25,15 @@ const NavBar = ({ user }) => {
         aria-label='Toggle navigation'
       >
         <span
-          onClick={() => handleCollapse()}
-          class='navbar-toggler-icon'
-        ></span>
+          onClick={() => handleCollapse()}>
+          <i className="fas fa-bars"></i>
+
+        </span>
       </button>
 
       <div
         className={
-          collapse == true ? "collapse navbar-collapse" : "navbar-collapse"
+          collapse === true ? "navbar-collapse" : " navbar-collapse custom-c"
         }
         id='navbarSupportedContent'
       >
@@ -42,6 +48,32 @@ const NavBar = ({ user }) => {
           <NavLink className='nav-item nav-link' to='/rentals'>
             Rental History
           </NavLink>
+
+          {/* {!user && (
+            <React.Fragment>
+              <NavLink className='nav-item nav-link' to='/login'>
+                Login
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/register'>
+                Register
+              </NavLink>
+            </React.Fragment>
+          )}
+          {user && (
+            <React.Fragment>
+              <NavLink className='nav-item nav-link' to='/profile'>
+                {user.name}
+              </NavLink>
+              <NavLink className='nav-item nav-link' to='/logout'>
+                LogOut
+              </NavLink>
+            </React.Fragment>
+          )} */}
+          {/* <NavLink className='nav-item nav-link' to='/dynamicForm'>
+            Dynamic Form
+          </NavLink> */}
+        </div>
+        <div className="sideEndLogin">
           {!user && (
             <React.Fragment>
               <NavLink className='nav-item nav-link' to='/login'>
@@ -62,11 +94,9 @@ const NavBar = ({ user }) => {
               </NavLink>
             </React.Fragment>
           )}
-          {/* <NavLink className='nav-item nav-link' to='/dynamicForm'>
-            Dynamic Form
-          </NavLink> */}
         </div>
       </div>
+
     </nav>
   );
 };
