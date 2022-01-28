@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-// import NavBar from "./components/navbar";
-// import Counters from "./components/counters";
 import { Route, Redirect, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Movies from "./components/movies";
@@ -18,12 +16,9 @@ import FacultyForm from "./components/facultyForm";
 
 import LoginForm from "./components/loginForm";
 import RegisterForm from "./components/registerForm";
-// import DynamicForm from "./components/dynamicForm";
 import Logout from "./components/logout";
 import auth from "./services/authService";
 import ProtectedRoute from "./components/common/protectedRoute";
-
-// import AddMoviesForm from "./components/newMovie";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Hires from "./components/hires";
@@ -83,7 +78,6 @@ class App extends Component {
 
   render() {
     const { user } = this.state;
-    console.log("App-Renderd");
     return (
       <>
         <ToastContainer />
@@ -109,7 +103,9 @@ class App extends Component {
           />
 
           <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
-          <Route path='/rentals' exact component={Rentals}></Route>
+          {/* <Route path='/rentals' exact component={Rentals}></Route> */}
+          <ProtectedRoute path='/rentals' component={Rentals} />
+
           <Route path='/rentals/return/:id' component={ReturnRentals} />
           {/* <Route path='/rentals/:id' component={Rentals}></Route> */}
           <Route path='/hires/:id' component={Hires}></Route>
