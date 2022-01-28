@@ -30,11 +30,7 @@ const Rentals = (props) => {
 
   const getPageData = async () => {
     const allRentals = await getReformattedRentals();
-    // if (viewHistory === false) {
-    //   var filtered = allRentals.filter((r) => r.status !== 2);
-    // } else(viewHistory === false) {
-    //   filtered = allRentals;
-    // }
+
     let filtered =
       viewHistory === false
         ? allRentals && allRentals.filter((r) => r.status !== 2)
@@ -49,7 +45,7 @@ const Rentals = (props) => {
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
     const rentals = paginate(sorted, currentPage, pageSize);
     SetRental(rentals);
-    SetItemsCount(filtered.length);
+    SetItemsCount(filtered && filtered.length);
   };
 
   const handleSort = (sortColumn) => {
