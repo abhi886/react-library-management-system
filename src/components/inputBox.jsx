@@ -17,7 +17,7 @@ function InputBox({ Image, addImageToPost, removeImage }) {
       {Image && (
         <div>
           <img
-            className='CIUimage'
+            id='CIUimage'
             onClick={() => filepickerRef.current.click()}
             height={150}
             width={150}
@@ -30,14 +30,16 @@ function InputBox({ Image, addImageToPost, removeImage }) {
             }
             alt='Imag'
           />
-          <p onClick={() => removeImage()}>Remove</p>
+          <p id='CIUimage' onClick={() => removeImage()}>
+            Remove
+          </p>
         </div>
       )}
 
       {!Image && (
         <div>
           <img
-            className='CIUimage'
+            id='CIUimage'
             onClick={() => filepickerRef.current.click()}
             height={150}
             width={150}
@@ -45,7 +47,9 @@ function InputBox({ Image, addImageToPost, removeImage }) {
             alt=''
           />
 
-          <p onClick={() => filepickerRef.current.click()}>Select Image</p>
+          <p id='CIUimage' onClick={() => filepickerRef.current.click()}>
+            Select Image
+          </p>
         </div>
       )}
     </div>
