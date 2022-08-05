@@ -1,4 +1,4 @@
-# Getting Started with Create React App
+React Library Management System is a React App built to manage books and rentals in an organization. I have created this app while learning React with Mosh Hamedani (https:https://codewithmosh.com) and have been adding features of my own in the project.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
