@@ -3,7 +3,6 @@ import Joi from "joi-browser";
 import Form from "./common/form";
 import * as userService from "../services/userService";
 import auth from "../services/authService";
-import { ToastContainer } from "react-toastify";
 class RegisterForm extends Form {
   state = {
     data: {
