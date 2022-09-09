@@ -133,22 +133,28 @@ class MovieForm extends Form {
       <div className='container'>
         <h1>New Movie</h1>
         <form onSubmit={this.handleSubmit} encType='multipart/form-data'>
-          {this.renderInput("title", "Title")}
-          {this.renderDropdown("genreId", "Genre", this.state.genres)}
-          {this.renderInput("numberInStock", "Number In Stock")}
-          {this.renderInput("dailyRentalRate", "Rate")}
-          <BookCode
-            value={this.state.data.tag}
-            addItem={this.handleAddItem}
-            removeItem={this.handleRemoveItem}
-            errorParent={this.state.errors.tag}
-          />
-          {this.renderInput("author", "Author")}
-          <InputBox
-            Image={this.state.data.bookImage}
-            addImageToPost={this.handleAddImage}
-            removeImage={this.handleRemoveImage}
-          />
+          <div className='row'>
+            <div className='col col-md-6 col-sm-12'>
+              {this.renderInput("title", "Title")}
+              {this.renderDropdown("genreId", "Genre", this.state.genres)}
+              {this.renderInput("numberInStock", "Number In Stock")}
+              {this.renderInput("dailyRentalRate", "Rate")}
+              <BookCode
+                value={this.state.data.tag}
+                addItem={this.handleAddItem}
+                removeItem={this.handleRemoveItem}
+                errorParent={this.state.errors.tag}
+              />
+              {this.renderInput("author", "Author")}
+            </div>
+            <div className='col col-md-4 col-sm-12'>
+              <InputBox
+                Image={this.state.data.bookImage}
+                addImageToPost={this.handleAddImage}
+                removeImage={this.handleRemoveImage}
+              />
+            </div>
+          </div>
 
           {this.renderButton("Register")}
           <CancelButton linkTo={"/movies"} />

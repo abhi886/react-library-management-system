@@ -118,119 +118,118 @@ const StudentForm = (props) => {
     SetStudentImage("");
   };
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <div className='studentForm'>
-        <div className='form-group'>
-          <label htmlFor='studentId'>Student Id</label>
-          <input
-            id='studentId'
-            name='studentId'
-            type='text'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.studentId}
-            className='form-control'
-            placeholder='Enter Student Id'
-          />
-          {formik.touched.studentId && formik.errors.studentId ? (
-            <div>{formik.errors.studentId}</div>
-          ) : null}
-        </div>
-        <div className='form-group'>
-          <label htmlFor='firstName'>First Name</label>
-          <input
-            id='firstName'
-            name='firstName'
-            type='text'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.firstName}
-            className='form-control'
-            placeholder='Enter First Name'
-          />
-          {formik.touched.firstName && formik.errors.firstName ? (
-            <div>{formik.errors.firstName}</div>
-          ) : null}
-        </div>
+    <div className='container'>
+      <form onSubmit={formik.handleSubmit}>
+        <div className='row'>
+          <div className='col-md-6'>
+            <div className='studentForm'>
+              <div className='form-group'>
+                <label htmlFor='studentId'>Student Id</label>
+                <input
+                  id='studentId'
+                  name='studentId'
+                  type='text'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.studentId}
+                  className='form-control'
+                  placeholder='Enter Student Id'
+                />
+                {formik.touched.studentId && formik.errors.studentId ? (
+                  <div>{formik.errors.studentId}</div>
+                ) : null}
+              </div>
+              <div className='form-group'>
+                <label htmlFor='firstName'>First Name</label>
+                <input
+                  id='firstName'
+                  name='firstName'
+                  type='text'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.firstName}
+                  className='form-control'
+                  placeholder='Enter First Name'
+                />
+                {formik.touched.firstName && formik.errors.firstName ? (
+                  <div>{formik.errors.firstName}</div>
+                ) : null}
+              </div>
 
-        <div className='form-group'>
-          <label htmlFor='lastName'>Last Name</label>
-          <input
-            id='lastName'
-            name='lastName'
-            type='text'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.lastName}
-            className='form-control'
-            placeholder='Enter last name'
-          />
-          {formik.touched.lastName && formik.errors.lastName ? (
-            <div>{formik.errors.lastName}</div>
-          ) : null}
-        </div>
-        <div className='form-group'>
-          <label htmlFor='email'>Email Address</label>
-          <input
-            className='form-control'
-            id='email'
-            name='email'
-            type='email'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            placeholder='Enter Email Address'
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <div>{formik.errors.email}</div>
-          ) : null}
-        </div>
-        {/* <div className='form-group'>
-          <input
-            className='form-control'
-            id='_id'
-            name='_id'
-            type='hidden'
-            value={formik.values._id}
-          />
-        </div> */}
-        <div className='form-group'>
-          <label htmlFor='faculty'>Faculty</label>
-          <select
-            className='form-control'
-            id='faculty'
-            name='faculty'
-            type='faculty'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.faculty}
-            placeholder='Choose Faculty'
-          >
-            <option value='' label='Select a Faculty' />
+              <div className='form-group'>
+                <label htmlFor='lastName'>Last Name</label>
+                <input
+                  id='lastName'
+                  name='lastName'
+                  type='text'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                  className='form-control'
+                  placeholder='Enter last name'
+                />
+                {formik.touched.lastName && formik.errors.lastName ? (
+                  <div>{formik.errors.lastName}</div>
+                ) : null}
+              </div>
+              <div className='form-group'>
+                <label htmlFor='email'>Email Address</label>
+                <input
+                  className='form-control'
+                  id='email'
+                  name='email'
+                  type='email'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                  placeholder='Enter Email Address'
+                />
+                {formik.touched.email && formik.errors.email ? (
+                  <div>{formik.errors.email}</div>
+                ) : null}
+              </div>
 
-            {faculty &&
-              faculty.map((f, i) => (
-                <option key={i} value={f.name} label={f.name} />
-              ))}
-          </select>
-          {formik.touched.faculty && formik.errors.faculty ? (
-            <div>{formik.errors.faculty}</div>
-          ) : null}
-        </div>
+              <div className='form-group'>
+                <label htmlFor='faculty'>Faculty</label>
+                <select
+                  className='form-control'
+                  id='faculty'
+                  name='faculty'
+                  type='faculty'
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.faculty}
+                  placeholder='Choose Faculty'
+                >
+                  <option value='' label='Select a Faculty' />
 
-        <InputBox
-          Image={studentImage}
-          addImageToPost={handleAddImage}
-          removeImage={handleRemoveImage}
-        />
+                  {faculty &&
+                    faculty.map((f, i) => (
+                      <option key={i} value={f.name} label={f.name} />
+                    ))}
+                </select>
+                {formik.touched.faculty && formik.errors.faculty ? (
+                  <div>{formik.errors.faculty}</div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+          <div className='col-md-6'>
+            <InputBox
+              Image={studentImage}
+              addImageToPost={handleAddImage}
+              removeImage={handleRemoveImage}
+            />
+          </div>
+        </div>
         <div>
           <button className='btn btn-primary mt-2' type='submit'>
             Submit
           </button>
           <CancelButton linkTo={"/students"} />
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

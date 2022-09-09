@@ -73,7 +73,6 @@ class Movies extends Component {
   };
 
   getPagedData = () => {
-    const { length: count } = this.state.movies;
     const {
       pageSize,
       currentPage,
