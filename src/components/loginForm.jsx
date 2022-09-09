@@ -54,12 +54,12 @@ class LoginForm extends Form {
   render() {
     if (auth.getCurrentUser()) return <Redirect to='/' />;
     return (
-      <div className='container'>
+      <div class='col-md-10 mx-auto col-lg-5'>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderButton("Login")}
+          <div className='mt-4'>{this.renderButton("Login")}</div>
         </form>
       </div>
     );
