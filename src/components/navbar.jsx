@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import '@fortawesome/fontawesome-free/css/all.min.css';
-
-
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const NavBar = ({ user }) => {
   const [collapse, SetCollapse] = useState(true);
@@ -24,10 +22,8 @@ const NavBar = ({ user }) => {
         aria-expanded='false'
         aria-label='Toggle navigation'
       >
-        <span
-          onClick={() => handleCollapse()}>
-          <i className="fas fa-bars"></i>
-
+        <span onClick={() => handleCollapse()}>
+          <i className='fas fa-bars'></i>
         </span>
       </button>
 
@@ -73,15 +69,15 @@ const NavBar = ({ user }) => {
             Dynamic Form
           </NavLink> */}
         </div>
-        <div className="sideEndLogin">
+        <div className='sideEndLogin'>
           {!user && (
             <React.Fragment>
               <NavLink className='nav-item nav-link' to='/login'>
                 Login
               </NavLink>
-              <NavLink className='nav-item nav-link' to='/register'>
+              {/* <NavLink className='nav-item nav-link' to='/register'>
                 Register
-              </NavLink>
+              </NavLink> */}
             </React.Fragment>
           )}
           {user && (
@@ -96,7 +92,6 @@ const NavBar = ({ user }) => {
           )}
         </div>
       </div>
-
     </nav>
   );
 };
