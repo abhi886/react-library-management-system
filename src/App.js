@@ -28,6 +28,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Hires from "./components/hires";
 import RenameBookGenre from "./components/renameBookGenre";
+import LandingPage from "./components/landingPage";
 
 class App extends Component {
   state = {};
@@ -114,7 +115,7 @@ class App extends Component {
           {/* <Route path='/rentals/:id' component={Rentals}></Route> */}
           <Route path='/hires/:id' component={Hires}></Route>
           <Route path='/not-found' component={NotFound}></Route>
-          <Redirect from='/' exact to='/movies' />
+          <Route from='/' component={LandingPage} />
         </Switch>
       </>
     );
