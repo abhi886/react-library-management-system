@@ -39,9 +39,8 @@ class LoginForm extends Form {
     try {
       const { data } = this.state;
       await auth.login(data.username, data.password);
-      const { state } = this.props.location;
 
-      window.location = state ? state.from.pathname : "/";
+      window.location = "/movies";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
         const errors = { ...this.state.errors };
@@ -54,12 +53,12 @@ class LoginForm extends Form {
   render() {
     if (auth.getCurrentUser()) return <Redirect to='/' />;
     return (
-      <div className='container'>
+      <div class='col-md-10 mx-auto col-lg-5'>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password", "password")}
-          {this.renderButton("Login")}
+          <div className='mt-4'>{this.renderButton("Login")}</div>
         </form>
       </div>
     );
