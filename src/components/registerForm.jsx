@@ -52,14 +52,31 @@ class RegisterForm extends Form {
 
   render() {
     return (
-      <div className='container'>
-        <h1>Register</h1>
-        <form onSubmit={this.handleSubmit}>
-          {this.renderInput("username", "Username")}
-          {this.renderInput("password", "Password", "password")}
-          {this.renderInput("name", "Name")}
+      <div class='col-md-10 mx-auto col-lg-5'>
+        <form
+          className='p-4 p-md-5 border rounded-3 bg-light'
+          onSubmit={this.handleSubmit}
+        >
+          <div className='form-floating mb-3'>
+            {this.renderInput("username", "Email")}
+          </div>
+          <div className='form-floating mb-3'>
+            {this.renderInput("password", "Password", "password")}
+          </div>
+          <div className='form-floating mb-3'>
+            {this.renderInput("name", "Name")}
+          </div>
+          <div className='checkbox mb-3'>
+            <label>
+              <input type='checkbox' value='remember-me' /> Remember me
+            </label>
+          </div>
+          {this.renderButton("Sign Up Free")}
 
-          {this.renderButton("Register")}
+          <hr className='my-4' />
+          <small className='text-muted'>
+            By clicking Sign up, you agree to the terms of use.
+          </small>
         </form>
       </div>
     );

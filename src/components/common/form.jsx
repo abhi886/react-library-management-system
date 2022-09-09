@@ -65,13 +65,14 @@ class Form extends Component {
   };
 
   renderButton(label) {
-    return <button className='btn btn-primary mt-2'>{label}</button>;
+    return <button className='w-100 btn btn-lg btn-primary'>{label}</button>;
   }
 
   renderInput(name, label, type = "text") {
     const { data, errors } = this.state;
     return (
       <Input
+        className='form-control'
         type={type}
         name={name}
         value={data[name]}
@@ -115,4 +116,5 @@ class Form extends Component {
 }
 
 export default Form;
+
 // export default function renderInput();
