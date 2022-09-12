@@ -110,13 +110,13 @@ class Form extends Component {
   }
 
   renderCheckbox(name, label, type) {
-    // const {data, errors } = this.state;
+    const { data } = this.state;
     return (
       <div className='checkbox mb-3'>
         <label>
           <input
             type={type}
-            value='remember-me'
+            value={data[name]}
             onClick={this.onCheckboxClicked}
           />{" "}
           Remember me
