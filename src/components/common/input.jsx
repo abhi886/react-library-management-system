@@ -1,9 +1,15 @@
 import React from "react";
-const Input = ({ name, label, error, ...rest }) => {
+const Input = ({ name, label, error, type, ...rest }) => {
   return (
-    <div className='form-group'>
-      <label htmlFor={name}>{label}</label>
-      <input {...rest} id={name} name={name} className='form-control' />
+    <div class='form-floating mb-3'>
+      <input
+        {...rest}
+        id={`${name} `}
+        name={name}
+        placeholder={type}
+        type={type}
+      />
+      <label htmlFor={`${name} floatingInput`}>{label}</label>
       {error && <div className='alert alert-danger'>{error}</div>}
     </div>
   );

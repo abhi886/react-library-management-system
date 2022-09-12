@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Input from "./input";
 import TagInput from "./tagInput";
 import Dropdown from "./dropdown";
-
 import Joi from "joi-browser";
 
 class Form extends Component {
@@ -10,15 +9,11 @@ class Form extends Component {
     data: {},
     errors: {},
   };
-
-  // onAddItem = ({ currentTarget: input }) => {
-  //   console.log(input);
-  //   const data = { ...this.state.data };
-  //   const tempTag = data.tempTag;
-  //   data["tempTag"] = "";
-  //   data["tag"] = [...this.state.data.tag, tempTag];
-  //   this.setState({ data });
-  // };
+  onCheckboxClicked = () => {
+    const data = { ...this.state.data };
+    data["rememberMe"] = !data["rememberMe"];
+    this.setState({ data });
+  };
 
   // onClearArray = () => {
   //   console.log("reached here");
@@ -111,6 +106,22 @@ class Form extends Component {
         onChange={this.handleChange}
         error={errors[name]}
       />
+    );
+  }
+
+  renderCheckbox(name, label, type) {
+    // const {data, errors } = this.state;
+    return (
+      <div className='checkbox mb-3'>
+        <label>
+          <input
+            type={type}
+            value='remember-me'
+            onClick={this.onCheckboxClicked}
+          />{" "}
+          Remember me
+        </label>
+      </div>
     );
   }
 }

@@ -9,14 +9,15 @@ class RegisterForm extends Form {
       username: "",
       password: "",
       name: "",
+      rememberMe: false,
     },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().min(3).max(30).required().label("Username"),
+    email: Joi.string().email().required().label("Email"),
     password: Joi.string().label("Password"),
-    name: Joi.string().required().label("Name"),
+    name: Joi.string().required().label("Username"),
   };
 
   validate = () => {
@@ -57,20 +58,10 @@ class RegisterForm extends Form {
           className='p-4 p-md-5 border rounded-3 bg-light'
           onSubmit={this.handleSubmit}
         >
-          <div className='form-floating mb-3'>
-            {this.renderInput("username", "Email")}
-          </div>
-          <div className='form-floating mb-3'>
-            {this.renderInput("password", "Password", "password")}
-          </div>
-          <div className='form-floating mb-3'>
-            {this.renderInput("name", "Name")}
-          </div>
-          <div className='checkbox mb-3'>
-            <label>
-              <input type='checkbox' value='remember-me' /> Remember me
-            </label>
-          </div>
+          {this.renderInput("email", "Email", "email")}
+          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Username")}
+          {this.renderCheckbox("rememberMe", "Remember Me", "checkbox")}
           {this.renderButton("Sign Up Free")}
 
           <hr className='my-4' />
