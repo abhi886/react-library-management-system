@@ -6,7 +6,7 @@ import auth from "../services/authService";
 class RegisterForm extends Form {
   state = {
     data: {
-      username: "",
+      email: "",
       password: "",
       name: "",
       rememberMe: false,
@@ -18,6 +18,7 @@ class RegisterForm extends Form {
     email: Joi.string().email().required().label("Email"),
     password: Joi.string().label("Password"),
     name: Joi.string().required().label("Username"),
+    rememberMe: Joi.boolean(),
   };
 
   validate = () => {
@@ -53,12 +54,12 @@ class RegisterForm extends Form {
 
   render() {
     return (
-      <div class='col-md-10 mx-auto col-lg-5'>
+      <div className='col-md-10 mx-auto col-lg-5'>
         <form
           className='p-4 p-md-5 border rounded-3 bg-light'
           onSubmit={this.handleSubmit}
         >
-          {this.renderInput("email", "Email", "email")}
+          {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
           {this.renderInput("name", "Username")}
           {this.renderCheckbox("rememberMe", "Remember Me", "checkbox")}
