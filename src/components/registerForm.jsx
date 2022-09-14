@@ -6,17 +6,19 @@ import auth from "../services/authService";
 class RegisterForm extends Form {
   state = {
     data: {
-      username: "",
+      email: "",
       password: "",
       name: "",
+      rememberMe: false,
     },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().min(3).max(30).required().label("Username"),
+    email: Joi.string().email().required().label("Email"),
     password: Joi.string().label("Password"),
-    name: Joi.string().required().label("Name"),
+    name: Joi.string().required().label("Username"),
+    rememberMe: Joi.boolean(),
   };
 
   validate = () => {
@@ -37,9 +39,10 @@ class RegisterForm extends Form {
   };
 
   doSubmit = async () => {
+    const { rememberMe } = this.state.data;
     try {
       const response = await userService.register(this.state.data);
-      auth.loginWithJwt(response.headers["x-auth-token"]);
+      rememberMe && auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/movies";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -52,25 +55,15 @@ class RegisterForm extends Form {
 
   render() {
     return (
-      <div class='col-md-10 mx-auto col-lg-5'>
+      <div className='col-md-10 mx-auto col-lg-5'>
         <form
           className='p-4 p-md-5 border rounded-3 bg-light'
           onSubmit={this.handleSubmit}
         >
-          <div className='form-floating mb-3'>
-            {this.renderInput("username", "Email")}
-          </div>
-          <div className='form-floating mb-3'>
-            {this.renderInput("password", "Password", "password")}
-          </div>
-          <div className='form-floating mb-3'>
-            {this.renderInput("name", "Name")}
-          </div>
-          <div className='checkbox mb-3'>
-            <label>
-              <input type='checkbox' value='remember-me' /> Remember me
-            </label>
-          </div>
+          {this.renderInput("email", "Email")}
+          {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Username")}
+          {this.renderCheckbox("rememberMe", "Remember Me", "checkbox")}
           {this.renderButton("Sign Up Free")}
 
           <hr className='my-4' />
