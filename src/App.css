@@ -49,11 +49,24 @@
   }
 } */
 
+.navbar-brand.active {
+  color: white !important;
+  font-weight: bold !important;
+}
+.navbar-brand:hover {
+  color: white !important;
+  font-weight: bold !important;
+}
 .navContainer {
   margin-left: 23px;
 }
 .navHeading {
   font-weight: 500;
+}
+
+.nav-link:hover {
+  color: white !important;
+  font-weight: bold !important;
 }
 
 .searchStudentContainer {
