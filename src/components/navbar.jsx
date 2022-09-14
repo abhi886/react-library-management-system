@@ -9,7 +9,7 @@ const NavBar = ({ user }) => {
     SetCollapse(!collapse);
   };
   return (
-    <nav className='navbar navbar-expand-lg navbar-light navContainer'>
+    <nav className='navbar navbar-expand-lg navbar-light  navContainer'>
       <NavLink className='navbar-brand navHeading' to='/'>
         Library Management System
       </NavLink>

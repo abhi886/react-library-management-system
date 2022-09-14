@@ -2,57 +2,58 @@
     Design Updates
 ================================================ */
 
-.navbar{
-    background: #0B3060;
-    margin: 0;
-    padding: 20px;
+.navbar {
+  background: #0b3060;
+  margin: 0;
+  padding: 20px;
 }
 
-.container{
-    padding: 20px 0
+.container {
+  padding: 20px 0;
 }
 
-.navbar-light .navbar-brand, .navbar-light .navbar-nav .nav-link,
-.navbar-light .navbar-nav .show > .nav-link, .navbar-light .navbar-nav .nav-link.active{
-    color: #fff;
-    cursor: pointer
+.navbar-light .navbar-brand,
+.navbar-light .navbar-nav .nav-link,
+.navbar-light .navbar-nav .show > .nav-link,
+.navbar-light .navbar-nav .nav-link.active {
+  color: #fff;
+  cursor: pointer;
 }
 
-.form-group .list-group-item span{
-    cursor: pointer;
+.form-group .list-group-item span {
+  cursor: pointer;
 }
 
 .sideEndLogin {
-    position: absolute;
-    right: 0;
+  position: absolute;
+  right: 0;
 }
-.sideEndLogin a{
-    color: #fff;
-    display: inline-block;
-    padding-left: 0;
- 
-}
-
-.navbar-light .navbar-toggler{
-    color: #fff;
-    border-color: #fff;
-    box-shadow: none;
+.sideEndLogin a {
+  color: #fff;
+  display: inline-block;
+  padding-left: 0;
 }
 
-@media only screen and (max-width: 988px){
-    .navbar-collapse{
-        height: 0px;
-        overflow: hidden;
-        transition: all .3s ease-in-out;
-    }
-    .navbar-collapse.custom-c { 
-        height: 200px;
-        transition: all .3s ease-in-out;
-    }
-    .sideEndLogin {
-        position: relative;
-    }
-    .sideEndLogin a{
+.navbar-light .navbar-toggler {
+  color: #fff;
+  border-color: #fff;
+  box-shadow: none;
+}
+
+@media only screen and (max-width: 988px) {
+  .navbar-collapse {
+    height: 0px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  .navbar-collapse.custom-c {
+    height: 200px;
+    transition: all 0.3s ease-in-out;
+  }
+  .sideEndLogin {
+    position: relative;
+  }
+  .sideEndLogin a {
     display: block;
-    }
+  }
 }
