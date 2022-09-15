@@ -34,12 +34,12 @@ class MoviesTable extends Component {
       path: "dailyRentalRate",
       label: "Rate",
     },
-    {
-      key: "like",
-      content: (movie) => (
-        <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
-      ),
-    },
+    // {
+    //   key: "like",
+    //   content: (movie) => (
+    //     <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
+    //   ),
+    // },
   ];
 
   hireColumn = {
