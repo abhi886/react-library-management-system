@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import Like from "./common/like";
 import Table from "./common/table";
 import auth from "../services/authService";
-import AddButton from "./common/addButton";
 
 class MoviesTable extends Component {
   columns = [
