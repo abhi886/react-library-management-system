@@ -1,13 +1,22 @@
 import http from "./httpService";
 import jwtDecode from "jwt-decode";
+import {
+  getTomorrowDate,
+  getTodaysDate,
+  getTimeAfterTenMinutes,
+} from "../components/common/date";
 const tokenKey = "token";
 const apiEndpoint = "/auth";
 
 http.setJwt(getJwt());
 
-export async function login(email, password) {
+export async function login(email, password, rememberMe) {
   const { data: jwt } = await http.post(apiEndpoint, { email, password });
+
   localStorage.setItem(tokenKey, jwt);
+  rememberMe
+    ? localStorage.setItem("TTL", getTomorrowDate())
+    : localStorage.setItem("TTL", getTimeAfterTenMinutes());
 }
 
 export function loginWithJwt(jwt) {
@@ -16,14 +25,20 @@ export function loginWithJwt(jwt) {
 
 export function logout() {
   localStorage.removeItem(tokenKey);
+  localStorage.removeItem("TTL");
 }
 
 export function getCurrentUser() {
   try {
-    const jwt = localStorage.getItem(tokenKey);
-    const user = jwtDecode(jwt);
-    // this.setState({ user });
-    return user;
+    const TTL = localStorage.getItem("TTL");
+    if (TTL > getTodaysDate) {
+      const jwt = localStorage.getItem(tokenKey);
+      const user = jwtDecode(jwt);
+      return user;
+    } else {
+      logout();
+      // return null;
+    }
   } catch (ex) {
     return null;
   }

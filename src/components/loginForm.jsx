@@ -8,6 +8,7 @@ class LoginForm extends Form {
     data: {
       username: "",
       password: "",
+      rememberMe: false,
     },
     errors: {},
   };
@@ -15,6 +16,7 @@ class LoginForm extends Form {
   schema = {
     username: Joi.string().required().label("Username"),
     password: Joi.string().required().label("Password"),
+    rememberMe: Joi.boolean(),
   };
 
   validate = () => {
@@ -38,8 +40,7 @@ class LoginForm extends Form {
     // Call the server
     try {
       const { data } = this.state;
-      await auth.login(data.username, data.password);
-
+      await auth.login(data.username, data.password, data.rememberMe);
       window.location = "/movies";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
