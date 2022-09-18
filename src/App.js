@@ -21,7 +21,7 @@ import auth from "./services/authService";
 import ProtectedRoute from "./components/common/protectedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import "./cssUpdates.css";
+import "./responsive.css";
 import Hires from "./components/hires";
 import RenameBookGenre from "./components/renameBookGenre";
 import LandingPage from "./components/landingPage";

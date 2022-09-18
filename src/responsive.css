@@ -1,0 +1,21 @@
+/*  ANISHA MAHARJAN
+    Responsive CSS
+================================================ */
+
+@media only screen and (max-width: 988px) {
+    .navbar-collapse {
+      height: 0px;
+      overflow: hidden;
+      transition: all 0.3s ease-in-out;
+    }
+    .navbar-collapse.custom-c {
+      height: 200px;
+      transition: all 0.3s ease-in-out;
+    }
+    .sideEndLogin {
+      position: relative;
+    }
+    .sideEndLogin a {
+      display: block;
+    }
+  }
