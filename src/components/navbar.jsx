@@ -11,9 +11,6 @@ const NavBar = ({ user }) => {
   };
   return (
     <nav className='navbar navbar-expand-lg navbar-light  navContainer'>
-      {/* <NavLink className='navbar-brand navHeading' to='/'>
-        Library Management System
-      </NavLink> */}
       <NavLink className='navbar-brand navHeading navLogo' to='/'>
         <a href=""><img src={BookLogo} alt="Book Logo" /></a>
       </NavLink>
@@ -37,6 +34,9 @@ const NavBar = ({ user }) => {
         }
         id='navbarSupportedContent'
       >
+        <NavLink className='nav-item nav-link' to='/'>
+          Home
+      </NavLink>
         <div className='navbar-nav mr-auto'>
           <NavLink className='nav-item nav-link ' to='/movies'>
             Books
