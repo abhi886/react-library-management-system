@@ -57,7 +57,7 @@ class RegisterForm extends Form {
     return (
       <div className='col-md-10 mx-auto col-lg-5'>
         <form
-          className='p-4 p-md-5 border rounded-3 bg-light'
+          className='p-4 p-md-5 border bg-light form-card'
           onSubmit={this.handleSubmit}
         >
           {this.renderInput("email", "Email")}

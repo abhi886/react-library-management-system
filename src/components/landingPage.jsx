@@ -1,9 +1,15 @@
 import React from "react";
 import RegisterForm from "./registerForm";
+// import bgImage from "../public/bg.jpeg";
+
 
 function landingPage() {
   return (
-    <div className='container'>
+    <div className='landingPage container'>
+      <div className="landingBg">
+        <div className="bgImage">
+        </div>
+      </div>
       <div className='row align-items-center g-lg-5 py-5'>
         <div className='col-lg-7 text-center text-lg-start'>
           <h1 className='display-4 fw-bold lh-1 mb-3'>
