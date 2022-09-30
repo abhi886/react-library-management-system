@@ -9,8 +9,6 @@ export const getTodaysDate = () => {
 };
 
 export const getTimeAfterTenMinutes = () => {
-  // var followingDay = Date.now() + 600000;
-  var followingDay = Date.now() + 20;
-
-  return followingDay;
+  var timeAfterTenMinutes = Date.now() + 6000;
+  return timeAfterTenMinutes;
 };

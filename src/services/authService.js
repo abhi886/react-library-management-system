@@ -36,8 +36,7 @@ export function getCurrentUser() {
       const user = jwtDecode(jwt);
       return user;
     } else {
-      logout();
-      // return null;
+      return null;
     }
   } catch (ex) {
     return null;

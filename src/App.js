@@ -24,12 +24,7 @@ import "./App.css";
 import Hires from "./components/hires";
 import RenameBookGenre from "./components/renameBookGenre";
 import LandingPage from "./components/landingPage";
-import {
-  interval,
-  tracker,
-  cleanUp,
-  test,
-} from "./components/common/idleTimer";
+import { tracker } from "./components/common/idleTimer";
 import { logout } from "./services/authService";
 
 export default function App() {
@@ -38,7 +33,7 @@ export default function App() {
   useEffect(() => {
     const user = auth.getCurrentUser();
     SetUser(user);
-  }, []);
+  }, [isTimeout]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -49,8 +44,8 @@ export default function App() {
         console.log("Calling");
         const expiredTime = parseInt(localStorage.getItem("TTL") || 0, 10);
         if (expiredTime < Date.now()) {
-          SetIsTimeout((isTimeOut) => !isTimeOut);
           tracker("remove");
+          SetIsTimeout((isTimeOut) => !isTimeOut);
           logout();
         }
       }, 1000);
@@ -90,7 +85,6 @@ export default function App() {
         <Route path='/not-found' component={NotFound}></Route>
         <Route from='/' component={LandingPage} />
       </Switch>{" "}
-      */}
     </>
   );
 }
