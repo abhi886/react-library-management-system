@@ -2,7 +2,6 @@ import http from "./httpService";
 import jwtDecode from "jwt-decode";
 import {
   getTomorrowDate,
-  getTodaysDate,
   getTimeAfterTenMinutes,
 } from "../components/common/date";
 const tokenKey = "token";
@@ -30,14 +29,9 @@ export function logout() {
 
 export function getCurrentUser() {
   try {
-    const TTL = localStorage.getItem("TTL");
-    if (TTL > getTodaysDate) {
-      const jwt = localStorage.getItem(tokenKey);
-      const user = jwtDecode(jwt);
-      return user;
-    } else {
-      return null;
-    }
+    const jwt = localStorage.getItem(tokenKey);
+    const user = jwtDecode(jwt);
+    return user;
   } catch (ex) {
     return null;
   }
