@@ -33,7 +33,7 @@ export default function App() {
   useEffect(() => {
     const user = auth.getCurrentUser();
     SetUser(user);
-  }, []);
+  }, [isTimeout]);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -41,7 +41,6 @@ export default function App() {
     if (token && !isTimeout) {
       tracker("add");
       intervalId = setInterval(() => {
-        console.log("Calling");
         const expiredTime = parseInt(localStorage.getItem("TTL") || 0, 10);
         if (expiredTime < Date.now()) {
           tracker("remove");
