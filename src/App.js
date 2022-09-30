@@ -33,7 +33,7 @@ export default function App() {
   useEffect(() => {
     const user = auth.getCurrentUser();
     SetUser(user);
-  }, [isTimeout]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
