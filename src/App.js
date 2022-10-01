@@ -30,6 +30,7 @@ import { logout } from "./services/authService";
 export default function App() {
   const [user, SetUser] = useState("");
   const [isTimeout, SetIsTimeout] = useState(false);
+
   useEffect(() => {
     const user = auth.getCurrentUser();
     SetUser(user);
