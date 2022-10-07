@@ -56,6 +56,10 @@ class RegisterForm extends Form {
   render() {
     return (
       <div className='col-md-10 mx-auto col-lg-5'>
+        <h1 className='d-flex justify-content-center'>Welcome</h1>
+        <p className='d-flex justify-content-center'>
+          Register to your LMS account
+        </p>
         <form
           className='p-4 p-md-5 border rounded-3 bg-light'
           onSubmit={this.handleSubmit}
