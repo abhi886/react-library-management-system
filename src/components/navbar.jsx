@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-const NavBar = ({ user }) => {
+const NavBar = ({ user, location }) => {
+  console.log(location);
   const [collapse, SetCollapse] = useState(true);
   const handleCollapse = () => {
     SetCollapse(!collapse);
@@ -48,17 +49,25 @@ const NavBar = ({ user }) => {
         <div className='sideEndLogin'>
           {!user && (
             <React.Fragment>
-              <NavLink className='nav-item nav-link' to='/login'>
-                <button
-                  className='btn btn-outline-light my-2 my-sm-0'
-                  type='button'
-                >
-                  Login
-                </button>
-              </NavLink>
-              {/* <NavLink className='nav-item nav-link' to='/register'>
-                Register
-              </NavLink> */}
+              {location.pathname === "/login" ? (
+                <NavLink className='nav-item nav-link' to='/register'>
+                  <button
+                    className='btn btn-outline-light my-2 my-sm-0'
+                    type='button'
+                  >
+                    Register
+                  </button>
+                </NavLink>
+              ) : (
+                <NavLink className='nav-item nav-link' to='/login'>
+                  <button
+                    className='btn btn-outline-light my-2 my-sm-0'
+                    type='button'
+                  >
+                    Login
+                  </button>
+                </NavLink>
+              )}
             </React.Fragment>
           )}
           {user && (

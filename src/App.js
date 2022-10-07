@@ -26,11 +26,12 @@ import RenameBookGenre from "./components/renameBookGenre";
 import LandingPage from "./components/landingPage";
 import { tracker } from "./components/common/idleTimer";
 import { logout } from "./services/authService";
+import { useLocation } from "react-router-dom";
 
 export default function App() {
   const [user, SetUser] = useState("");
   const [isTimeout, SetIsTimeout] = useState(false);
-
+  const location = useLocation();
   useEffect(() => {
     const user = auth.getCurrentUser();
     SetUser(user);
@@ -58,7 +59,7 @@ export default function App() {
   return (
     <>
       <ToastContainer />
-      <NavBar user={user} />
+      <NavBar location={location} user={user} />
       <Switch>
         <Route path='/register' component={RegisterForm} />
         <Route path='/login' component={LoginForm} />
