@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEfffect } from "react";
 import { toast } from "react-toastify";
 import MoviesTable from "./moviesTable";
 import { getMovies, deleteMovie } from "../services/movieService";
@@ -12,23 +12,31 @@ import _ from "lodash";
 import AddButton from "./common/addButton";
 import EditButton from "./common/editButton";
 
-class Movies extends Component {
-  state = {
-    movies: [],
-    pageSize: 5,
-    currentPage: 1,
-    genres: [],
-    searchQuery: "",
-    selectedGenre: { _id: "", name: "All Genres" },
-    sortColumn: { path: "", order: "" },
-  };
-
-  async componentDidMount() {
+export const Movies = ({user}) => {
+  // state = {
+  //   movies: [],
+  //   pageSize: 5,
+  //   currentPage: 1,
+  //   genres: [],
+  //   searchQuery: "",
+  //   selectedGenre: { _id: "", name: "All Genres" },
+  //   sortColumn: { path: "", order: "" },
+  // };
+const [movies, SetMovies]=useState([]);
+const [pageSize, SetPageSize]= useState(5);
+const [currentPage, SetCurrentPage] = useState(1);
+const [genres, SetGenres] = useState([]);
+const [searchQuery, SetSearchQuery] = useState("");
+const [selectedGenre, SetSelectedGenre]= useState({ _id: "", name: "All Genres" });
+const [sortColumn, SetSortColumn] = useState({path: "", order: "" })
+ 
+useEffect(async()=> {
     const { data } = await getGenres();
     const genres = [{ _id: "", name: "All Genres" }, ...data];
     const { data: movies } = await getMovies();
-    this.setState({ movies, genres });
-  }
+    SetMovies(movies);
+    SetGenres(genres)
+  },[])
 
   handleDelete = async (movie) => {
     const originalMovies = this.state.movies;
