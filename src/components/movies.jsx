@@ -96,12 +96,12 @@ export const Movies = ({ user }) => {
   };
 
   const { totalCount, data } = getPagedData(movies);
-  if (totalCount === 0)
-    return (
-      <div className='container'>
-        <p>No movies in the database.</p>
-      </div>
-    );
+  // if (totalCount === 0)
+  //   return (
+  //     <div className='container'>
+  //       <p>No movies in the database.</p>
+  //     </div>
+  //   );
 
   return (
     <>
