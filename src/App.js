@@ -80,8 +80,8 @@ export default function App() {
           component={RenameBookGenre}
         />
         <ProtectedRoute path='/faculties/:id' component={FacultyForm} />
-        <ProtectedRoute path='/rentals' component={Rentals} />
-        <Route path='/rentals/return/:id' component={ReturnRentals} />
+        <ProtectedRoute path='/rentals' exact component={Rentals} />
+        <ProtectedRoute path='/rentals/return/:id' component={ReturnRentals} />
         <Route path='/hires/:id' component={Hires}></Route>
         <Route path='/not-found' component={NotFound}></Route>
         <Route from='/' component={LandingPage} />
