@@ -3,8 +3,7 @@ import React from "react";
 const Dropdown = ({ name, label, options, error, ...rest }) => {
   //   console.log(this.props);
   return (
-    <div className='form-group'>
-      <label htmlFor={name}>{label}</label>
+    <div className='form-floating mb-3'>
       <select name={name} {...rest} className='form-control' id={name}>
         <option value='' />
         {options.map((option) => (
@@ -13,6 +12,7 @@ const Dropdown = ({ name, label, options, error, ...rest }) => {
           </option>
         ))}
       </select>
+      <label htmlFor={`${name} floatingInput`}>{label}</label>
       {error && <div className='alert alert-danger'>{error}</div>}
     </div>
   );
