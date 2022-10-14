@@ -106,14 +106,22 @@ export const Movies = ({ user }) => {
   return (
     <>
       <div className='container'>
-        <div className='d-flex flex-row'>
-          <AddButton linkTo='/genres/new' name=' Genre' user={user}></AddButton>
-          <EditButton
-            selectedItem={selectedGenre}
-            name='Genre'
-            linkTo='genres'
-            user={user}
-          ></EditButton>
+        <div className='d-flex flex-row mt-3'>
+          <div className='me-3'>
+            <AddButton
+              linkTo='/genres/new'
+              name='Genre'
+              user={user}
+            ></AddButton>
+          </div>
+          <div>
+            <EditButton
+              selectedItem={selectedGenre}
+              name='Genre'
+              linkTo='genres'
+              user={user}
+            ></EditButton>
+          </div>
         </div>
         <div className='row'>
           <div className='col-md-2 col-sm-8 col-12'>

@@ -169,14 +169,6 @@
   body {
     max-width: 575.98px;
   }
-
-  .hide {
-    overflow-y: auto;
-  }
-  .marginRow {
-    padding: 6px;
-  }
-
   .showOnSmallScreen {
     display: none;
   }
