@@ -131,10 +131,10 @@ class MovieForm extends Form {
   render() {
     return (
       <div className='container'>
-        <h1>New Movie</h1>
+        <h3 className='mt-3'>New Movie</h3>
         <form onSubmit={this.handleSubmit} encType='multipart/form-data'>
           <div className='row'>
-            <div className='col col-md-6 col-sm-12'>
+            <div className='col col-md-6 col-sm-12 col-12'>
               {this.renderInput("title", "Title")}
               {this.renderDropdown("genreId", "Genre", this.state.genres)}
               {this.renderInput("numberInStock", "Number In Stock")}
@@ -147,7 +147,7 @@ class MovieForm extends Form {
               />
               {this.renderInput("author", "Author")}
             </div>
-            <div className='col col-md-4 col-sm-12'>
+            <div className='col col-md-4 col-sm-12 col-12'>
               <InputBox
                 Image={this.state.data.bookImage}
                 addImageToPost={this.handleAddImage}
@@ -155,9 +155,12 @@ class MovieForm extends Form {
               />
             </div>
           </div>
-
-          {this.renderButton("Register")}
-          <CancelButton linkTo={"/movies"} />
+          <div className='d-flex'>
+            {this.renderButton("Register")}
+            <div className='ms-2'>
+              <CancelButton linkTo={"/movies"} />
+            </div>
+          </div>
         </form>
       </div>
     );

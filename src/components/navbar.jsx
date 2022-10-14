@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const NavBar = ({ user, location }) => {
-  console.log(location);
   const [collapse, SetCollapse] = useState(true);
   const handleCollapse = () => {
     SetCollapse(!collapse);

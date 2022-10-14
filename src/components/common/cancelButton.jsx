@@ -5,7 +5,7 @@ function CancelButton({ linkTo }) {
   return (
     <>
       {" "}
-      <Link to={linkTo} className='btn btn-danger btn-md mt-2'>
+      <Link to={linkTo} className='btn btn-danger'>
         Cancel
       </Link>
     </>

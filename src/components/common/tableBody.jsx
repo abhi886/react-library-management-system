@@ -17,7 +17,12 @@ class TableBody extends Component {
         {data.map((item) => (
           <tr key={item._id}>
             {columns.map((column) => (
-              <td key={this.createKey(item, column)}>
+              <td
+                key={this.createKey(item, column)}
+                className={
+                  column.showOnSmallScreen !== false ? "" : "showOnSmallScreen"
+                }
+              >
                 {this.renderCell(item, column)}
               </td>
             ))}

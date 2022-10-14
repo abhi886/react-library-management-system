@@ -61,7 +61,7 @@ class Form extends Component {
 
   renderButton(label) {
     return (
-      <button type='submit' className='w-100 btn btn-lg btn-primary'>
+      <button type='submit' className='btn btn-primary'>
         {label}
       </button>
     );

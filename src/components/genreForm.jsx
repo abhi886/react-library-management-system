@@ -77,67 +77,63 @@ const GenreForm = (props) => {
   });
   return (
     <div className='container'>
-      <div>
-        <p>{genreId ? "Edit" : "Add"} Genre</p>
-      </div>
+      <h3 className='mt-3'>{genreId ? "Edit" : "Add"} Genre</h3>
       <form onSubmit={formik.handleSubmit}>
-        <div className='studentForm'>
-          <div className='form-group'>
-            <label htmlFor='genreName'>Genre Name</label>
-            <input
-              id='genreName'
-              name='genreName'
-              type='text'
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.genreName}
-              className='form-control'
-              placeholder='Enter Genre'
-            />
-            {formik.touched.genreName && formik.errors.genreName ? (
-              <div>{formik.errors.genreName}</div>
-            ) : null}
-            {error && <div>{formik.errors.genre}</div>}
-          </div>
-          <div className='' style={{ marginTop: 20 }}>
+        <div className='form-group'>
+          <label htmlFor='genreName'>Genre Name</label>
+          <input
+            id='genreName'
+            name='genreName'
+            type='text'
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.genreName}
+            className='form-control'
+            placeholder='Enter Genre'
+          />
+          {formik.touched.genreName && formik.errors.genreName ? (
+            <div>{formik.errors.genreName}</div>
+          ) : null}
+          {error && <div>{formik.errors.genre}</div>}
+        </div>
+        <div className='' style={{ marginTop: 20 }}>
+          <button
+            className='btn btn-primary btn-sm '
+            style={{ marginRight: 4 }}
+            type='submit'
+          >
+            {genreId ? "Edit" : "Add"}
+          </button>
+          {genreId && (
             <button
-              className='btn btn-primary btn-sm '
+              className='btn btn-danger btn-sm openModalBtn'
               style={{ marginRight: 4 }}
-              type='submit'
-            >
-              {genreId ? "Edit" : "Add"}
-            </button>
-            {genreId && (
-              <button
-                className='btn btn-danger btn-sm openModalBtn'
-                style={{ marginRight: 4 }}
-                type='button'
-                onClick={async () => {
-                  setOpenModal(true);
-                  // try {
-                  //   await deleteGenre(genreId);
-                  //   history.push("/movies");
-                  // } catch (ex) {
-                  //   // toast.error("This movie has already been deleted");
-                  //   if (ex.response && ex.response.status === 404) {
-                  //     // this.setState({ movies: originalMovies });
-                  //   }
-                  // }
-                }}
-              >
-                Delete
-              </button>
-            )}
-            <button
-              className='btn btn-light btn-sm'
-              style={{ marginRight: 4 }}
-              onClick={() => {
-                history.push("/movies");
+              type='button'
+              onClick={async () => {
+                setOpenModal(true);
+                // try {
+                //   await deleteGenre(genreId);
+                //   history.push("/movies");
+                // } catch (ex) {
+                //   // toast.error("This movie has already been deleted");
+                //   if (ex.response && ex.response.status === 404) {
+                //     // this.setState({ movies: originalMovies });
+                //   }
+                // }
               }}
             >
-              Cancel
+              Delete
             </button>
-          </div>
+          )}
+          <button
+            className='btn btn-light btn-sm'
+            style={{ marginRight: 4 }}
+            onClick={() => {
+              history.push("/movies");
+            }}
+          >
+            Cancel
+          </button>
         </div>
       </form>
       {openModal && (

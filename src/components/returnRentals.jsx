@@ -33,13 +33,13 @@ function ReturnRentals(props) {
   }, []);
 
   return (
-    <div className='container'>
+    <div className='container mt-3'>
       <p>Book Name : {title}</p>
       <p>Total Charge :{(rentalFee && rentalFee) || " N/A"}</p>
       <CancelButton linkTo={"/rentals"} />
       <button
         style={{ marginLeft: "2px" }}
-        className='btn btn-primary mt-2'
+        className='btn btn-primary'
         onClick={() => handleProceedReturn(rentalId)}
       >
         Proceed

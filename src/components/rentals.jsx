@@ -66,7 +66,7 @@ const Rentals = (props) => {
   };
   return (
     <div className='container'>
-      <p>Showing {itemsCount} results in the database</p>
+      <p className='mt-3'>Showing {itemsCount} results in the database</p>
 
       <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
       <RentalsTable
