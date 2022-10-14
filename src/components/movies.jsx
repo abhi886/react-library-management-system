@@ -106,25 +106,17 @@ export const Movies = ({ user }) => {
   return (
     <>
       <div className='container'>
-        <div className='row mt-4'>
-          <div className=' col-md-2 col-sm-12'>
-            <div className='row'>
-              <div className='col-md-6'>
-                <AddButton
-                  linkTo='/genres/new'
-                  name=' Genre'
-                  user={user}
-                ></AddButton>
-              </div>
-              <div className='col-md-6'>
-                <EditButton
-                  selectedItem={selectedGenre}
-                  name='Genre'
-                  linkTo='genres'
-                  user={user}
-                ></EditButton>
-              </div>
-            </div>
+        <div className='d-flex flex-row'>
+          <AddButton linkTo='/genres/new' name=' Genre' user={user}></AddButton>
+          <EditButton
+            selectedItem={selectedGenre}
+            name='Genre'
+            linkTo='genres'
+            user={user}
+          ></EditButton>
+        </div>
+        <div className='row'>
+          <div className='col-md-2 col-sm-8 col-12'>
             <ListGroup
               items={genres}
               selectedItem={selectedGenre}
@@ -132,9 +124,9 @@ export const Movies = ({ user }) => {
               user={user}
             ></ListGroup>
           </div>
-          <div className='col-md-10 col-sm-12'>
+          <div className='col-md-9 col-sm-12 col-12'>
             <div className='row'>
-              <div className='col-md-12'>
+              <div className='col-12 mt-3'>
                 {user && (
                   <AddButton
                     linkTo='/movies/new'
@@ -143,14 +135,20 @@ export const Movies = ({ user }) => {
                   ></AddButton>
                 )}
               </div>
+              <div className='col-12'>
+                <SearchBox
+                  value={searchQuery}
+                  onChange={handleSearch}
+                ></SearchBox>
+              </div>
             </div>
-            <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
             <p>Showing {totalCount} movies in the database</p>
             <MoviesTable
               movies={data}
               sortColumn={sortColumn}
               onDelete={handleDelete}
               onSort={handleSort}
+              user={user}
             />
             <Pagination
               itemsCount={totalCount}

@@ -165,3 +165,25 @@
     padding: 12px;
   }
 }
+@media (max-width: 575.98px) {
+  body {
+    max-width: 575.98px;
+  }
+
+  .hide {
+    overflow-y: auto;
+  }
+  .marginRow {
+    padding: 6px;
+  }
+
+  .showOnSmallScreen {
+    display: none;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .marginLeftOnMediumScreen {
+    margin: 2px;
+  }
+}
