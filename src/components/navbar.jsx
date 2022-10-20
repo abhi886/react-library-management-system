@@ -34,7 +34,7 @@ const NavBar = ({ user, location }) => {
         id='navbarSupportedContent'
       >
         <div className='navbar-nav mr-auto'>
-          <NavLink className='nav-item nav-link ' to='/movies'>
+          <NavLink className='nav-item nav-link ' to='/books'>
             Books
           </NavLink>
           <NavLink className='nav-item nav-link' to='/students'>

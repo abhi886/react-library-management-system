@@ -14,7 +14,7 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
       path: "title",
       label: "Title",
       content: (movie) => (
-        <Link to={`/movies/${movie._id}`}>{movie.title} </Link>
+        <Link to={`/books/${movie._id}`}>{movie.title} </Link>
       ),
     },
 
