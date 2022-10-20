@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
 import MoviesTable from "./moviesTable";
 import { getMovies, deleteMovie } from "../services/movieService";
@@ -12,8 +12,8 @@ import AddButton from "./common/addButton";
 import EditButton from "./common/editButton";
 
 export const Movies = ({ user }) => {
+  const PAGESIZE = 6;
   const [movies, SetMovies] = useState([]);
-  const [pageSize] = useState(5);
   const [currentPage, SetCurrentPage] = useState(1);
   const [genres, SetGenres] = useState([]);
   const [searchQuery, SetSearchQuery] = useState("");
@@ -29,6 +29,7 @@ export const Movies = ({ user }) => {
       const genres = [{ _id: "", name: "All Genres" }, ...data];
       SetGenres(genres);
     } catch (ex) {
+      console.log(ex);
       return;
     }
   }
@@ -38,6 +39,7 @@ export const Movies = ({ user }) => {
       const { data: movies } = await getMovies();
       SetMovies(movies);
     } catch (ex) {
+      console.log(ex);
       return;
     }
   }
@@ -46,20 +48,31 @@ export const Movies = ({ user }) => {
     fetchMovies();
   }, []);
 
-  const getPagedData = (moviesToFilter) => {
-    if (!moviesToFilter) return { totalCount: 0, data: {} };
-    const allMovies = moviesToFilter;
-    let filtered = allMovies;
-    if (searchQuery)
-      filtered = allMovies.filter((m) =>
-        m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
-      );
-    else if (selectedGenre && selectedGenre._id)
-      filtered = allMovies.filter((m) => m.genre._id === selectedGenre._id);
+  const getFilteredItems = useMemo(() => {
+    return movies.filter((m) =>
+      m.title.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  }, [movies, searchQuery]);
+
+  const { totalCount, data } = useMemo(() => {
+    if (!movies) return { totalCount: 0, data: {} };
+    let filtered = movies;
+    if (searchQuery) {
+      filtered = getFilteredItems;
+    } else if (selectedGenre && selectedGenre._id)
+      filtered = movies.filter((m) => m.genre._id === selectedGenre._id);
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const movies = paginate(sorted, currentPage, pageSize);
-    return { totalCount: filtered.length, data: movies };
-  };
+    const finalData = paginate(sorted, currentPage, PAGESIZE);
+    return { totalCount: filtered.length, data: finalData };
+  }, [
+    movies,
+    currentPage,
+    getFilteredItems,
+    searchQuery,
+    selectedGenre,
+    sortColumn.order,
+    sortColumn.path,
+  ]);
 
   const handleDelete = async (movie) => {
     const originalMovies = movies;
@@ -94,14 +107,6 @@ export const Movies = ({ user }) => {
     SetSelectedGenre({ _id: "", name: "All Genres" });
     SetCurrentPage(1);
   };
-
-  const { totalCount, data } = getPagedData(movies);
-  // if (totalCount === 0)
-  //   return (
-  //     <div className='container'>
-  //       <p>No movies in the database.</p>
-  //     </div>
-  //   );
 
   return (
     <>
@@ -161,7 +166,7 @@ export const Movies = ({ user }) => {
             <Pagination
               itemsCount={totalCount}
               currentPage={currentPage}
-              pageSize={pageSize}
+              pageSize={PAGESIZE}
               onPageChange={handlePageChange}
             />
           </div>
