@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import SearchBox from "./searchBox";
 import StudentsTable from "./studentsTable";
 import { getStudents, deleteStudent } from "../services/studentService";
@@ -11,13 +11,11 @@ import _ from "lodash";
 import { paginate } from "../utils/paginate";
 import { toast } from "react-toastify";
 import Pagination from "./common/pagination";
-
+const PAGESIZE = 7;
 function Students({ user }) {
-  const [faculty, SetFaculty] = useState([]);
-  const [pageSize] = useState(10);
-  const [currentPage, SetCurrentPage] = useState(1);
-  const [count, SetCount] = useState(0);
   const [student, SetStudent] = useState([]);
+  const [faculty, SetFaculty] = useState([]);
+  const [currentPage, SetCurrentPage] = useState(1);
   const [searchQuery, SetSearchQuery] = useState("");
   const [selectedFaculty, SetSelectedFaculty] = useState({
     _id: "",
@@ -27,7 +25,6 @@ function Students({ user }) {
     path: "firstName",
     order: "desc",
   });
-  const [itemsCount, SetItemsCount] = useState(0);
 
   const handleFacultySelect = (faculty) => {
     SetSelectedFaculty(faculty);
@@ -60,28 +57,39 @@ function Students({ user }) {
     }
   };
 
-  const getPageData = async () => {
-    const { data: allStudents } = await getStudents();
-    let filtered = allStudents;
-    if (searchQuery)
-      filtered = allStudents.filter((m) =>
-        m.firstName.toLowerCase().startsWith(searchQuery.toLowerCase())
-      );
-    else if (selectedFaculty._id !== "")
-      filtered = allStudents.filter((m) => m.faculty === selectedFaculty.name);
+  const getFilteredItems = useMemo(() => {
+    console.log(student);
+    debugger;
+    return student.filter((s) =>
+      s.firstName.toLowerCase().startsWith(searchQuery.toLowerCase())
+    );
+  }, [student, searchQuery]);
+
+  const { totalCount, data } = useMemo(() => {
+    if (!student) return { totalCount: 0, data: {} };
+    let filtered = student;
+    if (searchQuery) {
+      filtered = getFilteredItems;
+    } else if (selectedFaculty && selectedFaculty._id)
+      filtered = student.filter((s) => s.faculty === selectedFaculty.name);
+    console.log(filtered);
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const students = paginate(sorted, currentPage, pageSize);
-    SetStudent(students);
-    SetItemsCount(filtered.length);
-    SetCount(students.length);
-  };
+    const finalData = paginate(sorted, currentPage, PAGESIZE);
+    return { totalCount: filtered.length, data: finalData };
+  }, [
+    student,
+    currentPage,
+    getFilteredItems,
+    searchQuery,
+    selectedFaculty,
+    sortColumn.order,
+    sortColumn.path,
+  ]);
 
   async function populateStudents() {
     try {
       const { data: student } = await getStudents();
       SetStudent(student);
-      SetCount(student.length);
-      SetItemsCount(student.length);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
       return;
@@ -91,7 +99,6 @@ function Students({ user }) {
   async function populateFaculties() {
     try {
       const { data: fac } = await getFaculties();
-      console.log(fac);
       SetFaculty([{ _id: "", name: "All Faculty" }, ...fac]);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
@@ -103,32 +110,28 @@ function Students({ user }) {
     populateFaculties();
   }, []);
 
-  useEffect(() => {
-    getPageData();
-  }, [searchQuery, sortColumn, selectedFaculty, pageSize, currentPage]);
-
   return (
     <>
       <div className='container'>
-        <div className='row mt-4'>
-          <div className=' col-md-2 col-sm-8'>
-            <div className='row'>
-              <div className='col-md-6'>
-                <AddButton
-                  linkTo='/faculties/new'
-                  name='Faculty'
-                  user={user}
-                ></AddButton>
-              </div>
-              <div className='col-md-6'>
-                <EditButton
-                  selectedItem={selectedFaculty}
-                  name='Faculty'
-                  linkTo='faculties'
-                  user={user}
-                ></EditButton>
-              </div>
-            </div>
+        <div className='d-flex flex-row mt-3'>
+          <div className='me-3'>
+            <AddButton
+              linkTo='/faculties/new'
+              name='Faculty'
+              user={user}
+            ></AddButton>
+          </div>
+          <div>
+            <EditButton
+              selectedItem={selectedFaculty}
+              name='Faculty'
+              linkTo='faculties'
+              user={user}
+            ></EditButton>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='col-md-2 col-sm-8 col-12'>
             <ListGroup
               items={faculty}
               selectedItem={selectedFaculty}
@@ -136,9 +139,9 @@ function Students({ user }) {
               user={user}
             ></ListGroup>
           </div>
-          <div className='col-md-10 col-sm-8'>
+          <div className='col-md-9 col-sm-12 col-12'>
             <div className='row'>
-              <div className='col-md-12'>
+              <div className='col-12 mt-3'>
                 {user && (
                   <AddButton
                     linkTo='/students/new'
@@ -147,23 +150,27 @@ function Students({ user }) {
                   ></AddButton>
                 )}
               </div>
+              <div className='col-12'>
+                <SearchBox
+                  value={searchQuery}
+                  onChange={handleSearch}
+                ></SearchBox>
+              </div>
             </div>
-            <p>Showing students {count} in the database</p>
-            <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
+            <p>Showing {totalCount} movies in the database</p>
             <StudentsTable
-              students={student}
+              students={data}
               sortColumn={sortColumn}
-              // onLike={this.handleLike}
               onDelete={handleDelete}
               onSort={handleSort}
             />
             <Pagination
-              itemsCount={itemsCount}
+              itemsCount={totalCount}
               currentPage={currentPage}
-              pageSize={pageSize}
+              pageSize={PAGESIZE}
               onPageChange={handlePageChange}
             />
-          </div>{" "}
+          </div>
         </div>
       </div>
     </>

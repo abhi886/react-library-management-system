@@ -59,8 +59,6 @@ class MovieForm extends Form {
   };
 
   mapToViewMode(movie) {
-    console.log(movie);
-
     let tempTag = movie.tag;
     const movieTags = tempTag.map((t) => t.bookCode);
 
@@ -131,7 +129,9 @@ class MovieForm extends Form {
   render() {
     return (
       <div className='container'>
-        <h3 className='mt-3'>New Movie</h3>
+        <h3 className='mt-3'>
+          {this.props.match.params.id === "new" ? "Add New Book" : "Edit Book"}
+        </h3>
         <form onSubmit={this.handleSubmit} encType='multipart/form-data'>
           <div className='row'>
             <div className='col col-md-6 col-sm-12 col-12'>

@@ -110,13 +110,12 @@ function Hires(props) {
   return (
     <div className='container'>
       <div className='row'>
-        <h4>Book Information</h4>
-        {/* bookCard */}
-        <div className='col col-12  col-sm-6 col-md-4'>
-          <div className='card' style={{ width: "100%" }}>
+        <h4 className='mt-4 mb-4'>Book Information</h4>
+
+        <div className='col col-12  col-sm-6 col-md-4 col-12'>
+          <div className='card'>
             {bookImage && (
               <img
-                style={{ width: "100%", height: "12.5rem" }}
                 src={`http://localhost:3900/${bookImage}`}
                 alt={"Book Pic"}
               />
@@ -126,8 +125,6 @@ function Hires(props) {
                 src={
                   "https://i.picsum.photos/id/1032/150/150.jpg?hmac=DIbf0xC_HJchjLmN2loyEXyeaXfce8QqT9nqc4vF4PU"
                 }
-                height={150}
-                width={150}
                 alt=''
               />
             )}{" "}
@@ -229,8 +226,6 @@ function Hires(props) {
                     {studentImage && (
                       <img
                         src={`http://localhost:3900/${studentImage}`}
-                        height={150}
-                        width={150}
                         alt=''
                       />
                     )}
@@ -239,8 +234,6 @@ function Hires(props) {
                         src={
                           "https://i.picsum.photos/id/1032/150/150.jpg?hmac=DIbf0xC_HJchjLmN2loyEXyeaXfce8QqT9nqc4vF4PU"
                         }
-                        height={150}
-                        width={150}
                         alt=''
                       />
                     )}

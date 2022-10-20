@@ -142,7 +142,7 @@ export const Movies = ({ user }) => {
               <div className='col-12 mt-3'>
                 {user && (
                   <AddButton
-                    linkTo='/movies/new'
+                    linkTo='/books/new'
                     name='Book'
                     user={user}
                   ></AddButton>

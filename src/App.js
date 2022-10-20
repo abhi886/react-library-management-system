@@ -64,9 +64,9 @@ export default function App() {
         <Route path='/register' component={RegisterForm} />
         <Route path='/login' component={LoginForm} />
         <Route path='/logout' component={Logout} />
-        <ProtectedRoute path='/movies/:id' component={MovieForm} />
+        <ProtectedRoute path='/books/:id' component={MovieForm} />
         <Route
-          path='/movies'
+          path='/books'
           render={(props) => <Movies {...props} user={user} />}
         ></Route>
         <ProtectedRoute path='/students/:id' component={StudentForm} />
