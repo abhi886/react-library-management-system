@@ -4,9 +4,11 @@ import Table from "./common/table";
 import auth from "../services/authService";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getCurrentUser } from "../services/authService";
 
-const MoviesTable = ({ movies, sortColumn, onSort, onDelete, user }) => {
+const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
   const history = useHistory();
+  const [user, SetUser] = useState("");
   const [columns, SetColumns] = useState([
     {
       path: "title",
@@ -79,13 +81,13 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete, user }) => {
   const getUser = async () => {
     try {
       const user = await auth.getCurrentUser();
-      return user;
+      SetUser(user);
+      if (user && user.isAdmin)
+        SetColumns((columns) => [...columns, hireColumn, deleteColumn]);
     } catch (ex) {}
   };
   useEffect(() => {
-    if (user && user.isAdmin)
-      SetColumns((columns) => [...columns, hireColumn, deleteColumn]);
-    // if (user && user.isAdmin) SetColumns((columns) => [...columns, hireColumn]);
+    getUser();
   }, []);
   // console.log(columns);
   return (
