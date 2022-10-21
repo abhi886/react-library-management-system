@@ -1,31 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Movies from "./components/movies";
-import Rentals from "./components/rentals";
-import ReturnRentals from "./components/returnRentals";
-
-import Students from "./components/students";
-import NotFound from "./components/notFound";
-import NavBar from "./components/navbar";
-import MovieForm from "./components/movieForm";
-import StudentForm from "./components/studentForm";
-
-import GenresForm from "./components/genreForm";
-import FacultyForm from "./components/facultyForm";
-
-import LoginForm from "./components/loginForm";
-import RegisterForm from "./components/registerForm";
-import Logout from "./components/logout";
-import auth from "./services/authService";
-import ProtectedRoute from "./components/common/protectedRoute";
+import Movies from "components/pages/movies";
+import Rentals from "components/pages/rentals";
+import ReturnRentals from "components/returnRentals";
+import Students from "components/pages/students";
+import NotFound from "components/notFound";
+import NavBar from "components/navbar";
+import MovieForm from "components/forms/movieForm";
+import StudentForm from "components/forms/studentForm";
+import GenresForm from "components/forms/genreForm";
+import FacultyForm from "components/forms/facultyForm";
+import LoginForm from "components/forms/loginForm";
+import RegisterForm from "components/forms/registerForm";
+import Logout from "components/logout";
+import auth from "services/authService";
+import ProtectedRoute from "components/common/protectedRoute";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Hires from "./components/hires";
-import RenameBookGenre from "./components/renameBookGenre";
-import LandingPage from "./components/landingPage";
-import { tracker } from "./components/common/idleTimer";
-import { logout } from "./services/authService";
+import Hires from "components/pages/hires";
+import RenameBookGenre from "components/renameBookGenre";
+import LandingPage from "components/pages/landingPage";
+import { tracker } from "components/common/idleTimer";
+import { logout } from "services/authService";
 import { useLocation } from "react-router-dom";
 
 export default function App() {

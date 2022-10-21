@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import { useHistory } from "react-router-dom";
-
 import { toast } from "react-toastify";
-import { getMovie } from "../services/movieService";
-import { getStudentFromId } from "../services/studentService";
-import { hireBook } from "../services/rentalService";
-
-import CancelButton from "./common/cancelButton";
+import { getMovie } from "services/movieService";
+import { getStudentFromId } from "services/studentService";
+import { hireBook } from "services/rentalService";
+import CancelButton from "components/common/cancelButton";
 
 function Hires(props) {
   const history = useHistory();
-
   const [mId, SetMId] = useState("");
   const [title, SetTitle] = useState("");
   const [genre, SetGenre] = useState("");

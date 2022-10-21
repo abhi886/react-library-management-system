@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Joi from "joi-browser";
-import auth from "../services/authService";
-import useForm from "./customHooks/useForm";
+import auth from "services/authService";
+import useForm from "components/customHooks/useForm";
 function LoginForm() {
   const [data, SetData] = useState({
     username: "",
@@ -20,7 +20,7 @@ function LoginForm() {
       // Call the server
       try {
         await auth.login(data.username, data.password, data.rememberMe);
-        window.location = "/movies";
+        window.location = "/books";
       } catch (ex) {
         if (ex.response && ex.response.status === 400) {
           const errors = { ...this.state.errors };

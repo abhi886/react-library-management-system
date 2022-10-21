@@ -1,11 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import { saveGenre, getGenre, deleteGenre } from "../services/genreService";
+import { saveGenre, getGenre, deleteGenre } from "../../services/genreService";
 import { useHistory } from "react-router-dom";
 
 import * as Yup from "yup";
-import Modal from "./common/modal";
+import Modal from "../common/modal";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues
@@ -58,7 +58,7 @@ const GenreForm = (props) => {
           )
         ) {
           await saveGenre(values);
-          history.push("/movies");
+          history.push("/books");
         } else {
           return;
         }
@@ -129,7 +129,7 @@ const GenreForm = (props) => {
             className='btn btn-light btn-sm'
             style={{ marginRight: 4 }}
             onClick={() => {
-              history.push("/movies");
+              history.push("/books");
             }}
           >
             Cancel

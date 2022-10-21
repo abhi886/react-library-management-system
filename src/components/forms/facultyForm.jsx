@@ -5,7 +5,7 @@ import {
   saveFaculty,
   getFaculty,
   deleteFaculty,
-} from "../services/facultyService";
+} from "../../services/facultyService";
 import { useHistory } from "react-router-dom";
 
 import * as Yup from "yup";

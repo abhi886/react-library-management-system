@@ -1,11 +1,11 @@
 import React from "react";
 import Joi from "joi-browser";
-import Form from "./common/form";
-import { getGenres } from "../services/genreService";
-import { getMovie, saveMovie } from "../services/movieService";
-import BookCode from "./common/tagInput";
-import CancelButton from "./common/cancelButton";
-import InputBox from "./inputBox";
+import Form from "../common/form";
+import { getGenres } from "../../services/genreService";
+import { getMovie, saveMovie } from "../../services/movieService";
+import BookCode from "../common/tagInput";
+import CancelButton from "../common/cancelButton";
+import InputBox from "../inputBox";
 import { toast } from "react-toastify";
 import { min } from "lodash";
 
@@ -92,7 +92,7 @@ class MovieForm extends Form {
       await saveMovie(formData);
       // Send a toast notification
       toast.success("Success");
-      this.props.history.push("/movies");
+      this.props.history.push("/books");
     } catch (error) {
       console.log(error);
     }
@@ -158,7 +158,7 @@ class MovieForm extends Form {
           <div className='d-flex'>
             {this.renderButton("Register")}
             <div className='ms-2'>
-              <CancelButton linkTo={"/movies"} />
+              <CancelButton linkTo={"/books"} />
             </div>
           </div>
         </form>

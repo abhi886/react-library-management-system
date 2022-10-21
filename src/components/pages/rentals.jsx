@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-import RentalsTable from "./rentalsTable";
-import SearchBox from "./searchBox";
-import { paginate } from "../utils/paginate";
-import Pagination from "./common/pagination";
-
+import RentalsTable from "components/rentalsTable";
+import SearchBox from "components/searchBox";
+import { paginate } from "utils/paginate";
+import Pagination from "components/common/pagination";
 import _ from "lodash";
-
-import { getReformattedRentals } from "../services/rentalService";
-import CancelButton from "./common/cancelButton";
+import { getReformattedRentals } from "services/rentalService";
+import CancelButton from "components/common/cancelButton";
 
 const Rentals = (props) => {
   const [sortColumn, SetSortColumn] = useState({
@@ -82,7 +79,6 @@ const Rentals = (props) => {
         pageSize={pageSize}
         onPageChange={handlePageChange}
       />
-      <CancelButton linkTo={"/movies"}></CancelButton>
     </div>
   );
 };
