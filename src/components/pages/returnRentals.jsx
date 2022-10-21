@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import CancelButton from "./common/cancelButton";
-import { getRental, returnRentals } from "../services/rentalService";
+import CancelButton from "components/common/cancelButton";
+import { getRental, returnRentals } from "services/rentalService";
 import { useHistory } from "react-router-dom";
-
 import { toast } from "react-toastify";
 
 function ReturnRentals(props) {

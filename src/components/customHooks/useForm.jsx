@@ -21,7 +21,6 @@ function useForm(props) {
   const validateProperty = ({ name, value }) => {
     const obj = { [name]: value };
     const rule = { [name]: schema[name] };
-    Joi.validate(obj, schema);
     const { error } = Joi.validate(obj, rule);
     return error ? error.details[0].message : null;
   };

@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import RentalsTable from "components/rentalsTable";
-import SearchBox from "components/searchBox";
+import RentalsTable from "components/tables/rentalsTable";
+import SearchBox from "components/common/searchBox";
 import { paginate } from "utils/paginate";
 import Pagination from "components/common/pagination";
 import _ from "lodash";
 import { getReformattedRentals } from "services/rentalService";
-import CancelButton from "components/common/cancelButton";
 
 const Rentals = (props) => {
   const [sortColumn, SetSortColumn] = useState({

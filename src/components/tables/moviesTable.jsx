@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Table from "./common/table";
-import auth from "../services/authService";
+import Table from "components/common/table";
+import auth from "services/authService";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../services/authService";
+import { getCurrentUser } from "services/authService";
 
 const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
   const history = useHistory();

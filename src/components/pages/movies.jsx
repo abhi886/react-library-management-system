@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
-import MoviesTable from "components/moviesTable";
+import MoviesTable from "components/tables/moviesTable";
 import { getMovies, deleteMovie } from "services/movieService";
 import Pagination from "components/common/pagination";
 import { paginate } from "utils/paginate";
 import ListGroup from "components/common/listGroup";
 import { getGenres } from "services/genreService";
-import SearchBox from "components/searchBox";
+import SearchBox from "components/common/searchBox";
 import _ from "lodash";
 import AddButton from "components/common/addButton";
 import EditButton from "components/common/editButton";

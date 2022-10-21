@@ -1,4 +1,4 @@
-import Table from "./common/table";
+import Table from "../common/table";
 import { useHistory } from "react-router-dom";
 
 function RentalsTable({

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
-import SearchBox from "components/searchBox";
-import StudentsTable from "components/studentsTable";
+import SearchBox from "components/common/searchBox";
+import StudentsTable from "components/tables/studentsTable";
 import { getStudents, deleteStudent } from "services/studentService";
 import { getFaculties } from "services/facultyService";
 

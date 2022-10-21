@@ -38,7 +38,7 @@ function GenreRenameOption({
       <button
         onClick={() => handleEdit()}
         type='button'
-        className='btn btn-primary'
+        className='btn btn-primary ms-4'
       >
         Edit
       </button>{" "}

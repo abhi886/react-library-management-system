@@ -7,7 +7,6 @@ import BookCode from "../common/tagInput";
 import CancelButton from "../common/cancelButton";
 import InputBox from "../inputBox";
 import { toast } from "react-toastify";
-import { min } from "lodash";
 
 class MovieForm extends Form {
   state = {

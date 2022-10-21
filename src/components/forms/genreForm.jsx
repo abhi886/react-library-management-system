@@ -1,139 +1,87 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useFormik } from "formik";
 import { saveGenre, getGenre, deleteGenre } from "../../services/genreService";
+import { getMovieToRenameGenre } from "../../services/movieService";
+import { toast } from "react-toastify";
 import { useHistory } from "react-router-dom";
-
-import * as Yup from "yup";
-import Modal from "../common/modal";
-
-// A custom validation function. This must return an object
-// which keys are symmetrical to our values/initialValues
+import useForm from "../customHooks/useForm";
+import Joi from "joi-browser";
+import Modal from "components/common/modal";
+import CancelButton from "../common/cancelButton";
 
 const GenreForm = (props) => {
-  useEffect(() => {
-    populateGenre();
-    return () => {
-      setGenreName("");
-      setGenreId("");
-    };
-  }, []);
-
-  const [error, setError] = useState();
   const history = useHistory();
-  const [genreName, setGenreName] = useState("");
-  const [genreId, setGenreId] = useState("");
+  const [error, SetError] = useState({});
+  const [data, SetData] = useState({
+    genre: "",
+  });
+  const [id, SetId] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
-  async function populateGenre() {
+  const populateGenre = async () => {
     try {
       const genreId = props.match.params.id;
       if (genreId === "new") return;
-
       const { data: gen } = await getGenre(genreId);
-      setGenreName(gen.name);
-      setGenreId(gen._id);
+      SetData({ genre: gen.name });
+      SetId(gen._id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
     }
-  }
+  };
+  useEffect(() => {
+    populateGenre();
+  }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      genreName: genreName,
-      id: genreId,
-      // enableReinitialize: true,
+  const rule = {
+    schema: {
+      genre: Joi.string().required().label("Genre"),
     },
-    enableReinitialize: true,
-    validationSchema: Yup.object({
-      genreName: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-    }),
-    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+    doSubmit: async () => {
       try {
-        if (
-          window.confirm(
-            "Editing genre will change the genres of all related books. Are you sure ?"
-          )
-        ) {
-          await saveGenre(values);
-          history.push("/books");
-        } else {
-          return;
-        }
+        await saveGenre({ genreName: data.genre, id: id });
+        history.push("/books");
       } catch (ex) {
         if (ex.response && ex.response.status === 400) {
-          setFieldError(
-            "genre",
-            "Genre already exist. Please Select an unique genre."
-          );
-          setError(ex.response.data);
+          SetError({ genre: ex.response.data });
         }
-      } finally {
-        setSubmitting(false);
       }
     },
-  });
+    data,
+    SetData,
+    error,
+    SetError,
+  };
+  const { renderButton, renderInput, submitHandler } = useForm(rule);
+
   return (
     <div className='container'>
-      <h3 className='mt-3'>{genreId ? "Edit" : "Add"} Genre</h3>
-      <form onSubmit={formik.handleSubmit}>
-        <div className='form-group'>
-          <label htmlFor='genreName'>Genre Name</label>
-          <input
-            id='genreName'
-            name='genreName'
-            type='text'
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.genreName}
-            className='form-control'
-            placeholder='Enter Genre'
-          />
-          {formik.touched.genreName && formik.errors.genreName ? (
-            <div>{formik.errors.genreName}</div>
-          ) : null}
-          {error && <div>{formik.errors.genre}</div>}
-        </div>
-        <div className='' style={{ marginTop: 20 }}>
-          <button
-            className='btn btn-primary btn-sm '
-            style={{ marginRight: 4 }}
-            type='submit'
-          >
-            {genreId ? "Edit" : "Add"}
-          </button>
-          {genreId && (
-            <button
-              className='btn btn-danger btn-sm openModalBtn'
-              style={{ marginRight: 4 }}
-              type='button'
-              onClick={async () => {
-                setOpenModal(true);
-                // try {
-                //   await deleteGenre(genreId);
-                //   history.push("/movies");
-                // } catch (ex) {
-                //   // toast.error("This movie has already been deleted");
-                //   if (ex.response && ex.response.status === 404) {
-                //     // this.setState({ movies: originalMovies });
-                //   }
-                // }
-              }}
-            >
-              Delete
-            </button>
+      <h3 className='mt-3'>{id ? "Edit" : "Add New"} Genre</h3>
+      <form
+        className='p-4 p-md-5 border rounded-3 bg-light'
+        onSubmit={submitHandler}
+      >
+        {renderInput({ label: "Genre", name: "genre" })}
+        <hr />
+        <div className='d-flex flex-row justify-content-end'>
+          <div className='p-2'>{renderButton("Submit")}</div>
+          <div className='p-2'>
+            <CancelButton linkTo='/books'>Cancel</CancelButton>
+          </div>
+          {id && (
+            <div className='p-2'>
+              <button
+                className='btn btn-danger openModalBtn'
+                style={{ marginRight: 4 }}
+                type='button'
+                onClick={async () => {
+                  setOpenModal(true);
+                }}
+              >
+                Delete
+              </button>
+            </div>
           )}
-          <button
-            className='btn btn-light btn-sm'
-            style={{ marginRight: 4 }}
-            onClick={() => {
-              history.push("/books");
-            }}
-          >
-            Cancel
-          </button>
         </div>
       </form>
       {openModal && (
@@ -150,12 +98,19 @@ const GenreForm = (props) => {
               className='btn btn-danger btn-sm '
               onClick={async () => {
                 try {
-                  await deleteGenre(genreId);
-                  history.push("/movies");
+                  const { data: movie } = await getMovieToRenameGenre(id);
+                  console.log(movie);
+                  if (movie.length !== 0) {
+                    alert("Please rename all the boks before deleting.");
+                  }
+                  if (movie.length === 0) {
+                    await deleteGenre(id);
+                    history.push("/books");
+                  }
                 } catch (ex) {
-                  // toast.error("This movie has already been deleted");
+                  toast.error("Genre cannot be deleted");
                   if (ex.response && ex.response.status === 404) {
-                    // this.setState({ movies: originalMovies });
+                    console.log(ex.message);
                   }
                 }
               }}
@@ -164,7 +119,7 @@ const GenreForm = (props) => {
             </button>
             <button
               onClick={() => {
-                history.push(`/genres/renameGenre/${genreId}`);
+                history.push(`/genres/renameGenre/${id}`);
               }}
               style={{ marginLeft: 8 }}
               className='btn btn-primary btn-sm'
