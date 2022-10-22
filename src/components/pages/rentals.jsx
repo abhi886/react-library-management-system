@@ -5,6 +5,7 @@ import { paginate } from "utils/paginate";
 import Pagination from "components/common/pagination";
 import _ from "lodash";
 import { getReformattedRentals } from "services/rentalService";
+import WithButton from "../common/withButton";
 
 const Rentals = (props) => {
   const [sortColumn, SetSortColumn] = useState({
@@ -62,7 +63,6 @@ const Rentals = (props) => {
   return (
     <div className='container'>
       <p className='mt-3'>Showing {itemsCount} results in the database</p>
-
       <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
       <RentalsTable
         sortColumn={sortColumn}
@@ -77,6 +77,13 @@ const Rentals = (props) => {
         pageSize={pageSize}
         onPageChange={handlePageChange}
       />
+      {itemsCount === 0 && (
+        <p>No Active Rentals. Please Click History To See Rental History</p>
+      )}
+      <WithButton handleClick={handleViewHistory}>
+        {" "}
+        {viewHistory ? "Hide History" : "View History"}
+      </WithButton>
     </div>
   );
 };

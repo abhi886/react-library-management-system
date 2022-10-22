@@ -4,7 +4,13 @@ const Dropdown = ({ name, label, options, error, ...rest }) => {
   //   console.log(this.props);
   return (
     <div className='form-floating mb-3'>
-      <select name={name} {...rest} className='form-control' id={name}>
+      <select
+        name={name}
+        {...rest}
+        className='form-select'
+        id={name}
+        aria-label='Select Genre'
+      >
         <option value='' />
         {options.map((option) => (
           <option key={option._id} value={option._id}>

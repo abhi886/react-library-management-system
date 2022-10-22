@@ -29,7 +29,6 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
       showOnSmallScreen: false,
     },
     {
-      // path: "tag.length",
       label: "Stock",
       content: (movie) => (
         <p>{movie.tag.filter((t) => t.status === "0").length}</p>
@@ -41,12 +40,6 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
       label: "Rate",
       showOnSmallScreen: false,
     },
-    // {
-    //   key: "like",
-    //   content: (movie) => (
-    //     <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
-    //   ),
-    // },
   ]);
 
   // hireColumn = {

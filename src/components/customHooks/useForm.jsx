@@ -1,6 +1,7 @@
 import Input from "../common/input";
 // import Select from "../common/"
 import Joi from "joi-browser";
+import Dropdown from "components/common/dropdown";
 
 function useForm(props) {
   const { schema, doSubmit, data, SetData, error, SetError } = props;
@@ -61,7 +62,18 @@ function useForm(props) {
       </button>
     );
   };
-
+  const renderDropdown = ({ name, label, options }) => {
+    return (
+      <Dropdown
+        options={options}
+        label={label}
+        name={name}
+        value={data[name]}
+        onChange={changeHandler}
+        error={error[name]}
+      />
+    );
+  };
   const renderInput = ({ label, name, type = "text", focused = false }) => {
     return (
       <Input
@@ -112,6 +124,7 @@ function useForm(props) {
     renderInput,
     renderCheckbox,
     // renderSelect
+    renderDropdown,
   };
 }
 

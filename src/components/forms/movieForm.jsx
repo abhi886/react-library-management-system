@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Joi from "joi-browser";
 import Form from "../common/form";
 import { getGenres } from "../../services/genreService";
@@ -7,163 +7,175 @@ import BookCode from "../common/tagInput";
 import CancelButton from "../common/cancelButton";
 import InputBox from "../inputBox";
 import { toast } from "react-toastify";
+import useForm from "../customHooks/useForm";
 
-class MovieForm extends Form {
-  state = {
-    data: {
-      title: "",
-      genreId: "",
-      numberInStock: "",
-      dailyRentalRate: "",
-      author: "",
-      tag: [],
-      bookImage: "",
-    },
-    genres: [],
-    errors: {},
-  };
+const MovieForm = (props) => {
+  const [data, SetData] = useState({
+    title: "",
+    genreId: "",
 
-  async populateGenres() {
-    const { data: genres } = await getGenres();
-    this.setState({ genres });
-  }
+    dailyRentalRate: "",
+    author: "",
+    tag: [],
+    bookImage: "",
+  });
+  const [error, SetError] = useState({});
+  const [genres, SetGenres] = useState([]);
 
-  async populateMovie() {
-    try {
-      const movieId = this.props.match.params.id;
-      if (movieId === "new") return;
-      const { data: movie } = await getMovie(movieId);
-      console.log(movie);
-      this.setState({ data: this.mapToViewMode(movie) });
-    } catch (ex) {
-      if (ex.response && ex.response.status === 404)
-        this.props.history.replace("/not-found");
-    }
-  }
-
-  async componentDidMount() {
-    await this.populateGenres();
-    await this.populateMovie();
-  }
-
-  schema = {
-    _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
-    genreId: Joi.string().required().label("Genre"),
-    numberInStock: Joi.number().required().label("No of Stock"),
-    dailyRentalRate: Joi.number().required().label("Rate"),
-    author: Joi.string().min(3).max(30).required().label("Author"),
-    tag: Joi.array().min(1).label("Book Code"),
-    bookImage: Joi.label("Book Image"),
-  };
-
-  mapToViewMode(movie) {
+  const mapToViewMode = (movie) => {
     let tempTag = movie.tag;
     const movieTags = tempTag.map((t) => t.bookCode);
 
     return {
-      _id: movie._id,
+      // _id: movie._id,
       title: movie.title,
       genreId: movie.genre._id,
-      numberInStock: movie.numberInStock,
       dailyRentalRate: movie.dailyRentalRate,
       author: movie.author,
       tag: movieTags,
       bookImage: movie.bookImage,
     };
-  }
+  };
 
-  doSubmit = async (e) => {
-    const formData = new FormData();
-    if (this.state.data._id) {
-      formData.append("_id", this.state.data._id);
-    }
-    formData.append("title", this.state.data.title);
-    formData.append("genreId", this.state.data.genreId);
-    formData.append("numberInStock", this.state.data.numberInStock);
-    formData.append("dailyRentalRate", this.state.data.dailyRentalRate);
-    formData.append("author", this.state.data.author);
-    formData.append("tag", JSON.stringify(this.state.data.tag));
-    if (typeof this.state.data.bookImage !== "string") {
-      formData.append("file", this.state.data.bookImage);
-    }
+  const populateGenre = async () => {
     try {
-      await saveMovie(formData);
-      // Send a toast notification
-      toast.success("Success");
-      this.props.history.push("/books");
-    } catch (error) {
-      console.log(error);
+      const { data: genres } = await getGenres();
+      SetGenres(genres);
+    } catch (ex) {
+      console.log(ex);
     }
-    // INITIAL
-    // await saveMovie(this.state.data);
-    // this.props.history.push("/movies");
   };
 
-  handleAddItem = (tagValue) => {
-    const data = { ...this.state.data };
-    data["tag"] = [...this.state.data.tag, tagValue];
-    console.log(data);
-    this.setState({ data });
+  const populateMovie = async () => {
+    try {
+      const movieId = props.match.params.id;
+      if (movieId === "new") return;
+      const { data: movie } = await getMovie(movieId);
+      console.log("map to view", mapToViewMode(movie));
+      console.log(movie);
+      SetData(mapToViewMode(movie));
+    } catch (ex) {
+      if (ex.response && ex.response.status === 404)
+        props.history.replace("/not-found");
+    }
   };
 
-  handleRemoveItem = (index) => {
-    const data = { ...this.state.data };
-    const tags = [...this.state.data.tag];
-    data["tag"] = tags.filter((item, i) => i !== index);
-    this.setState({ data });
+  useEffect(() => {
+    populateGenre();
+    populateMovie();
+  }, []);
+
+  const rule = {
+    schema: {
+      _id: Joi.string(),
+      title: Joi.string().required().label("Title"),
+      genreId: Joi.string().required().label("Genre"),
+      dailyRentalRate: Joi.number().required().label("Rate"),
+      author: Joi.string().min(3).max(30).required().label("Author"),
+      tag: Joi.array().min(1).label("Book Code"),
+      bookImage: Joi.label("Book Image"),
+    },
+    doSubmit: async (e) => {
+      const formData = new FormData();
+      if (props.match.params.id !== "new") {
+        formData.append("_id", props.match.params.id);
+      }
+      formData.append("title", data.title);
+      formData.append("genreId", data.genreId);
+      formData.append("dailyRentalRate", data.dailyRentalRate);
+      formData.append("author", data.author);
+      formData.append("tag", JSON.stringify(data.tag));
+      if (typeof data.bookImage !== "string") {
+        formData.append("file", data.bookImage);
+      }
+      try {
+        console.log(formData);
+        await saveMovie(formData);
+        // Send a toast notification
+        toast.success("Success");
+        props.history.push("/books");
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    data,
+    SetData,
+    error,
+    SetError,
+  };
+  const { renderButton, renderInput, renderDropdown, submitHandler } =
+    useForm(rule);
+
+  const handleAddItem = (tagValue) => {
+    tagValue = [...data.tag, tagValue];
+    const tag = { tag: tagValue };
+    SetData((prev) => {
+      return { ...prev, ...tag };
+    });
+  };
+  const handleRemoveItem = (index) => {
+    console.log(index);
+    const tag = data.tag.filter((item, i) => i !== index);
+    SetData((prev) => {
+      return { ...prev, ...tag };
+    });
   };
 
-  handleAddImage = (e) => {
-    const data = { ...this.state.data };
-    data["bookImage"] = e.target.files[0];
-    this.setState({ data });
+  const handleAddImage = (e) => {
+    const bookImage = { bookImage: e.target.files[0] };
+    console.log(bookImage);
+    SetData((prev) => {
+      return { ...prev, ...bookImage };
+    });
   };
-  handleRemoveImage = () => {
-    const data = { ...this.state.data };
-    data["bookImage"] = null;
-    this.setState({ data });
+  const handleRemoveImage = () => {
+    const bookImage = { bookImage: null };
+    console.log(bookImage);
+    SetData((prev) => {
+      return { ...prev, ...bookImage };
+    });
   };
 
-  render() {
-    return (
-      <div className='container'>
-        <h3 className='mt-3'>
-          {this.props.match.params.id === "new" ? "Add New Book" : "Edit Book"}
-        </h3>
-        <form onSubmit={this.handleSubmit} encType='multipart/form-data'>
-          <div className='row'>
-            <div className='col col-md-6 col-sm-12 col-12'>
-              {this.renderInput("title", "Title")}
-              {this.renderDropdown("genreId", "Genre", this.state.genres)}
-              {this.renderInput("numberInStock", "Number In Stock")}
-              {this.renderInput("dailyRentalRate", "Rate")}
-              <BookCode
-                value={this.state.data.tag}
-                addItem={this.handleAddItem}
-                removeItem={this.handleRemoveItem}
-                errorParent={this.state.errors.tag}
-              />
-              {this.renderInput("author", "Author")}
-            </div>
-            <div className='col col-md-4 col-sm-12 col-12'>
-              <InputBox
-                Image={this.state.data.bookImage}
-                addImageToPost={this.handleAddImage}
-                removeImage={this.handleRemoveImage}
-              />
-            </div>
+  return (
+    <div className='container'>
+      <h3 className='mt-3'>
+        {props.match.params.id === "new" ? "Add New Book" : "Edit Book"}
+      </h3>
+      <form onSubmit={submitHandler} encType='multipart/form-data'>
+        <div className='row'>
+          <div className='col col-md-6 col-sm-12 col-12'>
+            {renderInput({ label: "Title", name: "title" })}
+            {renderDropdown({
+              label: "Genre",
+              name: "genreId",
+              options: genres,
+            })}
+            {renderInput({ label: "Rental Rate", name: "dailyRentalRate" })}
+            <BookCode
+              value={data.tag}
+              addItem={handleAddItem}
+              removeItem={handleRemoveItem}
+              errorParent={error.tag}
+            />
+            {renderInput({ label: "Author", name: "author" })}
           </div>
-          <div className='d-flex'>
-            {this.renderButton("Register")}
-            <div className='ms-2'>
-              <CancelButton linkTo={"/books"} />
-            </div>
+          <div className='col col-md-4 col-sm-12 col-12 mx-auto'>
+            <InputBox
+              Image={data.bookImage}
+              addImageToPost={handleAddImage}
+              removeImage={handleRemoveImage}
+            />
           </div>
-        </form>
-      </div>
-    );
-  }
-}
+        </div>
+        <div className='d-flex'>
+          {renderButton("Register")}
+          <div className='ms-2'>
+            <CancelButton linkTo={"/books"} />
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+};
 
 export default MovieForm;
