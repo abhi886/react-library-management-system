@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import Table from "./common/table";
+import Table from "../common/table";
 import { Link } from "react-router-dom";
-import auth from "../services/authService";
+import auth from "../../services/authService";
 
 function StudentsTable({ students, sortColumn, onSort, onDelete }) {
   const user = auth.getCurrentUser();

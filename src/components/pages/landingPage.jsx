@@ -1,5 +1,5 @@
 import React from "react";
-import RegisterForm from "./registerForm";
+import RegisterForm from "components/forms/registerForm";
 
 function landingPage() {
   return (

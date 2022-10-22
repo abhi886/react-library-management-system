@@ -1,16 +1,16 @@
 import React, { useEffect, useState, useMemo } from "react";
-import SearchBox from "./searchBox";
-import StudentsTable from "./studentsTable";
-import { getStudents, deleteStudent } from "../services/studentService";
-import { getFaculties } from "../services/facultyService";
+import SearchBox from "components/common/searchBox";
+import StudentsTable from "components/tables/studentsTable";
+import { getStudents, deleteStudent } from "services/studentService";
+import { getFaculties } from "services/facultyService";
 
-import ListGroup from "./common/listGroup";
-import AddButton from "./common/addButton";
-import EditButton from "./common/editButton";
+import ListGroup from "components/common/listGroup";
+import AddButton from "components/common/addButton";
+import EditButton from "components/common/editButton";
 import _ from "lodash";
-import { paginate } from "../utils/paginate";
+import { paginate } from "utils/paginate";
 import { toast } from "react-toastify";
-import Pagination from "./common/pagination";
+import Pagination from "components/common/pagination";
 const PAGESIZE = 7;
 function Students({ user }) {
   const [student, SetStudent] = useState([]);

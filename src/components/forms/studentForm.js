@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { saveStudent } from "../services/studentService";
+import { saveStudent } from "../../services/studentService";
 import { useHistory } from "react-router-dom";
-import { getStudent } from "../services/studentService";
-import { getFaculties } from "../services/facultyService";
+import { getStudent } from "../../services/studentService";
+import { getFaculties } from "../../services/facultyService";
 import { toast } from "react-toastify";
 
-import CancelButton from "./common/cancelButton";
-import InputBox from "./inputBox";
+import CancelButton from "../common/cancelButton";
+import InputBox from "../inputBox";
 
 // A custom validation function. This must return an object
 // which keys are symmetrical to our values/initialValues

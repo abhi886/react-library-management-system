@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Table from "./common/table";
-import auth from "../services/authService";
+import Table from "components/common/table";
+import auth from "services/authService";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../services/authService";
+import { getCurrentUser } from "services/authService";
 
 const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
   const history = useHistory();
@@ -29,7 +29,6 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
       showOnSmallScreen: false,
     },
     {
-      // path: "tag.length",
       label: "Stock",
       content: (movie) => (
         <p>{movie.tag.filter((t) => t.status === "0").length}</p>
@@ -41,12 +40,6 @@ const MoviesTable = ({ movies, sortColumn, onSort, onDelete }) => {
       label: "Rate",
       showOnSmallScreen: false,
     },
-    // {
-    //   key: "like",
-    //   content: (movie) => (
-    //     <Like liked={movie.liked} onClick={() => this.props.onLike(movie)} />
-    //   ),
-    // },
   ]);
 
   // hireColumn = {

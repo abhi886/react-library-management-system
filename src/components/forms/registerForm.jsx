@@ -1,21 +1,23 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
 import Joi from "joi-browser";
-import Form from "./common/form";
-import auth from "../services/authService";
-class LoginForm extends Form {
+import Form from "components/common/form";
+import * as userService from "services/userService";
+import auth from "services/authService";
+class RegisterForm extends Form {
   state = {
     data: {
-      username: "",
+      email: "",
       password: "",
+      name: "",
       rememberMe: false,
     },
     errors: {},
   };
 
   schema = {
-    username: Joi.string().required().label("Username"),
-    password: Joi.string().required().label("Password"),
+    email: Joi.string().email().required().label("Email"),
+    password: Joi.string().label("Password"),
+    name: Joi.string().required().label("Username"),
     rememberMe: Joi.boolean(),
   };
 
@@ -37,10 +39,10 @@ class LoginForm extends Form {
   };
 
   doSubmit = async () => {
-    // Call the server
+    const { rememberMe } = this.state.data;
     try {
-      const { data } = this.state;
-      await auth.login(data.username, data.password, data.rememberMe);
+      const response = await userService.register(this.state.data);
+      rememberMe && auth.loginWithJwt(response.headers["x-auth-token"]);
       window.location = "/movies";
     } catch (ex) {
       if (ex.response && ex.response.status === 400) {
@@ -52,25 +54,25 @@ class LoginForm extends Form {
   };
 
   render() {
-    if (auth.getCurrentUser()) return <Redirect to='/' />;
     return (
-      <div className='col-md-10 mx-auto col-lg-4 mt-3'>
+      <div className='col-md-10 mx-auto col-lg-5'>
         <h1 className='d-flex justify-content-center'>Welcome</h1>
         <p className='d-flex justify-content-center'>
-          Login to your LMS account
+          Register to your LMS account
         </p>
         <form
           className='p-4 p-md-5 border rounded-3 bg-light'
           onSubmit={this.handleSubmit}
         >
-          {this.renderInput("username", "Username")}
+          {this.renderInput("email", "Email")}
           {this.renderInput("password", "Password", "password")}
+          {this.renderInput("name", "Username")}
           {this.renderCheckbox("rememberMe", "Remember Me", "checkbox")}
-          <div className='mt-4'>{this.renderButton("Login")}</div>
+          {this.renderButton("Sign Up Free")}
+
           <hr className='my-4' />
           <small className='text-muted'>
-            Log in via SSO | Reset Password | Resend Confirmation | Unlock
-            Account
+            By clicking Sign up, you agree to the terms of use.
           </small>
         </form>
       </div>
@@ -78,4 +80,4 @@ class LoginForm extends Form {
   }
 }
 
-export default LoginForm;
+export default RegisterForm;

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import CancelButton from "./common/cancelButton";
-import { getGenres } from "../services/genreService";
-import { getMovieToRenameGenre } from "../services/movieService";
-import RenameGenreTable from "./renameGenre/renameGenreTable";
+import CancelButton from "components/common/cancelButton";
+import { getGenres } from "services/genreService";
+import { getMovieToRenameGenre } from "services/movieService";
+import RenameGenreTable from "components/tables/renameGenreTable";
 
 function RenameBookGenre(props) {
   const genreId = props.match.params.id;
@@ -32,7 +32,8 @@ function RenameBookGenre(props) {
 
   return (
     <div className='container'>
-      <h5>Rename Genre</h5>
+      <h3 className='mt-4'>Rename Genre</h3>
+
       <RenameGenreTable
         books={movies}
         genres={genres}

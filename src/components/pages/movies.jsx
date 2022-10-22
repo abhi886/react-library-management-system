@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { toast } from "react-toastify";
-import MoviesTable from "./moviesTable";
-import { getMovies, deleteMovie } from "../services/movieService";
-import Pagination from "./common/pagination";
-import { paginate } from "../utils/paginate";
-import ListGroup from "./common/listGroup";
-import { getGenres } from "../services/genreService";
-import SearchBox from "./searchBox";
+import MoviesTable from "components/tables/moviesTable";
+import { getMovies, deleteMovie } from "services/movieService";
+import Pagination from "components/common/pagination";
+import { paginate } from "utils/paginate";
+import ListGroup from "components/common/listGroup";
+import { getGenres } from "services/genreService";
+import SearchBox from "components/common/searchBox";
 import _ from "lodash";
-import AddButton from "./common/addButton";
-import EditButton from "./common/editButton";
+import AddButton from "components/common/addButton";
+import EditButton from "components/common/editButton";
 
 export const Movies = ({ user }) => {
   const PAGESIZE = 6;

@@ -1,5 +1,5 @@
 import React from "react";
-import GenreRenameOption from "./genreRenameOption";
+import GenreRenameOption from "components/common/genreRenameOption";
 
 function RenameGenreTable({
   books,

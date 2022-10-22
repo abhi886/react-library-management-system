@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
 import { useHistory } from "react-router-dom";
-
 import { toast } from "react-toastify";
-import { getMovie } from "../services/movieService";
-import { getStudentFromId } from "../services/studentService";
-import { hireBook } from "../services/rentalService";
-
-import CancelButton from "./common/cancelButton";
+import { getMovie } from "services/movieService";
+import { getStudentFromId } from "services/studentService";
+import { hireBook } from "services/rentalService";
+import CancelButton from "components/common/cancelButton";
 
 function Hires(props) {
   const history = useHistory();
-
   const [mId, SetMId] = useState("");
   const [title, SetTitle] = useState("");
   const [genre, SetGenre] = useState("");
@@ -227,6 +223,8 @@ function Hires(props) {
                       <img
                         src={`http://localhost:3900/${studentImage}`}
                         alt=''
+                        width={50}
+                        height={50}
                       />
                     )}
                     {!studentImage && (
@@ -234,6 +232,8 @@ function Hires(props) {
                         src={
                           "https://i.picsum.photos/id/1032/150/150.jpg?hmac=DIbf0xC_HJchjLmN2loyEXyeaXfce8QqT9nqc4vF4PU"
                         }
+                        width={100}
+                        height={100}
                         alt=''
                       />
                     )}
@@ -283,17 +283,24 @@ function Hires(props) {
       <div className='row'>
         <div className='col-md-12'>
           {" "}
-          <CancelButton linkTo='/movies' />
-          {studentFName && (
-            <button
-              style={{ marginLeft: ".4rem" }}
-              className='btn btn-primary mt-2'
-              onClick={() => handleHire(sid, mId, hireBookCode)}
-            >
-              Hire Book
-            </button>
-          )}
+          <div className='d-flex flex-row'>
+            <div className='mt-4'>
+              <CancelButton linkTo='/books' />
+            </div>
+            {studentFName && (
+              <div>
+                {" "}
+                <button
+                  className='btn btn-primary mt-4 ms-2'
+                  onClick={() => handleHire(sid, mId, hireBookCode)}
+                >
+                  Hire Book
+                </button>
+              </div>
+            )}
+          </div>
         </div>
+        <div className='mt-4'></div>
         <div className='col-md-8'></div>
       </div>
     </div>

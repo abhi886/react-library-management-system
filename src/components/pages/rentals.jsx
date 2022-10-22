@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
-import RentalsTable from "./rentalsTable";
-import SearchBox from "./searchBox";
-import { paginate } from "../utils/paginate";
-import Pagination from "./common/pagination";
-
+import RentalsTable from "components/tables/rentalsTable";
+import SearchBox from "components/common/searchBox";
+import { paginate } from "utils/paginate";
+import Pagination from "components/common/pagination";
 import _ from "lodash";
-
-import { getReformattedRentals } from "../services/rentalService";
-import CancelButton from "./common/cancelButton";
+import { getReformattedRentals } from "services/rentalService";
+import WithButton from "../common/withButton";
 
 const Rentals = (props) => {
   const [sortColumn, SetSortColumn] = useState({
@@ -67,7 +63,6 @@ const Rentals = (props) => {
   return (
     <div className='container'>
       <p className='mt-3'>Showing {itemsCount} results in the database</p>
-
       <SearchBox value={searchQuery} onChange={handleSearch}></SearchBox>
       <RentalsTable
         sortColumn={sortColumn}
@@ -82,7 +77,13 @@ const Rentals = (props) => {
         pageSize={pageSize}
         onPageChange={handlePageChange}
       />
-      <CancelButton linkTo={"/movies"}></CancelButton>
+      {itemsCount === 0 && (
+        <p>No Active Rentals. Please Click History To See Rental History</p>
+      )}
+      <WithButton handleClick={handleViewHistory}>
+        {" "}
+        {viewHistory ? "Hide History" : "View History"}
+      </WithButton>
     </div>
   );
 };
