@@ -3,7 +3,6 @@ import SearchBox from "components/common/searchBox";
 import StudentsTable from "components/tables/studentsTable";
 import { getStudents, deleteStudent } from "services/studentService";
 import { getFaculties } from "services/facultyService";
-
 import ListGroup from "components/common/listGroup";
 import AddButton from "components/common/addButton";
 import EditButton from "components/common/editButton";

@@ -10,12 +10,13 @@ function useForm(props) {
     const options = { abortEarly: false };
     const { error } = Joi.validate(data, schema, options);
     if (!error) return null;
+    console.log(schema);
+    console.log(error);
 
     const errors = {};
     for (let item of error?.details) {
       errors[item?.path[0]] = item?.message;
     }
-    console.log(errors);
     return errors;
   };
 

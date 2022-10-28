@@ -119,12 +119,15 @@ const StudentForm = (props) => {
   };
   return (
     <div className='container'>
-      <form onSubmit={formik.handleSubmit}>
+      <h3 className='mt-3'>{studentId ? "Edit" : "Add New"} Student</h3>
+      <form
+        className='p-4 p-md-5 border rounded-3 bg-light'
+        onSubmit={formik.handleSubmit}
+      >
         <div className='row'>
-          <div className='col-md-6'>
+          <div className='col col-md-6 col-sm-12 col-12'>
             <div className='studentForm'>
-              <div className='form-group'>
-                <label htmlFor='studentId'>Student Id</label>
+              <div className='form-floating mb-3'>
                 <input
                   id='studentId'
                   name='studentId'
@@ -135,12 +138,12 @@ const StudentForm = (props) => {
                   className='form-control'
                   placeholder='Enter Student Id'
                 />
+                <label htmlFor='studentId floatingInput'>Student Id</label>
                 {formik.touched.studentId && formik.errors.studentId ? (
                   <div>{formik.errors.studentId}</div>
                 ) : null}
               </div>
-              <div className='form-group'>
-                <label htmlFor='firstName'>First Name</label>
+              <div className='form-floating mb-3'>
                 <input
                   id='firstName'
                   name='firstName'
@@ -151,13 +154,13 @@ const StudentForm = (props) => {
                   className='form-control'
                   placeholder='Enter First Name'
                 />
+                <label htmlFor='firstName floatingInput'>First Name</label>
                 {formik.touched.firstName && formik.errors.firstName ? (
                   <div>{formik.errors.firstName}</div>
                 ) : null}
               </div>
 
-              <div className='form-group'>
-                <label htmlFor='lastName'>Last Name</label>
+              <div className='form-floating mb-3'>
                 <input
                   id='lastName'
                   name='lastName'
@@ -168,12 +171,12 @@ const StudentForm = (props) => {
                   className='form-control'
                   placeholder='Enter last name'
                 />
+                <label htmlFor='lastName floatingInput'>Last Name</label>
                 {formik.touched.lastName && formik.errors.lastName ? (
                   <div>{formik.errors.lastName}</div>
                 ) : null}
               </div>
-              <div className='form-group'>
-                <label htmlFor='email'>Email Address</label>
+              <div className='form-floating mb-3'>
                 <input
                   className='form-control'
                   id='email'
@@ -184,15 +187,15 @@ const StudentForm = (props) => {
                   value={formik.values.email}
                   placeholder='Enter Email Address'
                 />
+                <label htmlFor='email floatingInput'>Email Address</label>
                 {formik.touched.email && formik.errors.email ? (
                   <div>{formik.errors.email}</div>
                 ) : null}
               </div>
 
-              <div className='form-group'>
-                <label htmlFor='faculty'>Faculty</label>
+              <div className='form-floating mb-3'>
                 <select
-                  className='form-control'
+                  className='form-select'
                   id='faculty'
                   name='faculty'
                   type='faculty'
@@ -201,6 +204,7 @@ const StudentForm = (props) => {
                   value={formik.values.faculty}
                   placeholder='Choose Faculty'
                 >
+                  <label htmlFor='faculty floatingInput'>Faculty</label>
                   <option value='' label='Select a Faculty' />
 
                   {faculty &&
@@ -222,11 +226,15 @@ const StudentForm = (props) => {
             />
           </div>
         </div>
-        <div>
-          <button className='btn btn-primary mt-2' type='submit'>
-            Submit
-          </button>
-          <CancelButton linkTo={"/students"} />
+        <div className='d-flex'>
+          <div>
+            <button className='btn btn-primary' type='submit'>
+              Submit
+            </button>
+          </div>
+          <div className='ms-2'>
+            <CancelButton linkTo={"/students"} />
+          </div>
         </div>
       </form>
     </div>
