@@ -1,136 +1,90 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useFormik } from "formik";
+import useForm from "../customHooks/useForm";
+import Joi from "joi-browser";
+import { useHistory } from "react-router-dom";
+import CancelButton from "../common/cancelButton";
 import {
   saveFaculty,
   getFaculty,
   deleteFaculty,
 } from "../../services/facultyService";
-import { useHistory } from "react-router-dom";
-
-import * as Yup from "yup";
-
-// A custom validation function. This must return an object
-// which keys are symmetrical to our values/initialValues
 
 const FacultyForm = (props) => {
-  const [facultyId, setFacultyId] = useState("");
-  const [facultyName, setFacultyName] = useState("");
-
-  useEffect(() => {
-    populateFaculty();
-    return () => {
-      console.log("Clean Up - run");
-    };
-  }, []);
-
-  const [error, setError] = useState();
+  const [id, SetId] = useState("");
+  const [data, SetData] = useState({
+    faculty: "",
+  });
+  const [error, SetError] = useState({});
   const history = useHistory();
 
   async function populateFaculty() {
     try {
       const facultyId = props.match.params.id;
       if (facultyId === "new") return;
-
       const { data: fac } = await getFaculty(facultyId);
-      setFacultyName(fac.name);
-      setFacultyId(fac._id);
+      SetData({ faculty: fac.name });
+      SetId(fac._id);
     } catch (ex) {
       if (ex.response && ex.response.status === 404) console.log("error");
     }
   }
+  useEffect(() => {
+    populateFaculty();
+  }, []);
 
-  const formik = useFormik({
-    initialValues: {
-      facultyName: facultyName,
-      id: facultyId,
-      // enableReinitialize: true,
+  const rule = {
+    schema: {
+      faculty: Joi.string(),
     },
-    enableReinitialize: true,
-    validationSchema: Yup.object({
-      facultyName: Yup.string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-    }),
-    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+    doSubmit: async () => {
       try {
-        await saveFaculty(values);
+        await saveFaculty({ facultyName: data.faculty, id: id });
         history.push("/students");
       } catch (ex) {
         if (ex.response && ex.response.status === 400) {
-          setFieldError(
-            "faculty",
-            "Faculty already exist. Please Select an unique faculty."
-          );
-          setError(ex.response.data);
+          SetError({ faculty: ex.response.data });
         }
-      } finally {
-        setSubmitting(false);
       }
     },
-  });
+    data,
+    SetData,
+    error,
+    SetError,
+  };
+  const { renderButton, renderInput, submitHandler } = useForm(rule);
+
   return (
     <div className='container'>
-      <div>
-        <p>{facultyId ? "Edit" : "Add"} Id</p>
-      </div>
-      <form onSubmit={formik.handleSubmit}>
-        <div className='studentForm'>
-          <div className='form-group'>
-            <label htmlFor='facultyName'>Name</label>
-            <input
-              id='facultyName'
-              name='facultyName'
-              type='text'
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.facultyName}
-              className='form-control'
-              placeholder='Enter Faculty'
-            />
-            {formik.touched.facultyName && formik.errors.facultyName ? (
-              <div>{formik.errors.facultyName}</div>
-            ) : null}
-            {error && <div>{formik.errors.faculty}</div>}
+      <h4 className='mt-3'>{id ? "Edit" : "Add New"} Faculty</h4>
+      <form
+        className='p-4 p-md-5 border rounded-3 bg-light'
+        onSubmit={submitHandler}
+      >
+        {renderInput({
+          label: `${!id ? "Enter" : ""} ${!id ? "New" : "Edit"} Faculty`,
+          name: "faculty",
+        })}
+        <hr />
+        <div className='d-flex flex-row justify-content-end'>
+          <div className='p-2'>{renderButton("Submit")}</div>
+          <div className='p-2'>
+            <CancelButton linkTo='/students'>Cancel</CancelButton>
           </div>
-          <div className='' style={{ marginTop: 20 }}>
-            <button
-              className='btn btn-primary btn-sm '
-              style={{ marginRight: 4 }}
-              type='submit'
-            >
-              {facultyId ? "Edit" : "Add"}
-            </button>
-            {facultyId && (
+          {id && (
+            <div className='p-2'>
               <button
-                className='btn btn-danger btn-sm'
+                className='btn btn-danger openModalBtn'
                 style={{ marginRight: 4 }}
+                type='button'
                 onClick={async () => {
-                  try {
-                    await deleteFaculty(facultyId);
-                    history.push("/students");
-                  } catch (ex) {
-                    // toast.error("This movie has already been deleted");
-                    if (ex.response && ex.response.status === 404) {
-                      // this.setState({ movies: originalMovies });
-                      console.log(ex);
-                    }
-                  }
+                  // setOpenModal(true);
                 }}
               >
                 Delete
               </button>
-            )}
-            <button
-              className='btn btn-light btn-sm'
-              style={{ marginRight: 4 }}
-              onClick={() => {
-                history.push("/students");
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+            </div>
+          )}
         </div>
       </form>
     </div>

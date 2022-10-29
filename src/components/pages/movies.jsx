@@ -10,6 +10,7 @@ import SearchBox from "components/common/searchBox";
 import _ from "lodash";
 import AddButton from "components/common/addButton";
 import EditButton from "components/common/editButton";
+import LoadingSpinner from "../common/loadingSpinner";
 
 export const Movies = ({ user }) => {
   const PAGESIZE = 6;
@@ -21,6 +22,7 @@ export const Movies = ({ user }) => {
     _id: "",
     name: "All Genres",
   });
+  const [isLoading, SetIsLoading] = useState(true);
   const [sortColumn, SetSortColumn] = useState({ path: "", order: "" });
 
   async function fetchGenres() {
@@ -28,7 +30,9 @@ export const Movies = ({ user }) => {
       const { data } = await getGenres();
       const genres = [{ _id: "", name: "All Genres" }, ...data];
       SetGenres(genres);
+      SetIsLoading(false);
     } catch (ex) {
+      SetIsLoading(false);
       console.log(ex);
       return;
     }
@@ -36,9 +40,14 @@ export const Movies = ({ user }) => {
 
   async function fetchMovies() {
     try {
+      debugger;
       const { data: movies } = await getMovies();
+      debugger;
+
       SetMovies(movies);
+      SetIsLoading(false);
     } catch (ex) {
+      SetIsLoading(false);
       console.log(ex);
       return;
     }
@@ -110,68 +119,72 @@ export const Movies = ({ user }) => {
 
   return (
     <>
-      <div className='container'>
-        <div className='d-flex flex-row mt-3'>
-          <div className='me-3'>
-            <AddButton
-              linkTo='/genres/new'
-              name='Genre'
-              user={user}
-            ></AddButton>
-          </div>
-          <div>
-            <EditButton
-              selectedItem={selectedGenre}
-              name='Genre'
-              linkTo='genres'
-              user={user}
-            ></EditButton>
-          </div>
-        </div>
-        <div className='row'>
-          <div className='col-md-2 col-sm-8 col-12'>
-            <ListGroup
-              items={genres}
-              selectedItem={selectedGenre}
-              onItemSelect={handleGenreSelect}
-              user={user}
-            ></ListGroup>
-          </div>
-          <div className='col-md-9 col-sm-12 col-12'>
-            <div className='row'>
-              <div className='col-12 mt-3'>
-                {user && (
-                  <AddButton
-                    linkTo='/books/new'
-                    name='Book'
-                    user={user}
-                  ></AddButton>
-                )}
-              </div>
-              <div className='col-12'>
-                <SearchBox
-                  value={searchQuery}
-                  onChange={handleSearch}
-                ></SearchBox>
-              </div>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <div className='container'>
+          <div className='d-flex flex-row mt-3'>
+            <div className='me-3'>
+              <AddButton
+                linkTo='/genres/new'
+                name='Genre'
+                user={user}
+              ></AddButton>
             </div>
-            <p>Showing {totalCount} movies in the database</p>
-            <MoviesTable
-              movies={data}
-              sortColumn={sortColumn}
-              onDelete={handleDelete}
-              onSort={handleSort}
-              user={user}
-            />
-            <Pagination
-              itemsCount={totalCount}
-              currentPage={currentPage}
-              pageSize={PAGESIZE}
-              onPageChange={handlePageChange}
-            />
+            <div>
+              <EditButton
+                selectedItem={selectedGenre}
+                name='Genre'
+                linkTo='genres'
+                user={user}
+              ></EditButton>
+            </div>
+          </div>
+          <div className='row'>
+            <div className='col-md-2 col-sm-8 col-12'>
+              <ListGroup
+                items={genres}
+                selectedItem={selectedGenre}
+                onItemSelect={handleGenreSelect}
+                user={user}
+              ></ListGroup>
+            </div>
+            <div className='col-md-9 col-sm-12 col-12'>
+              <div className='row'>
+                <div className='col-12 mt-3'>
+                  {user && (
+                    <AddButton
+                      linkTo='/books/new'
+                      name='Book'
+                      user={user}
+                    ></AddButton>
+                  )}
+                </div>
+                <div className='col-12'>
+                  <SearchBox
+                    value={searchQuery}
+                    onChange={handleSearch}
+                  ></SearchBox>
+                </div>
+              </div>
+              <p>Showing {totalCount} movies in the database</p>
+              <MoviesTable
+                movies={data}
+                sortColumn={sortColumn}
+                onDelete={handleDelete}
+                onSort={handleSort}
+                user={user}
+              />
+              <Pagination
+                itemsCount={totalCount}
+                currentPage={currentPage}
+                pageSize={PAGESIZE}
+                onPageChange={handlePageChange}
+              />
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };
