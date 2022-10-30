@@ -1,7 +1,7 @@
 import React from "react";
 import ReactLoading from "react-loading";
 
-export default function LoadingSpinner() {
+export default function LoadingSpinner({ type, color, text }) {
   return (
     <div
       style={{
@@ -10,15 +10,17 @@ export default function LoadingSpinner() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
       }}
     >
       <ReactLoading
         className={{ border: "1px solid blue" }}
-        type={"spokes"}
-        color={"#0b3060"}
+        type={type}
+        color={color}
         height={50}
         width={50}
       />
+      <div> {text}</div>
     </div>
   );
 }
