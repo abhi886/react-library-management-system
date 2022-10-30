@@ -40,10 +40,7 @@ export const Movies = ({ user }) => {
 
   async function fetchMovies() {
     try {
-      debugger;
       const { data: movies } = await getMovies();
-      debugger;
-
       SetMovies(movies);
       SetIsLoading(false);
     } catch (ex) {
@@ -120,7 +117,7 @@ export const Movies = ({ user }) => {
   return (
     <>
       {isLoading ? (
-        <LoadingSpinner />
+        <LoadingSpinner type={"spokes"} color={"#0b3060"} />
       ) : (
         <div className='container'>
           <div className='d-flex flex-row mt-3'>
